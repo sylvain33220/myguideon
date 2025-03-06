@@ -2,7 +2,7 @@
 /node_modules
 /.pnp
 /public/assets/img/*
-!/public/assets/img/.gitkeep  # Garder le dossier mais pas les images
+!/public/assets/img/.gitkeep  
 /public/assets/video/*
-!/public/assets/video/.gitkeep  # Garder le dossier mais pas les vidéos
+!/public/assets/video/.gitkeep 
 .env
