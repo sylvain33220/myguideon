@@ -49,15 +49,15 @@ describe('📌 Test API UserPro', () => {
 
     it('GET /api/userpro/:id - devrait retourner un userpro par ID (admin)', async () => {
         const res = await request(server)
-            .get('/api/userpro/40')
+            .get('/api/userpro/41')
             .set('Authorization', `Bearer ${tokenAdmin}`);
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('id');
     });
 
-    it('DELETE /api/userpro/40 - devrait supprimer un userpro (admin)', async () => {
+    it('DELETE /api/userpro/41 - devrait supprimer un userpro (admin)', async () => {
         const res = await request(server)
-            .delete('/api/userpro/40')
+            .delete('/api/userpro/41')
             .set('Authorization', `Bearer ${tokenAdmin}`);
         expect(res.status).toBe(200);
         expect(res.body.message).toContain('Utilisateur supprimé avec succès');

@@ -4,6 +4,7 @@ const router = express.Router();
 /***********************IMPORT*********************************** */
 const authMiddleware = require('../middleware/auth');
 const adminMiddleware = require('../middleware/adminMiddleware');
+const roleMiddleware = require('../middleware/roleMiddleware');
 const uploadFile = require('../middleware/uploadFile');
 
 const { 
@@ -15,6 +16,7 @@ const {
     loginUserPro,
     addUserPro 
 } = require('../controllers/UserproController');
+
 
 /***********************ROUTES PUBLIQUES*********************************** */
 // 🔓 Route publique : Connexion
@@ -49,18 +51,18 @@ router.get('/', (req, res, next) => {
 // 🔒 Récupérer un userpro par son id (admin seulement)
 router.get('/:id', (req, res, next) => {
     next();
-}, authMiddleware('view_userpro'), adminMiddleware, getUserProById);
+}, authMiddleware('view_userpro'), roleMiddleware([1,2,3,4]), getUserProById);
 
 // 🔒 Mettre à jour un userpro par son id (admin seulement)
-router.put('/:id', authMiddleware('update_userpro'), adminMiddleware, uploadFile().single('profile_image'), updateUserPro);
+router.put('/:id', authMiddleware('update_userpro'), roleMiddleware([1,2,3,4]), uploadFile().single('profile_image'), updateUserPro);
 
 // 🔒 Mettre à jour le mot de passe d'un userpro par son id (admin seulement)
-router.put('/password/:id', authMiddleware('update_password_userpro'), adminMiddleware, updatePassword);
+router.put('/password/:id', authMiddleware('update_password_userpro'), roleMiddleware([1,2,3,4]), updatePassword);
 
 // 🔒 Supprimer un userpro par son id (admin seulement)
 router.delete('/:id', (req, res, next) => {
     next();
-}, authMiddleware('delete_userpro'), adminMiddleware, deleteUserPro);
+}, authMiddleware('delete_userpro'), roleMiddleware([1]), deleteUserPro);
 
 /***********************EXPORT*********************************** */
 module.exports = router;
