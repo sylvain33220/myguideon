@@ -1,5 +1,6 @@
 const tables = require ('../../database/table');
 const { validateActivity } = require ('../validator/activitiesValidator');
+const { max } = require('../validator/loginValidator');
 
 /**
  * 
@@ -66,7 +67,14 @@ const addActivity = async (req, res) => {
           [`/assets/img/${file}`, 'Image de la galerie', '']
         );
         const imageId = imgResult.insertId;
-
+        await tables.availabilities.addAvailabilities({
+          activity_id: newActivity.id,
+          date: new Date().toISOString().split('T')[0],
+          start_time: '00:00:00',
+          end_time: '23:59:59',
+          max_participants: 100,
+          status: 'active',
+        })
         await connection.query(
           "INSERT INTO activity_images (activity_id, image_id) VALUES (?, ?)",
           [newActivity.id, imageId]
@@ -177,6 +185,8 @@ const updateActivity = async (req, res) => {
 };
   const deleteActivity = async (req, res) => {
     try {
+      await tables.availabilities.deleteAvailability(req.params.id);
+
       const rowsAffected = await tables.activities.deleteActivity(req.params.id);
       if (rowsAffected === 0) {
         res.status(404).json({ error: 'Activité non trouvée' });
@@ -188,11 +198,36 @@ const updateActivity = async (req, res) => {
       res.status(500).json({ error: 'Erreur serveur' });
     }
   }
-  
+
+  const filterActivities = async (req, res) => {
+    try {
+      const {name, type,   } = req.query;
+      let query = 'SELECT * FROM activities WHERE 1=1';
+      const params = [];
+      if (name) {
+        query += ' AND name LIKE ?';
+        params.push(`%${name}%`);
+      }
+      if (type) {
+        query += ' AND type = ?';
+        params.push(type);
+      }
+      const [result] = await tables.activities.pool.query(query, params);
+
+      if (result.length === 0) {
+        res.status(404).json({ error: 'Aucune activité trouvée' });
+      }
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur serveur' });
+    }
+  }  
   module.exports = {
     getAllActivities,
     getActivityById,
     addActivity,
     updateActivity,
     deleteActivity,
+    filterActivities
   };

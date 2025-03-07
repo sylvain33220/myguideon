@@ -9,7 +9,8 @@ const {
     getActivityById,
     addActivity,
     updateActivity,
-    deleteActivity
+    deleteActivity,
+    filterActivities
 } = require('../controllers/activitiesController');
 
 /********************************************ROUTES************************************ */
@@ -20,7 +21,10 @@ router.get('/', getAllActivities);
 // 🔓 Route publique pour obtenir une activité par ID
 router.get('/:id', getActivityById);
 
-// 🟢 Route sécurisée pour ajouter une activité (requiert 'create_activity')
+// 🔓 Route publique pour filtrer les activités
+router.get('/search', filterActivities);
+
+// 🛑 Route sécurisée pour ajouter une activité (requiert 'create_activity')
 router.post('/',
     authMiddleware('create_activity'),  // ✅ Appel direct avec wrapper propre
     uploadFile().fields([
@@ -30,7 +34,7 @@ router.post('/',
     addActivity
 );
 
-// 🟢 Route sécurisée pour mettre à jour une activité (requiert 'update_activity')
+// 🛑 Route sécurisée pour mettre à jour une activité (requiert 'update_activity')
 router.put('/:id',
     authMiddleware('update_activity'),  // ✅ Appel direct avec wrapper propre
     uploadFile().fields([
@@ -40,7 +44,7 @@ router.put('/:id',
     updateActivity
 );
 
-// 🟢 Route sécurisée pour supprimer une activité (requiert 'delete_activity')
+// 🛑 Route sécurisée pour supprimer une activité (requiert 'delete_activity')
 router.delete('/:id',
     authMiddleware('delete_activity'),  // ✅ Appel direct avec wrapper propre
     deleteActivity

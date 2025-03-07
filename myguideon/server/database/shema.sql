@@ -63,7 +63,45 @@ CREATE TABLE `activities` (
 
 LOCK TABLES `activities` WRITE;
 /*!40000 ALTER TABLE `activities` DISABLE KEYS */;
+INSERT INTO `activities` VALUES (11,'Test 6 pour images_activities ',' 3 eme Plongée sous-marine aux Maldives pour le test 3 ',120.00,'USD','/images/scuba.jpg','Maldives',4.2105000,73.4995000,'English','2h',10,'[\"2025-03-05 10:00:00\", \"2025-03-06 14:00:00\"]',18,'Aventure','Published',0,0,1,'2025-03-03 14:36:49',NULL,15)
 /*!40000 ALTER TABLE `activities` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
+
+--
+-- Table structure for table `availabilities`
+--
+
+DROP TABLE IF EXISTS `availabilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `availabilities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `activity_id` int NOT NULL,
+  `date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `max_participants` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` enum('active','full','cancelled') DEFAULT 'active',
+  `is_available` tinyint DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_activity_id` (`activity_id`),
+  CONSTRAINT `availabilities_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `availabilities`
+--
+
+LOCK TABLES `availabilities` WRITE;
+/*!40000 ALTER TABLE `availabilities` DISABLE KEYS */;
+INSERT INTO `availabilities` VALUES (96,11,'2025-03-10','11:00:00','13:00:00',20,'2025-03-06 17:18:12','2025-03-06 17:18:12','active',1);
+/*!40000 ALTER TABLE `availabilities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -96,10 +134,6 @@ LOCK TABLES `activity_images` WRITE;
 /*!40000 ALTER TABLE `activity_images` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-
-
-
 
 --
 -- Table structure for table `destination`
@@ -188,6 +222,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` VALUES (1,'create_userpro','Créer un utilisateur professionnel'),(2,'view_userpro','Voir les utilisateurs professionnels'),(3,'update_userpro','Mettre à jour un utilisateur professionnel'),(4,'delete_userpro','Supprimer un utilisateur professionnel'),(5,'create_activity','Créer une activité'),(6,'read_activity','Voir les activités'),(7,'update_activity','Mettre à jour une activité'),(8,'delete_activity','Supprimer une activité'),(9,'manage_users','Gérer les utilisateurs'),(10,'view_statistics','Voir les statistiques'),(11,'update_password_userpro','Mettre à jour le mot de passe d un utilisateur professionnel'),(14,'add_availability',' ceéer une validité pour une activité'),(15,'update_availability',' modifier une validité pour une activité'),(16,'delete_availability',' supprimer une validité pour une activité');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -281,7 +316,7 @@ CREATE TABLE `role_permissions` (
 
 LOCK TABLES `role_permissions` WRITE;
 /*!40000 ALTER TABLE `role_permissions` DISABLE KEYS */;
-INSERT INTO `role_permissions` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,5),(3,5),(4,5),(1,6),(1,7),(2,7),(3,7),(4,7),(1,8),(2,8),(4,8),(1,9),(1,10),(1,11),(2,11);
+INSERT INTO `role_permissions` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,5),(3,5),(4,5),(1,6),(1,7),(2,7),(3,7),(4,7),(1,8),(2,8),(4,8),(1,9),(1,10),(1,11),(2,11),(1,14),(2,14),(3,14),(4,14),(1,15),(2,15),(3,15),(4,15),(1,16),(2,16),(3,16),(4,16);
 /*!40000 ALTER TABLE `role_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

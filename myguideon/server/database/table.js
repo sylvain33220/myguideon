@@ -4,6 +4,7 @@ const UserAdminModel    = require('./models/useradminModal');
 const UserproModel = require('./models/userproModel');
 const ActivitiesModel = require('./models/activitiesModel');
 const RolePermissionsModel = require('./models/RolePermissionsModel');
+const AvailabilitiesModel = require('./models/availabilitiesModel');
 
 
 const tables = {}
@@ -18,6 +19,9 @@ tables.userpro = new UserproModel();
 tables.activities = new  ActivitiesModel();
 
 tables.role_permissions = new RolePermissionsModel();
+
+tables.availabilities = new AvailabilitiesModel();
+
 
 /*************************EXPORT****************************************************** */
 module.exports = new Proxy(tables, {
