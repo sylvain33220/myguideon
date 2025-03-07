@@ -23,7 +23,6 @@ class ReservationsModel extends AbstractModel {
                 VALUES (?,?,?,?,NOW(),NOW())`,
                 [activity_id,date,total_amount,status]
             );
-            console.log("🟢 Réservation créée avec l'ID :", result.insertId);
 
             return result.insertId;
         }
