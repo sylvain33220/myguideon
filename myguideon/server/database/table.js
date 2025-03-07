@@ -5,6 +5,7 @@ const UserproModel = require('./models/userproModel');
 const ActivitiesModel = require('./models/activitiesModel');
 const RolePermissionsModel = require('./models/RolePermissionsModel');
 const AvailabilitiesModel = require('./models/availabilitiesModel');
+const reservationsModel = require('./models/reservationsModel');
 
 
 const tables = {}
@@ -21,6 +22,8 @@ tables.activities = new  ActivitiesModel();
 tables.role_permissions = new RolePermissionsModel();
 
 tables.availabilities = new AvailabilitiesModel();
+
+tables.reservations = new reservationsModel();
 
 
 /*************************EXPORT****************************************************** */

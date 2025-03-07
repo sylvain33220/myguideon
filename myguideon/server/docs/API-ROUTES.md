@@ -2,26 +2,30 @@
 
 /************************************************************************************************************************/
 commande de lancement des tests 
-/npx jest --detectOpenHandles --runInBand __tests__/le_dossier_test_
+/npx jest -- __tests__/le_dossier_test_
 ************************************************************************************************************************/
-/✅ Notes:
-Les routes publiques peuvent être consultées sans authentification.
-Les routes sécurisées nécessitent des permissions spécifiques et un token valide.************************************************************************************************************************/
-###########################################🛤️ Endpoints pour activities ##############################
+✅ Notes:
+🟢 Routes publiques : Accessibles sans authentification.
+🛑 Routes sécurisées : Nécessitent des permissions spécifiques et un token valide.************************************************************************************************************************/
+
+
+#########################################################################################################
+######                                     🛤️ Endpoints pour activities                           ######
+#########################################################################################################
+
+
 🛤️ Base URL
 /api/activities
 
-🟢 Routes Publiques
+### 🟢 Routes Publiques
 
- Récupérer toutes les activités [🔓 Public]
+---
 
-URL: /api/activities
-Méthode: GET
-Permissions: Aucune
-Réponse:
-json
-Copier
-Modifier
+#### 🔓 **GET** `/api/activities`
+- **Description :** Récupère toutes les activités.
+- **Authentification :** Non requise.
+- **Réponse :**
+```json
 [
   {
     "id": 1,
@@ -38,11 +42,10 @@ Modifier
     ]
   }
 ]
-Récupérer une activité par ID [🔓 Public]
-URL: /api/activities/:id
-Méthode: GET
-Permissions: Aucune
-Réponse:
+🔓 GET /api/activities/:id
+Description : Récupère une activité par son ID.
+Authentification : Non requise.
+Réponse :
 json
 Copier
 Modifier
@@ -53,47 +56,32 @@ Modifier
   "price": 120.00,
   "currency": "USD"
 }
-🌐 GET /api/activities/search
-Description: Filtre les activités par nom et/ou type.
-Accès: Public
-Paramètres:
-name (query) - Optionnel : Filtre par nom d'activité.
-type (query) - Optionnel : Filtre par type d'activité.
-Exemple d'URL:
-pgsql
-Copier
-Modifier
-/api/activities/search?name=yoga&type=sport
-Réponse en cas de succès (200 OK):
+🔓 GET /api/activities/search
+Description : Filtre les activités par nom et/ou type.
+Authentification : Non requise.
+Paramètres (Query) :
+name (optionnel)
+type (optionnel)
+Exemple : /api/activities/search?name=yoga&type=sport
+Réponse :
 json
 Copier
 Modifier
 [
-    {
-        "id": 1,
-        "name": "Yoga Avancé",
-        "type": "sport",
-        "description": "Séance de yoga pour les avancés",
-        "date": "2025-03-10",
-        "location": "Paris"
-    }
+  {
+    "id": 1,
+    "name": "Yoga Avancé",
+    "type": "sport",
+    "description": "Séance de yoga pour les avancés",
+    "date": "2025-03-10",
+    "location": "Paris"
+  }
 ]
-Erreurs possibles:
-404 Not Found : Aucune activité trouvée.
-500 Internal Server Error : Erreur serveur.
-
-🛑 Routes privées
-
-Ajouter une nouvelle activité [🔒 Authentification requise]
-URL: /api/activities
-Méthode: POST
-Permissions requises: create_activity
-Headers:
-makefile
-Copier
-Modifier
-Authorization: Bearer <token>
-Body:
+🛑 Routes Sécurisées
+🔒 POST /api/activities
+Description : Ajoute une nouvelle activité.
+Authentification : Requise (create_activity).
+Body :
 json
 Copier
 Modifier
@@ -103,111 +91,114 @@ Modifier
   "price": 120.00,
   "currency": "USD",
   "location": "Maldives",
-  "duration": "3h",
-  "created_by": 1
+  "duration": "3h"
 }
-Réponse (succès):
-json
-Copier
-Modifier
-{
-  "id": 1,
-  "message": "Activité ajoutée avec succès."
-}
-Réponses (erreurs):
-401 Unauthorized:
-json
-Copier
-Modifier
-{
-  "error": "Access denied"
-}
-403 Forbidden:
-json
-Copier
-Modifier
-{
-  "error": "Forbidden"
-}
- Mettre à jour une activité [🔒 Authentification requise]
-URL: /api/activities/:id
-Méthode: PUT
-Permissions requises: update_activity
-Headers:
-makefile
-Copier
-Modifier
-Authorization: Bearer <token>
-Body:
+🔒 PUT /api/activities/:id
+Description : Met à jour une activité.
+Authentification : Requise (update_activity).
+Body :
 json
 Copier
 Modifier
 {
   "name": "Updated Activity",
   "description": "Updated Description",
-  "price": 150.00,
-  "currency": "USD",
-  "location": "France",
-  "duration": "4h",
-  "created_by": 1
+  "price": 150.00
 }
-Réponse (succès):
-json
-Copier
-Modifier
-{
-  "message": "Activité mise à jour avec succès."
-}
-Réponses (erreurs):
-401 Unauthorized:
-json
-Copier
-Modifier
-{
-  "error": "Access denied"
-}
-403 Forbidden:
-json
-Copier
-Modifier
-{
-  "error": "Forbidden"
-}
-Supprimer une activité [🔒 Authentification requise]
-URL: /api/activities/:id
-Méthode: DELETE
-Permissions requises: delete_activity
-Headers:
-makefile
-Copier
-Modifier
-Authorization: Bearer <token>
-Réponse (succès):
+🔒 DELETE /api/activities/:id
+Description : Supprime une activité.
+Authentification : Requise (delete_activity).
+Réponse :
 json
 Copier
 Modifier
 {
   "message": "Activité supprimée avec succès."
 }
-Réponses (erreurs):
-401 Unauthorized:
+🛤️ Endpoints pour reservations
+🟢 Routes Publiques
+🔓 GET /api/reservations/activity/:activity_id
+Description : Récupère toutes les réservations pour une activité spécifique.
+Réponse :
+json
+Copier
+Modifier
+[
+  {
+    "id": 1,
+    "activity_id": 11,
+    "date": "2025-03-10",
+    "total_amount": 150,
+    "status": "pending"
+  }
+]
+🔓 GET /api/reservations/:id
+Description : Récupère une réservation par son ID.
+Authentification : Requise (view_reservation).
+Réponse :
 json
 Copier
 Modifier
 {
-  "error": "Access denied"
+  "id": 1,
+  "activity_id": 11,
+  "date": "2025-03-10",
+  "total_amount": 150,
+  "status": "pending"
 }
-403 Forbidden:
+🛑 Routes Sécurisées
+🔒 GET /api/reservations
+Description : Récupère toutes les réservations.
+Authentification : Requise (view_all_reservations).
+Réponse :
+json
+Copier
+Modifier
+[
+  {
+    "id": 1,
+    "activity_id": 11,
+    "date": "2025-03-10",
+    "total_amount": 150,
+    "status": "pending"
+  }
+]
+🔒 POST /api/reservations
+Description : Ajoute une nouvelle réservation.
+Body :
 json
 Copier
 Modifier
 {
-  "error": "Forbidden"
+  "activity_id": 11,
+  "date": "2025-03-10",
+  "total_amount": 150,
+  "status": "pending"
 }
-/*****************************************************************************************************/
-/**********************************TEST LOCAL********************************************************/
-/*****************************************************************************************************/
-##############################🧪 RESULTAT TEST LOCAL POUR activities ###################################
+🔒 PUT /api/reservations/:id
+Description : Met à jour une réservation.
+Body :
+json
+Copier
+Modifier
+{
+  "date": "2025-03-11",
+  "total_amount": 200,
+  "status": "confirmed"
+}
+🔒 DELETE /api/reservations/:id
+Description : Supprime une réservation.
+Réponse :
+json
+Copier
+Modifier
+{
+  "message": "Réservation supprimée avec succès."
+}
+
+#########################################################################################################
+######                         🧪 RESULTAT TEST LOCAL POUR activities                             ######
+#########################################################################################################
 plaintext
 Copier
 Modifier
@@ -237,12 +228,15 @@ Snapshots:   0 total
 Time:        2.063 s, estimated 3 s
 Ran all test suites.
 
-########################################################################################################################################################################################
-
+############################################################################################################################################################################
 
 🛤️ Base URL
 /api
-###########################################🛤️ Endpoints pour userpro  ##############################
+
+#########################################################################################################
+######                                     🛤️ Endpoints pour userpro                              ######
+#########################################################################################################
+
 🛤️ Base URL
 /api/userpro
 
@@ -389,11 +383,10 @@ Headers : Authorization: Bearer <token>
 
 Réponse : 200 OK
 
-/*****************************************************************************************************/
-/**********************************TESTLOCAL******************************************************/
-/*****************************************************************************************************/
-##############################🧪 RESULTAT TEST LOCAL POUR userpro ###################################
 
+#########################################################################################################
+######                         🧪 RESULTAT TEST LOCAL POUR userpro                                 ######
+#########################################################################################################
 $ npx jest -- __tests__/userpro.test.js
   console.log
     🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MTE4MDI3NywiZXhwIjoxNzQxMTg3NDc3fQ.pDEHel5wy5pocu9KbXUAobdreWGo_Ac4k3LegCm0aRY
@@ -439,123 +432,87 @@ Time:        2.001 s, estimated 3 s
 Ran all test suites matching /__tests__\\userpro.test.js/i.
 
 
-###########################################################################################################################🛤️ Endpoints pour availabilities ##############################################################################################
+
+#########################################################################################################
+######                               🛤️ Endpoints pour availabilitie                              ######
+#########################################################################################################
+
+
+🛤️ Endpoints pour availabilities
 🛤️ Base URL
 /api/availabilities
-
 🟢 Routes Publiques
-
-📋 /api/availabilities - Gestion des Disponibilités
-GET /api/availabilities/
-Description: Récupère toutes les disponibilités.
-Accès: Public
-Réponse:
+🔓 GET /api/availabilities
+Description : Récupère toutes les disponibilités.
+Réponse :
 json
 Copier
 Modifier
 [
-    {
-        "id": 1,
-        "activity_id": 11,
-        "date": "2025-03-10",
-        "start_time": "10:00:00",
-        "end_time": "12:00:00",
-        "max_participants": 20,
-        "status": "active",
-        "is_available": 1
-    }
-]
-GET /api/availabilities/:id
-Description: Récupère les disponibilités d'une activité spécifique par son ID.
-Accès: Public
-Paramètres:
-id (path) - Requis : L'ID de l'activité.
-Réponse:
-json
-Copier
-Modifier
-{
+  {
     "id": 1,
     "activity_id": 11,
     "date": "2025-03-10",
     "start_time": "10:00:00",
     "end_time": "12:00:00",
-    "max_participants": 20,
-    "status": "active",
-    "is_available": 1
-}
-POST /api/availabilities/
-Description: Ajoute une nouvelle disponibilité pour une activité.
-Accès: Sécurisé (nécessite un token + droits add_availability)
-Headers:
-Authorization : Bearer Token
-Corps de la requête:
-json
-Copier
-Modifier
-{
-    "activity_id": 11,
-    "date": "2025-03-10",
-    "start_time": "10:00:00",
-    "end_time": "12:00:00",
     "max_participants": 20
-}
-Réponse en cas de succès (201 Created):
+  }
+]
+🔓 GET /api/availabilities/:id
+Description : Récupère une disponibilité par ID.
+Réponse :
 json
 Copier
 Modifier
 {
-    "id": 25,
-    "message": "Disponibilité ajoutée avec succès"
+  "id": 1,
+  "activity_id": 11,
+  "date": "2025-03-10",
+  "start_time": "10:00:00",
+  "end_time": "12:00:00",
+  "max_participants": 20
 }
-Erreurs possibles:
-400 Bad Request : Données invalides ou chevauchement détecté.
-401 Unauthorized : Token manquant ou invalide.
+🛑 Routes Sécurisées
+🔒 POST /api/availabilities
+Description : Ajoute une nouvelle disponibilité.
+Body :
+json
+Copier
+Modifier
+{
+  "activity_id": 11,
+  "date": "2025-03-10",
+  "start_time": "10:00:00",
+  "end_time": "12:00:00",
+  "max_participants": 20
+}
+🔒 PUT /api/availabilities/:id
+Description : Met à jour une disponibilité.
+Body :
+json
+Copier
+Modifier
+{
+  "date": "2025-03-11",
+  "start_time": "14:00:00",
+  "end_time": "16:00:00",
+  "max_participants": 25
+}
+🔒 DELETE /api/availabilities/:id
+Description : Supprime une disponibilité.
+Réponse :
+json
+Copier
+Modifier
+{
+  "message": "Disponibilité supprimée avec succès."
+}
 
-🛑 Routes privées
-
-PUT /api/availabilities/:id
-Description: Met à jour une disponibilité existante.
-Accès: Sécurisé (nécessite un token + droits update_availability)
-Headers:
-Authorization : Bearer Token
-Paramètres:
-id (path) - Requis : L'ID de la disponibilité à modifier.
-Corps de la requête:
-json
-Copier
-Modifier
-{
-    "date": "2025-03-11",
-    "start_time": "14:00:00",
-    "end_time": "16:00:00",
-    "max_participants": 25
-}
-Réponse en cas de succès (200 OK):
-json
-Copier
-Modifier
-{
-    "message": "Disponibilité mise à jour avec succès"
-}
-Erreurs possibles:
-400 Bad Request : Données invalides ou chevauchement détecté.
+Gestion des erreurs :
 401 Unauthorized : Token manquant ou invalide.
-404 Not Found : Disponibilité non trouvée.
-DELETE /api/availabilities/:id
-Description: Supprime une disponibilité spécifique.
-Accès: Sécurisé (nécessite un token + droits delete_availability)
-Headers:
-Authorization : Bearer Token
-Paramètres:
-id (path) - Requis : L'ID de la disponibilité à supprimer.
-Réponse en cas de succès (200 OK):
-json
-Copier
-Modifier
-{
-    "message": "Disponibilité supprimée avec succès"
-}
+404 Not Found : Ressource non trouvée.
+500 Internal Server Error : Erreur serveur.
+
 Erreurs possibles:
 401 Unauthorized : Token manquant ou invalide.
 404 Not Found : Disponibilité non trouvée.
@@ -566,11 +523,10 @@ Les contrôles de chevauchement sont appliqués lors des ajouts et mises à jour
 
 
 
-/*****************************************************************************************************/
-/**********************************TESTLOCAL******************************************************/
-/*****************************************************************************************************/
-##############################🧪 RESULTAT TEST LOCAL POUR availabilities ###################################
 
+#########################################################################################################
+######                         🧪 RESULTAT TEST LOCAL POUR availabilities                          ######
+#########################################################################################################
 
  npx jest --detectOpenHandles --runInBand __tests__/availability.test.js
   console.log
@@ -620,3 +576,474 @@ Tests:       8 passed, 8 total
 Snapshots:   0 total
 Time:        3.262 s
 Ran all test suites matching /__tests__\\availability.test.js/i.
+
+
+
+
+#########################################################################################################
+######                                🛤️ Endpoints pour reservations                              ######
+#########################################################################################################
+
+🛤️ Base URL
+/api/reservations 
+
+🟢 Routes Publiques
+
+🔓 Routes Publiques
+GET /api/reservations/activity/:activity_id
+Description : Récupère toutes les réservations pour une activité spécifique.
+Requête :
+activity_id (param URL) : number (Requis) — ID de l'activité.
+Réponse : 200 OK — Tableau d'objets représentant les réservations.
+Exemple :
+bash
+Copier
+Modifier
+GET /api/reservations/activity/11
+GET /api/reservations/:id
+Description : Récupère une réservation spécifique par son ID.
+Requête :
+id (param URL) : number (Requis) — ID de la réservation.
+Authentification : authMiddleware('view_reservation') — Requiert un token valide.
+Réponse : 200 OK — Objet représentant la réservation.
+Exemple :
+bash
+Copier
+Modifier
+GET /api/reservations/5
+Authorization: Bearer <token>
+
+🛑 Routes privées
+
+🔒 Routes Sécurisées
+GET /api/reservations
+Description : Récupère toutes les réservations.
+Requête :
+Permissions : authMiddleware('view_all_reservations') + roleMiddleware([1,2,3,4])
+Réponse : 200 OK — Tableau d'objets représentant les réservations.
+Exemple :
+bash
+Copier
+Modifier
+GET /api/reservations
+Authorization: Bearer <token>
+POST /api/reservations
+Description : Ajoute une nouvelle réservation.
+Requête :
+Body :
+json
+Copier
+Modifier
+{
+  "activity_id": 11,
+  "date": "2025-03-10",
+  "total_amount": 150,
+  "status": "pending"
+}
+Permissions : authMiddleware('add_reservation') + roleMiddleware([1,2,3,4])
+Réponse : 201 Created — ID de la réservation créée.
+Exemple :
+bash
+Copier
+Modifier
+POST /api/reservations
+Authorization: Bearer <token>
+Content-Type: application/json
+PUT /api/reservations/:id
+Description : Met à jour une réservation spécifique.
+Requête :
+id (param URL) : number (Requis) — ID de la réservation.
+Body :
+json
+Copier
+Modifier
+{
+  "date": "2025-03-11",
+  "total_amount": 200,
+  "status": "confirmed"
+}
+Permissions : authMiddleware('update_reservation') + roleMiddleware([1,2,3,4])
+Réponse : 200 OK — Message de succès.
+Exemple :
+bash
+Copier
+Modifier
+PUT /api/reservations/5
+Authorization: Bearer <token>
+Content-Type: application/json
+DELETE /api/reservations/:id
+Description : Supprime une réservation spécifique.
+Requête :
+id (param URL) : number (Requis) — ID de la réservation.
+Permissions : authMiddleware('delete_reservation') + roleMiddleware([1,2,3,4])
+Réponse : 200 OK — Message de succès.
+Exemple :
+bash
+Copier
+Modifier
+DELETE /api/reservations/5
+Authorization: Bearer <token>
+
+#########################################################################################################
+######                         🧪 RESULTAT TEST LOCAL POUR availabilities                          ######
+#########################################################################################################
+ npx jest --detectOpenHandles --runInBand __tests__/reservations.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MTM1MTU5NCwiZXhwIjoxNzQxMzU4Nzk0fQ.lShkj8Ok4GkqA9Rgpraa0Oh-nUYun3eXA2nXP9Sdml4
+
+      at Object.log (__tests__/reservations.test.js:18:9)
+
+  console.log                                                                                                                                                                                                                
+    🔑 Token UserPro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0dXNlcnByb0BleGFtcGxlLmNvbSIsInJvbGVfaWQiOjIsImlhdCI6MTc0MTM1MTU5NCwiZXhwIjoxNzQxMzU4Nzk0fQ.x5SMttsO64HXsZrFmixhfJ-ghlEfCDdxHYEuOik0sBw
+
+      at Object.log (__tests__/reservations.test.js:19:9)
+
+  console.log
+    🟢 Début des tests pour Reservations
+
+      at Object.log (__tests__/reservations.test.js:36:17)
+
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:20:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:30:13)
+
+  console.log
+    🟢 Réservation créée avec l'ID : 10
+
+      at ReservationsModel.log [as createReservation] (database/models/reservationsModel.js:26:21)
+
+  console.log
+    🔒 Serveur fermé
+
+      at Object.log (__tests__/reservations.test.js:40:17)
+
+  console.log                                                                                                                                                                                                                
+    🔒 Serveur fermé                                                                                                                                                                                                         
+
+      at Object.log (__tests__/reservations.test.js:25:17)
+
+  console.log                                                                                                                                                                                                                
+    🔒 Connexion à la BDD fermée                                                                                                                                                                                             
+
+      at Object.log (__tests__/reservations.test.js:29:17)
+
+ PASS  __tests__/reservations.test.js
+  📌 Test API Reservations                                                                                                                                                                                                   
+    √ GET /api/reservations - devrait retourner toutes les réservations (145 ms)                                                                                                                 
+    console.log
+    🔒 Connexion à la BDD fermée
+
+      at Object.log (__tests__/reservations.test.js:29:17)
+
+ PASS  __tests__/reservations.test.js
+  📌 Test API Reservations
+    √ GET /api/reservations - devrait retourner toutes les réservations (145 ms)
+    √ POST /api/reservations - devrait ajouter une réservation (53 ms)
+    √ GET /api/reservations/:id - devrait retourner une réservation par ID (20 ms)
+    √ PUT /api/reservations/:id - devrait mettre à jour une réservation (34 ms)
+    √ GET /api/activity/:activity_id - devrait retourner les réservations par ID d'activité (19 ms)
+    √ DELETE /api/reservations/:id - devrait supprimer une réservation (27 ms)
+    √ DELETE /api/reservations/:id - ne devrait pas supprimer une réservation inexistante (18 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        2.159 s, estimated 3 s
+Ran all test suites matching /__tests__\\reservations.test.js/i.
+
+
+#########################################################################################################
+######                             🛤️ Endpoints pour stats                                         ######
+#########################################################################################################
+
+🛤️ Base URL
+/api/stats
+
+🟢 Routes Publiques
+Aucune route publique disponible pour cette section
+
+🛑 Routes Sécurisées
+🔒 GET /api/stats/activities
+Description:
+Récupère les statistiques des activités avec le nombre total de réservations pour chaque activité.
+
+Méthode: GET
+URL: /api/stats/activities
+Accès: Sécurisé (Token requis)
+Permissions: authMiddleware('view_stats') + roleMiddleware([1,2,3,4])
+
+Headers:
+
+makefile
+Copier
+Modifier
+Authorization: Bearer <token>
+Réponse:
+
+json
+Copier
+Modifier
+[
+    {
+        "name": "Plongée",
+        "total_reservations": 1
+    },
+    {
+        "name": "Yoga",
+        "total_reservations": 1
+    }
+]
+Erreurs possibles:
+
+401 Unauthorized: Token manquant ou invalide.
+403 Forbidden: Accès refusé (permissions insuffisantes).
+🔒 GET /api/stats/revenue
+Description:
+Récupère les statistiques des revenus par activité.
+
+Méthode: GET
+URL: /api/stats/revenue
+Accès: Sécurisé (Token requis)
+Permissions: authMiddleware('view_stats') + roleMiddleware([1,2,3,4])
+
+Headers:
+
+makefile
+Copier
+Modifier
+Authorization: Bearer <token>
+Réponse:
+
+json
+Copier
+Modifier
+[
+    {
+        "name": "Plongée",
+        "total_revenue": "120.00"
+    },
+    {
+        "name": "Yoga",
+        "total_revenue": "50.00"
+    }
+]
+Erreurs possibles:
+
+401 Unauthorized: Token manquant ou invalide.
+403 Forbidden: Accès refusé (permissions insuffisantes).
+🔒 GET /api/stats/ratings
+Description:
+Récupère les statistiques des notes et avis pour chaque activité.
+
+Méthode: GET
+URL: /api/stats/ratings
+Accès: Sécurisé (Token requis)
+Permissions: authMiddleware('view_stats') + roleMiddleware([1,2,3,4])
+
+Headers:
+
+makefile
+Copier
+Modifier
+Authorization: Bearer <token>
+Réponse:
+
+json
+Copier
+Modifier
+[
+    {
+        "name": "Plongée",
+        "average_rating": "4.5000",
+        "total_reviews": 2
+    },
+    {
+        "name": "Yoga",
+        "average_rating": "3.0000",
+        "total_reviews": 1
+    }
+]
+Erreurs possibles:
+
+401 Unauthorized: Token manquant ou invalide.
+403 Forbidden: Accès refusé (permissions insuffisantes).
+🔒 GET /api/stats/revenue - sans token
+Description:
+Teste l'accès sans token.
+
+Méthode: GET
+URL: /api/stats/revenue
+Accès: Sécurisé (Token requis)
+Permissions: authMiddleware('view_stats') + roleMiddleware([1,2,3,4])
+
+Réponse:
+
+json
+Copier
+Modifier
+{
+    "error": "Access denied"
+}
+Erreurs possibles:
+
+401 Unauthorized: Token manquant ou invalide.
+🔒 GET /api/stats/ratings - avec token invalide
+Description:
+Teste l'accès avec un token invalide.
+
+Méthode: GET
+URL: /api/stats/ratings
+Accès: Sécurisé (Token requis)
+Permissions: authMiddleware('view_stats') + roleMiddleware([1,2,3,4])
+
+Réponse:
+
+json
+Copier
+Modifier
+{
+    "error": "Invalid token"
+}
+Erreurs possibles:
+
+401 Unauthorized: Token invalide.
+
+
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR stats                                ######
+#########################################################################################################
+npx jest -- __tests__/stats.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MTM2MjMwOSwiZXhwIjoxNzQxMzY5NTA5fQ.21TtShh8C1j-QOnvPUC5vtRm_-QULnilngObzfgykwA
+
+      at Object.log (__tests__/stats.test.js:17:9)
+
+  console.log
+    🔑 Token UserPro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0dXNlcnByb0BleGFtcGxlLmNvbSIsInJvbGVfaWQiOjIsImlhdCI6MTc0MTM2MjMwOSwiZXhwIjoxNzQxMzY5NTA5fQ.j0ivNDis5kV7zE1Pb75Zlsc2wc88nAK46d_v984egro
+
+      at Object.log (__tests__/stats.test.js:18:9)
+
+  console.log
+    🟢 Début des tests pour Stats
+
+      at Object.log (__tests__/stats.test.js:26:13)
+
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:20:11)
+
+  console.log                                                                                                                                                                                  
+    🚀 Server is running on port 58931                                                                                                                                                         
+
+      at Server.log (__tests__/stats.test.js:36:42)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:31:13)
+
+  console.log
+    🔄 Insertion des données terminée
+
+      at Object.log (__tests__/stats.test.js:68:13)
+
+  console.log                                                                                                                                                                                  
+    debut du get 1                                                                                                                                                                             
+
+      at Object.log (__tests__/stats.test.js:99:17)
+
+  console.log
+    📊 Stats Activités: [
+      { name: 'Plongée', total_reservations: 1 },
+      { name: 'Yoga', total_reservations: 1 }
+    ]
+
+      at Object.log (__tests__/stats.test.js:106:17)
+
+  console.log                                                                                                                                                                                  
+    debut du get 2                                                                                                                                                                             
+
+      at Object.log (__tests__/stats.test.js:111:17)
+
+  console.log
+    💰 Stats Revenus: [
+      { name: 'Plongée', total_revenue: '120.00' },
+      { name: 'Yoga', total_revenue: '50.00' }
+    ]
+
+      at Object.log (__tests__/stats.test.js:118:17)
+
+  console.log                                                                                                                                                                                  
+    debut du get 3                                                                                                                                                                             
+
+      at Object.log (__tests__/stats.test.js:123:17)
+
+  console.log                                                                                                                                                                                  
+    ⭐ Stats Notes: [                                                                                                                                                                          
+      { name: 'Plongée', average_rating: '4.5000', total_reviews: 2 },
+      { name: 'Yoga', average_rating: '3.0000', total_reviews: 1 }
+    ]
+
+      at Object.log (__tests__/stats.test.js:130:17)
+
+  console.log
+    debut du get 4
+
+      at Object.log (__tests__/stats.test.js:135:17)
+
+  console.log                                                                                                                                                                                  
+    🚫 Accès refusé sans token: { error: 'Access denied' }                                                                                                                                     
+
+      at Object.log (__tests__/stats.test.js:140:17)
+
+  console.log                                                                                                                                                                                  
+    debut du get 5                                                                                                                                                                             
+
+      at Object.log (__tests__/stats.test.js:145:17)
+
+  console.log
+    🚫 Accès refusé avec token invalide: { error: 'Invalid token' }
+
+      at Object.log (__tests__/stats.test.js:151:17)
+
+  console.log                                                                                                                                                                                  
+    🔒 Serveur fermé                                                                                                                                                                           
+
+      at Object.log (__tests__/stats.test.js:81:17)
+
+  console.log                                                                                                                                                                                  
+    🔒 Connexion à la BDD fermée
+
+      at Object.log (__tests__/stats.test.js:86:17)
+
+  console.log                                                                                                                                                                                  
+    🔄 Suppression des données terminée                                                                                                                                                        
+
+      at Object.log (__tests__/stats.test.js:90:13)
+
+  console.log                                                                                                                                                                                  
+    🔴 Fin des tests pour Stats                                                                                                                                                                
+
+      at Object.log (__tests__/stats.test.js:91:13)
+
+ PASS  __tests__/stats.test.js
+  📊 Test API Stats                                                                                                                                                                            
+    √ GET /api/stats/activities - devrait retourner les stats des activités (36 ms)                                                                                                            
+    √ GET /api/stats/revenue - devrait retourner les stats de revenus (18 ms)
+    √ GET /api/stats/ratings - devrait retourner les stats des notes (12 ms)                                                                                                                   
+    √ GET /api/stats/revenue - ne devrait pas autoriser sans token (10 ms)                                                                                                                     
+    √ GET /api/stats/ratings - ne devrait pas autoriser avec token invalide (12 ms)                                                                                                            
+                                                                                                                                                                                               
+Test Suites: 1 passed, 1 total                                                                                                                                                                 
+Tests:       5 passed, 5 total                                                                                                                                                                 
+Snapshots:   0 total
+Time:        2.944 s, estimated 3 s
+Ran all test suites matching /__tests__\\stats.test.js/i.

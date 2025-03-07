@@ -5,6 +5,10 @@ class AvailabilitiesModel extends AbstractModel {
         super({table: "availabilities"});
     }
 /****************************Fonction de récupération de toutes les disponibilités********************************** */
+/**
+ * 
+ * @returns {Promise<Object[]>} All availabilities
+ */
 async getAllAvailabilities() {
     const [rows] = await this.pool.query(
         `SELECT id, activity_id, date, start_time, end_time, max_participants, status, created_at, updated_at
@@ -13,6 +17,11 @@ async getAllAvailabilities() {
     return rows;
 }
 /****************************Fonction de récupération des disponibilités par ID d'activité********************************** */
+/**
+ * 
+ * @param {number} activity_id 
+ * @returns 
+ */
 async getAvailabilitiesByActivityId(activity_id) {
     const [rows] = await this.pool.query(
         `SELECT id, date, start_time, end_time, max_participants, status, created_at, updated_at 
@@ -22,6 +31,11 @@ async getAvailabilitiesByActivityId(activity_id) {
     return rows;
 }
 /****************************Fonction d'ajout des disponibilités********************************** */
+/**
+ * 
+ * @param {*} availabilities 
+ * @returns 
+ */
 async addAvailabilities(availabilities) {
     try {
         const [result] = await this.pool.query(
@@ -43,6 +57,12 @@ async addAvailabilities(availabilities) {
     }
 }
 /****************************Fonction de mise à jour des disponibilités********************************** */
+/**
+ * 
+ * @param {number} id 
+ * @param {*} updates 
+ * @returns 
+ */
 async updateAvailability(id, updates) {
     try {
         const [result] = await this.pool.query(
@@ -63,6 +83,11 @@ async updateAvailability(id, updates) {
     }
 }
 /****************************Fonction de suppression des disponibilités********************************** */
+/**
+ * 
+ * @param {number} id 
+ * @returns 
+ */
 async deleteAvailability(id) {
     try {
         const [result] = await this.pool.query(
@@ -74,6 +99,12 @@ async deleteAvailability(id) {
         throw new Error("Erreur lors de la suppression des disponibilites");
     }
 }
+/****************************Fonction de récupération des disponibilités par ID********************************** */
+/**
+ * 
+ * @param {number} id 
+ * @returns 
+ */
 async getAvailabilityById(id) {
     try {
         const [rows] = await this.pool.query(
@@ -88,6 +119,11 @@ async getAvailabilityById(id) {
 }
 
 /****************************Fonction de vérification des disponibilités********************************** */
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 async checkOverlap({ activity_id, date, start_time, end_time, exclude_id = null }) {
     try {
         // 🔄 Requête SQL améliorée avec exclusion de l'ID actuel lors de la mise à jour
