@@ -198,11 +198,36 @@ const updateActivity = async (req, res) => {
       res.status(500).json({ error: 'Erreur serveur' });
     }
   }
-  
+
+  const filterActivities = async (req, res) => {
+    try {
+      const {name, type,   } = req.query;
+      let query = 'SELECT * FROM activities WHERE 1=1';
+      const params = [];
+      if (name) {
+        query += ' AND name LIKE ?';
+        params.push(`%${name}%`);
+      }
+      if (type) {
+        query += ' AND type = ?';
+        params.push(type);
+      }
+      const [result] = await tables.activities.pool.query(query, params);
+
+      if (result.length === 0) {
+        res.status(404).json({ error: 'Aucune activité trouvée' });
+      }
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur serveur' });
+    }
+  }  
   module.exports = {
     getAllActivities,
     getActivityById,
     addActivity,
     updateActivity,
     deleteActivity,
+    filterActivities
   };
