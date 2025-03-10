@@ -21,8 +21,18 @@ function verifyToken(token) {
     try {
         return jwt.verify(token, SECRET);
     } catch (error) {
+        console.error('Erreur lors de la vérification du token :', error);
         return null;
     }
 }
 
-module.exports = { generateToken, verifyToken };
+function decodeJWT (token) {
+    try {
+        return jwt.decode(token, SECRET);
+    } catch (error) {
+        console.error('Erreur lors du décodage du token :', error);
+        return null;
+    }
+}
+
+module.exports = { generateToken, verifyToken , decodeJWT};

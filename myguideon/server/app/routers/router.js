@@ -16,6 +16,8 @@ const destinationRouter = require('./destinationRoute.js');
 const activitiesRouter = require('./activitiesRoutes.js');
 const userproRouter = require('./userproRoute.js');
 const availabilitiesRouter = require('./availabilitiesRoutes.js');
+const statsRouter = require('./statsRoute.js');
+const reservationsRouter = require('./reservationsRoute.js');
 
 
 // Use the routers****************************************************
@@ -29,5 +31,8 @@ router.use('/userpro',userproRouter);
 
 router.use('/availabilities',availabilitiesRouter);
 
+router.use('/stats',statsRouter);
+
+router.use('/reservations',reservationsRouter);
 // Export the router****************************************************
 module.exports = router;
