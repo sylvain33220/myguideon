@@ -1,3 +1,12 @@
+/**
+ * @file availabilitiesController.js
+ * @description Controller pour les disponibilités des activités 
+ * Ce fichier gère les disponibilités des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const tables = require('../../database/table');
 const path = require('node:path');
 const {addAvailabilityValidation,

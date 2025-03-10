@@ -1,3 +1,12 @@
+/**
+ * @file activitiesController.js
+ * @description Controller pour les activités  
+ * Ce fichier gère les activités de l'application
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const tables = require ('../../database/table');
 const { validateActivity } = require ('../validator/activitiesValidator');
 const { max } = require('../validator/loginValidator');

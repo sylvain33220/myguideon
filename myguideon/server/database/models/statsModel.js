@@ -1,3 +1,12 @@
+/**
+ * @file statsModel.js
+ * @description Proxy pour les statistiques de l'application 
+ * Ce fichier regroupe toutes les statistiques de l'application
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const {pool} = require('../client');
 
 // 📊 Nombre de réservations par activité

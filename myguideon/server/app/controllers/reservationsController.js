@@ -1,7 +1,14 @@
-const tables = require('../../database/table');
+
+/**
+ * @file reservationsController.js
+ * @description Contrôleur pour les réservations des activités 
+ * Ce fichier contient les méthodes de contrôle pour les réservations des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */const tables = require('../../database/table');
 const { addReservationValidation, updateReservationValidation,deleteReservationValidation } = require('../validator/reservationsValidator');
-
-
 
 const getReservationById = async (req, res) => {
     try {

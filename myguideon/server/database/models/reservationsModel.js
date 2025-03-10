@@ -1,4 +1,13 @@
-const AbstractModel = require("./AbstractModel");
+
+/**
+ * @file reservationsModel.js
+ * @description Modèle pour les réservations des activités 
+ * Ce fichier gère les requêtes vers la base de données pour les réservations des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */const AbstractModel = require("./AbstractModel");
 
 class ReservationsModel extends AbstractModel {
     constructor() {
