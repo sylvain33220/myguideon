@@ -14,15 +14,17 @@ Myguideon est une plateforme de gestion d'activités et de services avec réserv
 - Paiement sécurisé via Stripe
 - Statistiques et tableaux de bord
 
-## 🛠️ Installation
+## 🛠️ Installation 
 ```bash
-git clone https://github.com/sylvain33220/myguideon
+git clone https://github.com/sylvain33220/myguideon/tree/devback/myguideon
 cd myguideon
 npm install
+```
 
+## ✍️ Auteur 
 
-✍️ Auteur
+[website] (https://www.studio-purple.com)
+[GitHub] (https://github.com/sylvain33220)
+[linkedin] (https://www.linkedin.com/in/sylvain-poteaux-b87217301/)
 
-website https://www.studio-purple.com
-GitHub https://github.com/sylvain33220
-linkedin https://www.linkedin.com/in/sylvain-poteaux-b87217301/
+---
