@@ -1,3 +1,12 @@
+/**
+ * @file router.js
+ * @description Router principal pour les routes de l'API
+ * Ce fichier regroupe toutes les routes de l'API
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const express = require('express');
 const router = express.Router();
 

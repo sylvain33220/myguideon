@@ -1,3 +1,12 @@
+/**
+ * @file activitiesValidator.js
+ * @description Validation des activités
+ * @module Validator des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const Joi = require('joi');
 
 /**

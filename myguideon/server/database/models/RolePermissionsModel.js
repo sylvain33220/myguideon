@@ -1,3 +1,11 @@
+/**
+ * @file RolePermissionsModel.js
+ * @description Gestion des permissions pour les rôles
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const AbstractModel = require('./AbstractModel');
 
 class RolePermissionsModel extends AbstractModel {

@@ -1,3 +1,19 @@
+/**
+ * @file activities.test.js
+ * @description Tests pour les activités
+ * @module Tests API Activities - Tests unitaires
+ * @requires supertest
+ * @requires path
+ * @requires server
+ * @requires pool
+ * @requires generateToken
+ * @requires jwtHelper
+ * @requires __tests__/assets/test-image.jpg
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const request = require('supertest');
 const path = require('node:path');
 const { server } = require('../server');

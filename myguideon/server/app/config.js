@@ -1,3 +1,12 @@
+/**
+ * @file config.js
+ * @description Configuration de l'application Express
+ * Ce fichier regroupe toutes les configurations de l'application
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const path    = require('node:path');
 const express = require('express');
 const cors    = require('cors');
