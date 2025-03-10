@@ -1,3 +1,12 @@
+/**
+ * @file server.js
+ * @description Point d'entrée du serveur
+ * Ce fichier configure le serveur et le lance
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const express    = require('express');
 const session    = require('express-session');
 const config     = require('./app/config'); 

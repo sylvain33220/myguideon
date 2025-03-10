@@ -1,3 +1,12 @@
+/**
+ * @file client.js
+ * @description MySQL client pour les requêtes
+ * @module Client MySQL
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const mysql = require("mysql2/promise");
 require("dotenv").config({ path: "./.env" });
 

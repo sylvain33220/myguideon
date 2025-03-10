@@ -1,4 +1,13 @@
-
+/**
+ * @file table.js
+ * @description Proxy pour les tables de la base de données
+ * Ce fichier regroupe toutes les tables de la base de données
+ * @module Proxy pour les tables de la base de données
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const DestinationModel  = require('./models/destinationModal');
 const UserAdminModel    = require('./models/useradminModal'); 
 const UserproModel = require('./models/userproModel');

@@ -1,3 +1,12 @@
+/**
+ * @file availabilitiesValidator.js
+ * @description Validation des disponibilités
+ * @module Validator des disponibilités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const Joi = require('joi');
 
 /****************Validation pour l'ajout d'une disponibilité *****************/

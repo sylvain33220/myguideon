@@ -1,3 +1,11 @@
+/**
+ * @file userproModel.js
+ * @description Gestion des utilisateurs professionnels
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03
+ */
 const AbstractModel = require("./AbstractModel");
 const { hashPassword, verifyPassword } = require('../../app/helpers/argonHelper');                                                              
 const { generateToken } = require('../../app/helpers/jwtHelper');

@@ -1,3 +1,11 @@
+/**
+ * @file userproController.js
+ * @description Gestion des utilisateurs professionnels
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const tables = require('../../database/table');
 const { hashPassword, verifyPassword } = require('../helpers/argonHelper');
 const { generateToken } = require('../helpers/jwtHelper');
