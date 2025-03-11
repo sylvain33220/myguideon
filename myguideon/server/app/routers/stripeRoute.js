@@ -9,10 +9,14 @@
  */
 const express = require('express');
 const router = express.Router();
-// Import the createCheckoutSession and handleStripeWebhook functions from the checkoutController.js file
+
+// Import the createCheckoutSession and handleStripeWebhook functions from the checkoutController.js file**************************************/
+
 const authMiddleware = require('../middleware/auth');
 const { createCheckoutSession } = require('../controllers/checkoutController');
 const {handleStripeWebhook} = require('../controllers/stripeWebhookController');
+
+/* Routes pour les paiements Stripe *************************************************************************************************************/
 
 // Create a checkout session
 router.post('/create-checkout-session',authMiddleware(), createCheckoutSession);

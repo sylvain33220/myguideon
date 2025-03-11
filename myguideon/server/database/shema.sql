@@ -222,7 +222,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (1,'create_userpro','Créer un utilisateur professionnel'),(2,'view_userpro','Voir les utilisateurs professionnels'),(3,'update_userpro','Mettre à jour un utilisateur professionnel'),(4,'delete_userpro','Supprimer un utilisateur professionnel'),(5,'create_activity','Créer une activité'),(6,'read_activity','Voir les activités'),(7,'update_activity','Mettre à jour une activité'),(8,'delete_activity','Supprimer une activité'),(9,'manage_users','Gérer les utilisateurs'),(10,'view_statistics','Voir les statistiques'),(11,'update_password_userpro','Mettre à jour le mot de passe d un utilisateur professionnel'),(14,'add_availability',' ceéer une validité pour une activité'),(15,'update_availability',' modifier une validité pour une activité'),(16,'delete_availability',' supprimer une validité pour une activité');
+INSERT INTO `permissions` VALUES (1,'create_userpro','Créer un utilisateur professionnel'),(2,'view_userpro','Voir les utilisateurs professionnels'),(3,'update_userpro','Mettre à jour un utilisateur professionnel'),(4,'delete_userpro','Supprimer un utilisateur professionnel'),(5,'create_activity','Créer une activité'),(6,'read_activity','Voir les activités'),(7,'update_activity','Mettre à jour une activité'),(8,'delete_activity','Supprimer une activité'),(9,'manage_users','Gérer les utilisateurs'),(10,'view_statistics','Voir les statistiques'),(11,'update_password_userpro','Mettre à jour le mot de passe d un utilisateur professionnel'),(14,'add_availability',' ceéer une validité pour une activité'),(15,'update_availability',' modifier une validité pour une activité'),(16,'delete_availability',' supprimer une validité pour une activité'),(17,'view_all_reservations','Voir toutes les réservations '),(18,'view_reservation','Voir une réservation spécifique '),(19,'add_reservation','Ajouter une reservation'),(20,'update_reservation','Modifier une reservation'),(21,'delete_reservation','Supprimer un reservation'),(22,'add_permission','Créer une nouvelle permission'),(23,'assign_role','Assigner un role à un userpro'),(24,'add_new_permission','Ajouter une permission à un role'),(25,'assign_role_admin','Assigner un role à un admin'),(26,'remove_permission','supprimer une permission à un role')
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -398,6 +398,102 @@ LOCK TABLES `userpro` WRITE;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+--
+-- Table structure for table `cart_orders`
+--
+
+DROP TABLE IF EXISTS `cart_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cart_orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `userpro_id` int DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `status` enum('pending','paid','cancelled') DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `userpro_id` (`userpro_id`),
+  CONSTRAINT `cart_orders_ibfk_1` FOREIGN KEY (`userpro_id`) REFERENCES `userpro` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cart_orders`
+--
+
+LOCK TABLES `cart_orders` WRITE;
+/*!40000 ALTER TABLE `cart_orders` DISABLE KEYS */;
+INSERT INTO `cart_orders` VALUES (1,2,NULL,2000.00,'pending','2025-03-11 09:07:06','2025-03-11 09:07:06'),(2,2,NULL,2000.00,'pending','2025-03-11 09:22:39','2025-03-11 09:22:39'),(3,2,NULL,2000.00,'pending','2025-03-11 09:27:20','2025-03-11 09:27:20'),(4,2,NULL,2000.00,'pending','2025-03-11 09:30:00','2025-03-11 09:30:00'),(5,2,NULL,2000.00,'pending','2025-03-11 09:34:08','2025-03-11 09:34:08'),(6,2,NULL,2000.00,'pending','2025-03-11 09:36:52','2025-03-11 09:36:52');
+/*!40000 ALTER TABLE `cart_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `feedbacks`
+--
+
+DROP TABLE IF EXISTS `feedbacks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedbacks` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `activity_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `rating` tinyint NOT NULL,
+  `comment` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `activity_id` (`activity_id`),
+  CONSTRAINT `feedbacks_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
+  CONSTRAINT `feedbacks_chk_1` CHECK ((`rating` between 1 and 5))
+) ENGINE=InnoDB AUTO_INCREMENT=313 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedbacks`
+--
+
+LOCK TABLES `feedbacks` WRITE;
+/*!40000 ALTER TABLE `feedbacks` DISABLE KEYS */;
+INSERT INTO `feedbacks` VALUES (310,108,1,5,'Super activité!','2025-03-11 08:39:48'),(311,108,2,4,'Très bien','2025-03-11 08:39:48'),(312,109,3,3,'Pas mal','2025-03-11 08:39:48');
+/*!40000 ALTER TABLE `feedbacks` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
+--
+-- Table structure for table `reservations`
+--
+
+DROP TABLE IF EXISTS `reservations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reservations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `activity_id` int NOT NULL,
+  `date` date NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `status` enum('pending','confirmed','cancelled') DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `activity_id` (`activity_id`),
+  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservations`
+--
+
+LOCK TABLES `reservations` WRITE;
+/*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+INSERT INTO `reservations` VALUES (208,108,'2025-03-10',120.00,'confirmed','2025-03-11 08:39:48','2025-03-11 08:39:48'),(209,109,'2025-03-11',50.00,'confirmed','2025-03-11 08:39:48','2025-03-11 08:39:48');
+/*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

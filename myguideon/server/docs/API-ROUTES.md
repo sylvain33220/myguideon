@@ -4,8 +4,8 @@
                 #########################################################################################################
 
 /************************************************************************************************************************/
-commande de lancement des tests : 
-/npx jest -- __tests__/le_dossier_test_
+commande de lancement des tests (exemple): 
+npx jest -- __tests__/montest.test.js
 ************************************************************************************************************************/
 ✅ Notes:
 🟢 Routes publiques : Accessibles sans authentification.
@@ -1059,3 +1059,353 @@ Ran all test suites matching /__tests__\\stats.test.js/i.
 
 
 ############################################################################################################################################################################
+
+#########################################################################################################
+######                             🛤️ Endpoints pour stripe                                        ######
+#########################################################################################################
+
+🛤️ Base URL
+/api/stripe
+## 🎯 Gestion des paiements Stripe
+
+### 🔑 Récupérer la clé publique Stripe
+- **URL :** `/api/stripe-key`
+- **Méthode :** `GET`
+- **Réponse :**
+```json
+{
+  "publishableKey": "pk_test_**********"
+}
+💳 Créer une session de paiement
+URL : /api/stripe/create-checkout-session
+Méthode : POST
+Headers : Authorization: Bearer <TOKEN>
+Body (JSON) :
+json
+Copier
+Modifier
+{
+  "items": [
+    { "name": "Produit A", "price": 2000, "quantity": 1 }
+  ],
+  "userId": 2
+}
+Réponse attendue :
+json
+Copier
+Modifier
+{
+  "sessionId": "cs_test_**********"
+}
+
+🔄 Webhook Stripe - Gestion automatique des paiements
+URL : /api/stripe/webhook
+Méthode : POST
+Headers : Stripe-Signature: t=timestamp,v1=signature
+Body (JSON brut) :
+json
+Copier
+Modifier
+{
+  "type": "checkout.session.completed",
+  "data": {
+    "object": {
+      "id": "evt_test_123",
+      "payment_intent": "pi_test_123",
+      "metadata": { "orderId": "12345" },
+      "status": "succeeded"
+    }
+  }
+}
+Comportement attendu :
+
+Met à jour la commande cart_orders en paid après un paiement réussi.
+Enregistre l'événement Stripe dans les logs.
+Réponse attendue :
+
+json
+Copier
+Modifier
+{
+  "received": true
+}
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR stripe                               ######
+#########################################################################################################
+
+ npx jest -- __tests__/stripe.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MTY4NTgxMSwiZXhwIjoxNzQxNjkzMDExfQ.ty0ZqhK2zpBACZ3GbXeT8rHRU0F2UycpU3M_g7mLFXk
+
+      at Object.log (__tests__/stripe.test.js:66:9)
+
+  console.log                                                                                                                                                                                         
+    🔑 Token UserPro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0dXNlcnByb0BleGFtcGxlLmNvbSIsInJvbGVfaWQiOjIsImlhdCI6MTc0MTY4NTgxMSwiZXhwIjoxNzQxNjkzMDExfQ.B4DRJaAfgDOaxAZCt8HOeEMsKFIAyjNRz1clbiN8b-A
+
+      at Object.log (__tests__/stripe.test.js:67:9)
+
+  console.log                                                                                                                                                                                         
+    🟢 Début des tests pour Stripe                                                                                                                                                                    
+
+      at log (__tests__/stripe.test.js:81:13)
+
+  console.log
+    🟢 Test GET /api/stripe-key
+
+      at Object.log (__tests__/stripe.test.js:85:17)
+
+  console.log                                                                                                                                                                                         
+    🚀 Server is running on port 3030                                                                                                                                                                 
+
+      at Server.log (server.js:44:11)
+
+  console.log
+    res {
+      publishableKey: 'pk_test_51OnmiNHVZyWJO77ENyoozNBQtAJOIFTj7MkMp82l24bht4DzztZFDHVZx62BXKX8OQgZwuFSqFNgsiyVOhrfdnXI00k3tz8IMr'
+    }
+
+      at Object.log (__tests__/stripe.test.js:87:17)
+
+  console.log                                                                                                                                                                                         
+    🟢 Test POST /api/stripe/create-checkout-session                                                                                                                                                  
+
+      at Object.log (__tests__/stripe.test.js:94:17)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    🟢 Test POST /api/stripe/webhook
+
+      at Object.log (__tests__/stripe.test.js:110:17)
+
+  console.log                                                                                                                                                                                         
+    Commande 12345 payée avec succès                                                                                                                                                                  
+
+      at log (app/controllers/stripeWebhookController.js:32:21)
+
+  console.log                                                                                                                                                                                         
+    🔒 Serveur fermé                                                                                                                                                                                  
+
+      at Object.log (__tests__/stripe.test.js:72:17)
+
+  console.log
+    🔒 Connexion à la BDD fermée
+
+      at Object.log (__tests__/stripe.test.js:76:17)
+
+ PASS  __tests__/stripe.test.js
+  📌 Test API Stripe                                                                                                                                                                                  
+    √ GET /api/stripe-key - devrait retourner la clé publique Stripe (86 ms)                                                                                                                          
+    √ POST /api/stripe/create-checkout-session - devrait créer une session Stripe (699 ms)                                                                                                            
+    √ 🧪 POST /api/stripe/webhook - Simuler un paiement réussi (18 ms)                                                                                                                                
+                                                                                                                                                                                                      
+Test Suites: 1 passed, 1 total                                                                                                                                                                        
+Tests:       3 passed, 3 total                                                                                                                                                                        
+Snapshots:   0 total
+Time:        3.287 s
+Ran all test suites matching /__tests__\\stripe.test.js/i.
+
+
+#########################################################################################################
+######                             🛤️ Endpoints pour rolePremissions                               ######
+#########################################################################################################
+🛤️ Base URL
+/api/role-permissions
+
+📌 Role Permissions API
+Cette section décrit les routes de gestion des rôles et des permissions.
+
+🔑 Endpoints
+🏷️ 1. Attribuer un rôle à un utilisateur professionnel
+URL : /api/role-permissions/assign-role
+Méthode : POST
+Authentification requise : ✅ Bearer Token
+Permission requise : assign_role
+Corps de la requête :
+json
+Copier
+Modifier
+{
+  "userProId": 1,
+  "roleId": 2
+}
+Réponse :
+json
+Copier
+Modifier
+{
+  "success": true,
+  "affectedRows": 1
+}
+🏷️ 2. Attribuer un rôle à un administrateur
+URL : /api/role-permissions/assign-role-admin
+Méthode : POST
+Authentification requise : ✅ Bearer Token
+Permission requise : assign_role_admin
+Corps de la requête :
+json
+Copier
+Modifier
+{
+  "userAdminId": 3,
+  "roleId": 1
+}
+Réponse :
+json
+Copier
+Modifier
+{
+  "success": true,
+  "affectedRows": 1
+}
+🏷️ 3. Ajouter une permission à un rôle
+URL : /api/role-permissions/add-permission
+Méthode : POST
+Authentification requise : ✅ Bearer Token
+Permission requise : add_permission
+Corps de la requête :
+json
+Copier
+Modifier
+{
+  "roleId": 2,
+  "permissionId": 5
+}
+Réponse :
+json
+Copier
+Modifier
+{
+  "success": true,
+  "result": 1
+}
+🏷️ 4. Ajouter une nouvelle permission
+URL : /api/role-permissions/add-new-permission
+Méthode : POST
+Authentification requise : ✅ Bearer Token
+Permission requise : add_new_permission
+Corps de la requête :
+json
+Copier
+Modifier
+{
+  "name": "manage_payments",
+  "description": "Gérer les paiements"
+}
+Réponse :
+json
+Copier
+Modifier
+{
+  "success": true,
+  "permissionId": 22
+}
+🏷️ 5. Supprimer un rôle ou une permission
+URL : /api/role-permissions/remove-permission
+Méthode : DELETE
+Authentification requise : ✅ Bearer Token
+Permission requise : remove_permission
+Corps de la requête :
+json
+Copier
+Modifier
+{
+  "type": "role",
+  "id": 3
+}
+Réponse :
+json
+Copier
+Modifier
+{
+  "success": true,
+  "deletedRows": 1
+}
+📌 Remarque
+Les permissions sont gérées avec des ENUM pour assurer une meilleure organisation.
+Un userPro ou admin peut avoir plusieurs rôles et permissions.
+L’assignation et la suppression des rôles/permissions sont réservées aux administrateurs.
+
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR rolePermissions                      ######
+#########################################################################################################
+
+ npx jest -- __tests__/rolePermissions.test.js
+  console.log
+    🟢 Début des tests pour RolePermissions
+
+      at log (__tests__/rolePermissions.test.js:57:13)
+
+  console.log
+    🔄 Création des utilisateurs de test...
+
+      at Object.log (__tests__/rolePermissions.test.js:17:13)
+
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    🟢 Test POST /api/role-permissions/assign-role-admin
+
+      at Object.log (__tests__/rolePermissions.test.js:61:13)
+
+  console.log
+    🟢 Test POST /api/role-permissions/add-permission
+
+      at Object.log (__tests__/rolePermissions.test.js:74:17)
+
+  console.log
+    🟢 Test POST /api/role-permissions/add-new-permission
+
+      at Object.log (__tests__/rolePermissions.test.js:85:17)
+
+  console.log
+    🟢 Test POST /api/role-permissions/assign-role
+
+      at Object.log (__tests__/rolePermissions.test.js:96:17)
+
+  console.log
+    🟢 Test DELETE /api/role-permissions/remove
+
+      at Object.log (__tests__/rolePermissions.test.js:108:17)
+
+  console.log
+    🗑️ Suppression des utilisateurs de test...
+
+      at Object.log (__tests__/rolePermissions.test.js:36:13)
+
+  console.log
+    🔒 Serveur fermé
+
+      at Object.log (__tests__/rolePermissions.test.js:48:17)
+
+  console.log                                                                                                                                                                                         
+    🔒 Connexion à la BDD fermée                                                                                                                                                                      
+
+      at Object.log (__tests__/rolePermissions.test.js:52:17)
+
+ PASS  __tests__/rolePermissions.test.js
+  📌 Test API RolePermissions                                                                                                                                                                         
+    √ POST /api/role-permissions/assign-role-admin - devrait attribuer un rôle à un admin (63 ms)                                                                                                     
+    √ POST /api/role-permissions/add-permission - devrait ajouter une permission à un rôle (17 ms)
+    √ POST /api/role-permissions/add-new-permission - devrait ajouter une nouvelle permission (16 ms)                                                                                                 
+    √ POST /api/role-permissions/assign-role - devrait attribuer un rôle à un UserPro (16 ms)                                                                                                         
+    √ DELETE /api/role-permissions/remove-permission - devrait supprimer un rôle (15 ms)                                                                                                              
+                                                                                                                                                                                                      
+Test Suites: 1 passed, 1 total                                                                                                                                                                        
+Tests:       5 passed, 5 total                                                                                                                                                                        
+Snapshots:   0 total
+Time:        2.584 s, estimated 3 s
+Ran all test suites matching /__tests__\\rolePermissions.test.js/i.

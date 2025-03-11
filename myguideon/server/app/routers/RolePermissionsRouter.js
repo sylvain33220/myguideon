@@ -14,42 +14,22 @@ const router = express.Router();
 const RolePermissionsModel = require('../../database/models/RolePermissionsModel');
 const authMiddleware = require('../middleware/auth');
 const roleMiddleware = require('../middleware/roleMiddleware');
+const { assignRoleToUserPro, addPermissionToRole,removePermissionFromRole, addNewPermission, assignRoleToUserAdmin  } = require('../controllers/RolePermissionsController');
 
 //instanciation du model
 const rolePermissionsModel = new RolePermissionsModel();
 
 //Routes securisées
 //attribuer un role a un userpro
-router.post('/add-role', authMiddleware(), roleMiddleware([1]),async (req, res) => {
-    const { userProId, roleId } = req.body;
-    try {
-        const result = await rolePermissionsModel.addRoleToUserPro(userProId, roleId);
-        res.json({ success: true, result });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-})
-
+router.post('/assign-role', authMiddleware('assign_role'), roleMiddleware([1]), assignRoleToUserPro)
 //ajouter une permission a un role
-router.post('/add-permission', authMiddleware(),roleMiddleware([1]), async (req, res) => {
-    const { roleId, permissionId } = req.body;
-    try {
-        const result = await rolePermissionsModel.addPermissionToRole(roleId, permissionId);
-        res.json({ success: true, result });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-})
+router.post('/add-permission', authMiddleware('add_permission'),roleMiddleware([1]),addPermissionToRole)
+//ajouter une nouvelle permission
+router.post('/add-new-permission', authMiddleware('add_new_permission'),roleMiddleware([1]),addNewPermission)
+//ajouter un role a un user_admin
+router.post('/assign-role-admin', authMiddleware('assign_role_admin'), roleMiddleware([1]), assignRoleToUserAdmin)
 //supprimer un role ou une permission
-router.delete('/remove', authMiddleware(),roleMiddleware([1]), async (req, res) => {
-    const { type, id } = req.body;
-    try {
-        const result = await rolePermissionsModel.removeRoleOrPermission(type, id);
-        res.json({ success: true, result });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-})
+router.delete('/remove-permission', authMiddleware('remove_permission'),roleMiddleware([1]),removePermissionFromRole)
 
 // Export the router****************************************************
 module.exports = router;

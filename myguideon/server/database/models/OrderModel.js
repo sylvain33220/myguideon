@@ -22,7 +22,7 @@ class OrderModel extends AbstractModel {
    */
   async createOrder(userId,userproId, totalAmount) {
     const [result] = await this.pool.query(
-        `INSERT INTO ${this.table} (user_id,userproId ,total_amount,status, created_at = NOW(), VALUES (?, ?,?,'pending')`,
+        `INSERT INTO ${this.table} (user_id,userpro_id ,total_amount,status, created_at) VALUES (?, ?, ?,'pending',NOW())`,
         [userId || null ,userproId || null, totalAmount]
     )
     return result.insertId;

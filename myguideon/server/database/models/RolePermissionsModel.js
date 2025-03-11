@@ -1,6 +1,7 @@
 /**
  * @file RolePermissionsModel.js
  * @description Gestion des permissions pour les rôles
+ * Ce fichier définit le modèle pour la gestion des permissions pour les rôles
  * @author Sylvain
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
@@ -12,9 +13,8 @@ class RolePermissionsModel extends AbstractModel {
     constructor() {
         super({ table: 'role_permissions' });
     }
-
     /**
-     * Récupère les permissions pour un rôle donné
+     * 🔍 Récupère les permissions pour un rôle donné
      * @param {number} roleId - L'ID du rôle
      * @returns {Promise<Object[]>} - Liste des permissions
      */
@@ -28,70 +28,129 @@ class RolePermissionsModel extends AbstractModel {
         return rows;
     }
 
-    async updatePermission (roleId, permissionId) {
-        await this.pool.query(
-            `INSERT INTO ${this.table} (role_id, permission_id) VALUES (?, ?)`, 
-            [roleId, permissionId]
-        );
-    }
-    //ajouter un role a un utilisateur pro
-    async addRoleToUserPro(userProId, roleId) {
-        try {
-            const [result] = await this.pool.query(
-                "INSERT INTO userpro_role_id (userpro_id, role_id) VALUES (?, ?)", 
-                [userProId, roleId]
-            )
-            return result.insertId;
-        } catch (err) {
-            console.error("Erreur lors de l attribution du role",err);
-            throw err;
-        }
-    }
-
-    //supprimer un role a un utilisateur pro
-    async deleteRoleToUserPro(userProId, roleId) {
-        try {
-            const [result] = await this.pool.query(
-                "DELETE FROM userpro_role_id WHERE userpro_id = ? AND role_id = ?", 
-                [userProId, roleId]
-            )
-            return result.insertId;
-        } catch (err) {
-            console.error("Erreur lors de la suppression du role",err);
-            throw err;
-        }
-    }
-
-    //ajouter une permission a un rôle
+    /**
+     * ➕ Ajouter une permission à un rôle
+     * @param {number} roleId - ID du rôle
+     * @param {number} permissionId - ID de la permission
+     * @returns {Promise<number>} - ID de la permission créée
+     * @async
+     * @throws {Error} - L'erreur retournée par MySQL
+     */
     async addPermissionToRole(roleId, permissionId) {
         try {
             const [result] = await this.pool.query(
                 "INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)", 
                 [roleId, permissionId]
-            )
+            );
             return result.insertId;
         } catch (err) {
-            console.error("Erreur lors de l attribution de la permission",err);
+            console.error("❌ Erreur lors de l'ajout de la permission au rôle :", err);
             throw err;
         }
     }
-    //supprimer un rôle ou une permission
-    async removeRoleOrPermission(type,id) {
+    /**
+     * ➕ Ajouter une nouvelle permission
+    *  @param {string} name - Nom de la permission
+    * @param {string} description - Description de la permission
+    * @returns {Promise<number>} - ID de la permission créée
+    * @async
+    * @throws {Error} - L'erreur retournée par MySQL
+    */
+   async addNewPermission(name, description) {
+       try {
+           const [result] = await this.pool.query(
+               "INSERT INTO permissions (name, description) VALUES (?, ?)", 
+               [name, description]
+           );
+           return result.insertId;
+       } catch (err) {
+           console.error("❌ Erreur lors de l'ajout d'une nouvelle permission :", err);
+           throw err;
+       }
+   }
+
+    /**
+     * ❌ Supprimer une permission d'un rôle
+     * @param {number} roleId - ID du rôle
+     * @param {number} permissionId - ID de la permission
+     * @returns {Promise<number>} - Nombre de lignes affectées
+     * @throws {Error} - L'erreur retournée par MySQL
+     * @async
+     */
+    async removePermissionFromRole(roleId, permissionId) {
         try {
-            const table = type === 'role'? 'userpro_role_id' : 'role_permissions';
-            const column = type === 'role'? 'role_id' : 'permission_id';
-
             const [result] = await this.pool.query(
-                `DELETE FROM ${table} WHERE ${column} = ?`, 
-                [id]
-            )
-            return result.insertId;
+                "DELETE FROM role_permissions WHERE role_id = ? AND permission_id = ?", 
+                [roleId, permissionId]
+            );
+            return result.affectedRows;
         } catch (err) {
-            console.error("Erreur lors de la suppression du role ou de la permission",err);
+            console.error("❌ Erreur lors de la suppression de la permission :", err);
             throw err;
         }
     }
 
+    /**
+     * 🏷️ Assigner un rôle à un utilisateur Pro
+     * @param {number} userProId - L'ID de l'utilisateur Pro
+     * @param {number} roleId - L'ID du rôle
+     * @returns {Promise<number>} - Nombre de lignes affectées
+     * @async
+     * @throws {Error} - L'erreur retournée par MySQL
+     */
+    async assignRoleToUserPro(userProId, roleId) {
+        try {
+            const [result] = await this.pool.query(
+                "UPDATE userpro SET role_id = ? WHERE id = ?", 
+                [roleId, userProId]
+            );
+            return result.affectedRows;
+        } catch (err) {
+            console.error("❌ Erreur lors de l'assignation du rôle à userPro :", err);
+            throw err;
+        }
+    }
+
+    /**
+ * 🏷️ Assigner un rôle à un utilisateur admin
+ * @param {number} userAdminId - L'ID de l'admin
+ * @param {number} roleId - L'ID du rôle
+ * @returns {Promise<number>} - Nombre de lignes affectées
+ * @async
+ * @throws {Error} - L'erreur retournée par MySQL
+ */
+async assignRoleToUserAdmin(userAdminId, roleId) {
+    try {
+        const [result] = await this.pool.query(
+            "UPDATE user_admin SET role_id = ? WHERE id = ?", 
+            [roleId, userAdminId]
+        );
+        return result.affectedRows;
+    } catch (err) {
+        console.error("❌ Erreur assignRoleToUserAdmin:", err);
+        throw err;
+    }
+}
+
+    /**
+     * ❌ Supprimer un rôle d’un utilisateur Pro
+     * @param {number} userProId - L'ID de l'utilisateur Pro
+     * @returns {Promise<number>} - Nombre de lignes affectées
+     * @async
+     * @throws {Error} - L'erreur retournée par MySQL
+     */
+    async removeRoleFromUserPro(userProId) {
+        try {
+            const [result] = await this.pool.query(
+                "UPDATE userpro SET role_id = NULL WHERE id = ?", 
+                [userProId]
+            );
+            return result.affectedRows;
+        } catch (err) {
+            console.error("❌ Erreur lors de la suppression du rôle de userPro :", err);
+            throw err;
+        }
+    }
 }
 
 module.exports = RolePermissionsModel;

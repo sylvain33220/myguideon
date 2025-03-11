@@ -22,7 +22,7 @@ const handleStripeWebhook = async (req, res) => {
     const endPointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-        const event = stripe.webhooks.constructEvent(req.rawBody, sig, endPointSecret);
+        const event = stripe.webhooks.constructEvent(req.body, sig, endPointSecret);
 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;

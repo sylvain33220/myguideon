@@ -36,7 +36,8 @@ router.use('/stats',statsRouter);
 
 router.use('/reservations',reservationsRouter);
 
-router.use('/roles-permissions',rolePermissionsRouter);
+router.use('/role-permissions',rolePermissionsRouter);
+
 
 // Export the router****************************************************
 module.exports = router;

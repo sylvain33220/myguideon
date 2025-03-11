@@ -7,6 +7,7 @@
  * @website https://www.studio-purple.com
  * @created 2025-03-10
  */
+require('dotenv').config();
 const path    = require('node:path');
 const express = require('express');
 const cors    = require('cors');
@@ -23,12 +24,12 @@ module.exports = {
 
  
   sessionConfig: {
-    secret: 'emanuelabizimisecretkeyaid1234557',
+    secret: process.env.SESSION_SECRET || 'fallback-secret-key',
     resave: false,
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === 'production', //true en production
       maxAge: 3600000, 
     },
   },
@@ -42,4 +43,6 @@ module.exports = {
 
 
   publicPath: path.join(__dirname, '../public'),
+
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY
 };

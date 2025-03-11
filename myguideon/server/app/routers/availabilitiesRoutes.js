@@ -26,6 +26,7 @@ router.get('/', getAllAvailabilities);
 router.get('/:id', getAvailabilitiesByActivityId);
 
 /***********************ROUTES SECURISEES*********************************** */
+
 router.post('/', authMiddleware('add_availability'),roleMiddleware([1,2,3,4]),addAvailabilities);
 
 router.put('/:id', authMiddleware('update_availability'),roleMiddleware([1,2,3,4]) ,updateAvailability);
