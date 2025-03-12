@@ -1,4 +1,12 @@
-const argon2 = require('argon2');
+
+/**
+ * @file argonHelper.js
+ * @description Helper pour le hashage des mots de passe avec Argon2 et la vérification des mots de passe hachés
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */const argon2 = require('argon2');
 
 /**
  * Argon2 hashing options

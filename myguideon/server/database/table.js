@@ -15,6 +15,7 @@ const ActivitiesModel = require('./models/activitiesModel');
 const RolePermissionsModel = require('./models/RolePermissionsModel');
 const AvailabilitiesModel = require('./models/availabilitiesModel');
 const reservationsModel = require('./models/reservationsModel');
+const OrderModel = require('./models/OrderModel');
 
 
 const tables = {}
@@ -33,6 +34,8 @@ tables.role_permissions = new RolePermissionsModel();
 tables.availabilities = new AvailabilitiesModel();
 
 tables.reservations = new reservationsModel();
+
+tables.cart_orders = new OrderModel();
 
 
 /*************************EXPORT****************************************************** */

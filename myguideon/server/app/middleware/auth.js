@@ -1,3 +1,11 @@
+/**
+ * @file userproMiddleware.js
+ * @description ce fichier contient les middlewares pour les rôles et de vérification de token
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const { verifyToken } = require('../helpers/jwtHelper');
 const tables = require('../../database/table');
 
@@ -11,7 +19,6 @@ function authMiddleware(requiredPermission) {
             if (!authHeader) {
                 return res.status(401).json({ error: 'Access denied' });
             }
-            // const token = authHeader.split(' ')[1];
             const token = authHeader.replace('Bearer ', '').trim();
 
             const decoded = verifyToken(token);
@@ -25,11 +32,10 @@ function authMiddleware(requiredPermission) {
             if (requiredPermission) {
 
                 const permissions = await tables.role_permissions.getPermissionsByRoleId(decoded.role_id);
-                req.user.permissions = permissions.map(p => p.name);  // ➡️ Attribuer les noms des permissions à req.user.permissions          
-
-                // const hasPermission = permissions.some(p => p.name === requiredPermission);
+                req.user.permissions = permissions.map(p => p.name);          
                 const hasPermission = req.user.permissions.includes(requiredPermission);
                 if (!hasPermission) {
+                    console.error(`🛑 Permission refusée : ${requiredPermission}`);
                     return res.status(403).json({ error: 'Forbidden' });
                 }
             }

@@ -18,13 +18,14 @@ Myguideon est une plateforme de gestion d'activités et de services avec réserv
 
 ## 🛠️ Installation
 ```bash
-git clone https://github.com/sylvain33220/myguideon
+git clone https://github.com/sylvain33220/myguideon/tree/devback/myguideon
 cd myguideon
 npm install
 
 
+
 ✍️ Auteur
 
-website https://www.studio-purple.com
+website  https://www.studio-purple.com
 GitHub https://github.com/sylvain33220
 linkedin https://www.linkedin.com/in/sylvain-poteaux-b87217301/

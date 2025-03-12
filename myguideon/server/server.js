@@ -11,18 +11,34 @@ const express    = require('express');
 const session    = require('express-session');
 const config     = require('./app/config'); 
 const routers    = require('./app/routers/router');
+const stripeRouter = require('./app/routers/stripeRoute');
 const apiRouter  = routers; 
 
 const { app }    = config;  
 
+// Configuration des webhooks Stripe
+app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
+// Configuration du serveur
 app.use(express.json(config.jsonConfig));
 app.use(express.urlencoded(config.urlEncodedConfig));
+
 app.use('/api/public', express.static(config.publicPath)); 
 
+
+//gestion des routes stripe
+app.use('/api/stripe', stripeRouter);
+//gestion des routes de l'api
 app.use(session(config.sessionConfig));
 
 app.use(config.corsMiddleware);
+//gestion des routes de l'api principale
 app.use('/api', apiRouter);
+
+//cle publique stripe
+app.get("/api/stripe-key", (req, res) => {
+  // console.log("🔑 Récupération de la clé publique Stripe dans server.js", config.STRIPE_PUBLISHABLE_KEY);
+  res.json({publishableKey: config.STRIPE_PUBLISHABLE_KEY});
+});
 
 
 const server = app.listen(config.PORT, () => {

@@ -1,3 +1,12 @@
+/**
+ * @file reservationsValidator.js
+ * @description Validations pour les réservations des activités 
+ * Ce fichier gère les validations pour les réservations des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const Joi = require('joi');
 
 /****************Validation pour la réservation *****************/

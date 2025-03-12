@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const SECRET = process.env.JWT_SECRET || 'SuperSecretKey123';
+const SECRET = process.env.JWT_SECRET 
+// || 'SuperSecretKey123';
 
 /**
  * Generate a JWT token

@@ -1,3 +1,13 @@
+/**
+ * @file reservationsRoute.js
+ * @description Router pour les réservations des activités
+ * Ce fichier gère les routes de l'API pour les réservations des activités
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
+
 const express = require('express');
 const router = express.Router();
 

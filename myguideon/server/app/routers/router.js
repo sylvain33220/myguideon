@@ -18,6 +18,7 @@ const userproRouter = require('./userproRoute.js');
 const availabilitiesRouter = require('./availabilitiesRoutes.js');
 const statsRouter = require('./statsRoute.js');
 const reservationsRouter = require('./reservationsRoute.js');
+const rolePermissionsRouter = require('./RolePermissionsRouter.js');
 
 
 // Use the routers****************************************************
@@ -34,5 +35,9 @@ router.use('/availabilities',availabilitiesRouter);
 router.use('/stats',statsRouter);
 
 router.use('/reservations',reservationsRouter);
+
+router.use('/role-permissions',rolePermissionsRouter);
+
+
 // Export the router****************************************************
 module.exports = router;

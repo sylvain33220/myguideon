@@ -1,5 +1,13 @@
+/**
+ * @file statsController.js
+ * @description Controller pour les statistiques de l'application 
+ * Ce fichier gère les statistiques de l'application
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const statsModel = require('../../database/models/statsModel');
-
 
 const getActivitiesStats = async (req, res) => {
     try {
