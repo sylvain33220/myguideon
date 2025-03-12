@@ -5,4 +5,5 @@
 !/public/assets/img/.gitkeep  
 /public/assets/video/*
 !/public/assets/video/.gitkeep 
+server/.env
 .env
