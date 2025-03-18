@@ -36,7 +36,7 @@ function authMiddleware(requiredPermission) {
                 const hasPermission = req.user.permissions.includes(requiredPermission);
                 if (!hasPermission) {
                     console.error(`🛑 Permission refusée : ${requiredPermission}`);
-                    return res.status(403).json({ error: 'Forbidden' });
+                    return res.status(403).json({ error: 'Accès refusé' });
                 }
             }
             next();

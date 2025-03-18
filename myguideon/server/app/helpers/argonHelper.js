@@ -41,6 +41,11 @@ const hashingOption = {
  */
 async function hashPassword(password) {
     try {
+        console.log("🔑 Mot de passe reçu avant hachage :", password);
+        if (password.startsWith("$argon2id$")) {
+            console.error("❌ ERREUR : Le mot de passe semble déjà être haché !");
+            throw new Error("Le mot de passe est déjà haché !");
+        }
         return await argon2.hash(password, hashingOption);
     } catch (err) {
         console.error( "Erreur lors du hashage du mot de passe",err);
@@ -55,15 +60,30 @@ async function hashPassword(password) {
  * @param {string} password - The plain text password
  * @returns {Promise<boolean>} - True if match, false otherwise
  */
+// async function verifyPassword(hash, password) {
+//     try {
+//         return await argon2.verify(hash, password);
+//     } catch (err) {
+//         console.error( "Erreur lors de la vérification du mot de passe",err);
+//         return false;
+//     }
 async function verifyPassword(hash, password) {
     try {
-        return await argon2.verify(hash, password);
+        console.log("🔍 Vérification du mot de passe...");
+        console.log("🛠 Hash stocké en BDD :", hash);
+        console.log("🔑 Mot de passe fourni :", password);
+
+        const isValid = await argon2.verify(hash, password);
+        console.log("✅ Résultat de la vérification :", isValid);
+        
+        return isValid;
     } catch (err) {
-        console.error( "Erreur lors de la vérification du mot de passe",err);
+        console.error("❌ Erreur lors de la vérification du mot de passe", err);
         return false;
     }
-    
 }
+
+
 
 
 module.exports = { hashPassword, verifyPassword, hashingOption };

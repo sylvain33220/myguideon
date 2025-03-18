@@ -26,11 +26,11 @@ class ReservationsModel extends AbstractModel {
      */
     async createReservation(reservation){
         try {
-            const {activity_id,date,total_amount,status ='pending'} = reservation;
+            const {user_id,activity_id,date,total_amount,status ='pending'} = reservation;
             const [result] = await this.pool.query(
-                `INSERT INTO ${this.table} (activity_id,date,total_amount,status,created_at,updated_at)
-                VALUES (?,?,?,?,NOW(),NOW())`,
-                [activity_id,date,total_amount,status]
+                `INSERT INTO ${this.table} (user_id,activity_id,date,total_amount,status,created_at,updated_at)
+                VALUES (?,?,?,?,?,NOW(),NOW())`,
+                [user_id,activity_id,date,total_amount,status]
             );
 
             return result.insertId;
@@ -90,6 +90,17 @@ class ReservationsModel extends AbstractModel {
         );
         return rows;
     }
+
+
+    async getReservationsByUserId(user_id){
+        const [rows] = await this.pool.query(
+            `SELECT id,activity_id,date,total_amount,status,created_at,updated_at
+            FROM ${this.table} WHERE user_id = ?`,
+            [user_id]
+        );
+        return rows;
+    }
+
     /**
      * @async
      * @param {number} id 

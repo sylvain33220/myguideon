@@ -50,6 +50,13 @@ router.put('/me/password', (req, res, next) => {
     next();
 }, updatePassword);
 
+// 🔒 Supprimer son propre compte
+router.delete('/me', (req, res, next) => {
+    next();
+}, authMiddleware('delete_userpro'), (req, res, next) => {
+    next();
+}, deleteUserPro);
+
 /***********************ROUTES ADMIN SECURISEES*********************************** */
 // 🔒 Récupérer tous les userpro (admin seulement)
 router.get('/', (req, res, next) => {
@@ -59,10 +66,10 @@ router.get('/', (req, res, next) => {
 // 🔒 Récupérer un userpro par son id (admin seulement)
 router.get('/:id', (req, res, next) => {
     next();
-}, authMiddleware('view_userpro'), roleMiddleware([1,2,3,4]), getUserProById);
+}, authMiddleware('view_userpro'), roleMiddleware([1]), getUserProById);
 
 // 🔒 Mettre à jour un userpro par son id (admin seulement)
-router.put('/:id', authMiddleware('update_userpro'), roleMiddleware([1,2,3,4]), uploadFile().single('profile_image'), updateUserPro);
+router.put('/:id', authMiddleware('update_userpro'), roleMiddleware([1]), uploadFile().single('profile_image'), updateUserPro);
 
 // 🔒 Mettre à jour le mot de passe d'un userpro par son id (admin seulement)
 router.put('/password/:id', authMiddleware('update_password_userpro'), roleMiddleware([1,2,3,4]), updatePassword);

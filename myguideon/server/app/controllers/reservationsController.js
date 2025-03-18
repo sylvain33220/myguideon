@@ -39,6 +39,17 @@ const getReservationsByActivityId = async (req, res) => {
         res.status(500).json({ error: 'Erreur serveur' });
     }
 }
+
+const getReservationsByUserId = async (req, res) => {
+    try {
+        const reservations = await tables.reservations.getReservationsByUserId(req.params.user_id);
+        res.status(200).json(reservations);
+    } catch (error) {
+        console.error("❌ ERREUR getReservationsByUserId:", error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
 const addReservation = async (req, res) => {
     const { error , value } = addReservationValidation(req.body);
     if (error) {
@@ -97,5 +108,7 @@ module.exports = {
     addReservation,
     getReservationById,
     getAllReservations,
+    getReservationsByUserId,
     getReservationsByActivityId,
-    updateReservation,deleteReservation  };
+    updateReservation,
+    deleteReservation  };

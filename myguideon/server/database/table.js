@@ -16,6 +16,7 @@ const RolePermissionsModel = require('./models/RolePermissionsModel');
 const AvailabilitiesModel = require('./models/availabilitiesModel');
 const reservationsModel = require('./models/reservationsModel');
 const OrderModel = require('./models/OrderModel');
+const UserClientModel = require('./models/UserClientModel');
 
 
 const tables = {}
@@ -36,6 +37,8 @@ tables.availabilities = new AvailabilitiesModel();
 tables.reservations = new reservationsModel();
 
 tables.cart_orders = new OrderModel();
+
+tables.user_client = new UserClientModel();
 
 
 /*************************EXPORT****************************************************** */

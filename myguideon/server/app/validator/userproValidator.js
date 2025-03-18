@@ -19,7 +19,8 @@ const addUserProSchema = Joi.object({
     imageAlt: Joi.string().allow(null, ''),
     imageDescription: Joi.string().allow(null, ''),
     description: Joi.string().min(10).allow(null, ''),
-    profile_image: Joi.string().allow(null, '')
+    profile_image: Joi.string().allow(null, ''),
+    role_id: Joi.number().valid(2).default(2) // 2 = user_pro
 });
 
 /****************** Validation pour la mise à jour d'un UserPro ******************/
