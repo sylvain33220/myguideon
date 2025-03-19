@@ -7,13 +7,13 @@ const path = require('node:path');
 async function createCartOrder(req, res) {
     try {
         const userId = req.user.id; // Utiliser le middleware pour récupérer l'utilisateur
-        const { userproId, totalAmount } = req.body;
+        const { userproId, totalAmount,quantity } = req.body;
 
         if (!totalAmount) {
             return res.status(400).json({ error: "Le montant total est requis" });
         }
 
-        const newOrder = await tables.cart_orders.createOrder(userId, userproId, totalAmount);
+        const newOrder = await tables.cart_orders.createOrder({ user_id: userId, userpro_id: userproId, total_amount: totalAmount, quantity: quantity || 1 });
         res.status(201).json({ message: "Commande créée avec succès", orderId: newOrder });
     } catch (error) {
         console.error("❌ ERREUR createCartOrder:", error);
@@ -86,9 +86,19 @@ async function updateCartOrderStatus(req, res) {
     try {
         const orderId = req.params.id;
         const { status } = req.body;
+
+        if (!orderId || Number.isNaN(Number.parseInt(orderId))) {
+            console.error("❌ ERREUR : ID de commande invalide !");
+            return res.status(400).json({ error: "ID de commande invalide" });
+        }
+
+        if (!status) return res.status(400).json({ error: "Statut de commande invalide" });
+
         const updatedRows = await tables.cart_orders.updateOrderStatus(orderId, status);
         if (updatedRows === 0) return res.status(404).json({ error: "Commande non trouvée" });
+
         res.status(200).json({ message: "Statut de la commande mis à jour" });
+
     } catch (error) {
         console.error("❌ ERREUR updateCartOrderStatus:", error);
         res.status(500).json({ error: 'Erreur serveur' });
@@ -113,6 +123,7 @@ async function deleteCartOrder(req, res) {
 
         // Suppression de la commande
         const deletedRows = await tables.cart_orders.deleteOrder(orderId);
+
         if (deletedRows === 0) return res.status(404).json({ error: "Commande non trouvée" });
 
         res.status(200).json({ message: "Commande supprimée avec succès" });

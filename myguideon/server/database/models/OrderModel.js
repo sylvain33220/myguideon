@@ -20,11 +20,13 @@ class OrderModel extends AbstractModel {
    * @param {number} totalAmount 
    * @returns 
    */
-  async createOrder(userId,userproId, totalAmount) {
+  async createOrder(data) {
     try {
         const [result] = await this.pool.query(
-            `INSERT INTO ${this.table} (user_id,userpro_id ,total_amount,status, created_at) VALUES (?, ?, ?,'pending',NOW())`,
-            [userId || null ,userproId || null, totalAmount]
+            `INSERT INTO ${this.table} (user_id,userpro_id ,total_amount,status, created_at, quantity)
+             VALUES (?, ?, ?,'pending',NOW(), ? )`,
+            [data.user_id, data.userpro_id, data.total_amount, data.quantity || 1]
+
         )
         return result.insertId;
         } catch (error) {
@@ -40,9 +42,13 @@ class OrderModel extends AbstractModel {
     */
     async updateOrderStatus(orderId, status) {
         try {
+            if (!orderId || Number.isNaN(Number.parseInt(orderId)))  {
+                throw new Error("❌ ID ou statut manquant !");
+            }
+
             const [result] = await this.pool.query(
-                `UPDATE ${this.table} SET status = ? , updated_at =NOW() WHERE id = ?`,
-                [status, orderId]
+                `UPDATE ${this.table} SET status = ? , updated_at = NOW() WHERE id = ?`,
+                [status, Number.parseInt(orderId)]
             );
         return result.affectedRows;
         } catch (error) {

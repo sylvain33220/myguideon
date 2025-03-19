@@ -1759,3 +1759,231 @@ Tests:       11 passed, 11 total
 Snapshots:   0 total
 Time:        2.825 s, estimated 3 s
 Ran all test suites matching /__tests__\\userClient.test.js/i.
+
+
+
+#########################################################################################################
+
+🚳️ API Endpoints pour Cart Orders
+
+#########################################################################################################
+
+🌍 Base URL/api/cartorders
+
+🟢 Routes Publiques
+
+🔓 POST /api/cartorders
+
+Description : Crée une nouvelle commande.
+
+Authentification : Requise (create_cart_order).
+
+Rôles autorisés : user_client.
+
+Body :
+
+{
+  "userpro_id": 2,
+  "total_amount": 50.00,
+  "quantity": 2
+}
+
+Réponse :
+
+{
+  "message": "Commande créée avec succès",
+  "orderId": 18
+}
+
+🔓 GET /api/cartorders/:id
+
+Description : Récupère une commande par son ID.
+
+Authentification : Requise (view_cart_order).
+
+Rôles autorisés : admin, userpro (peut voir les commandes des user_clients).
+
+Réponse :
+
+{
+  "id": 18,
+  "user_id": 3,
+  "userpro_id": 2,
+  "total_amount": 50.00,
+  "status": "pending",
+  "created_at": "2025-03-19T11:40:12.000Z",
+  "updated_at": "2025-03-19T11:40:12.000Z"
+}
+
+🔓 GET /api/cartorders/user/:id
+
+Description : Récupère toutes les commandes d'un utilisateur.
+
+Authentification : Requise (view_all_orders_by_user).
+
+Rôles autorisés : admin, user_client (peut voir ses propres commandes).
+
+🔓 GET /api/cartorders/userpro/:id
+
+Description : Récupère toutes les commandes d'un userpro.
+
+Authentification : Requise (view_cart_order).
+
+Rôles autorisés : admin, userpro.
+
+🚫 Routes Sécurisées
+
+🔒 PUT /api/cartorders/:id
+
+Description : Met à jour le statut d'une commande.
+
+Authentification : Requise (update_cart_order).
+
+Rôles autorisés : admin, userpro.
+
+Body :
+
+{
+  "status": "paid"
+}
+
+Réponse :
+
+{
+  "message": "Statut de la commande mis à jour"
+}
+
+🔒 DELETE /api/cartorders/:id
+
+Description : Supprime une commande.
+
+Authentification : Requise (delete_cart_order).
+
+Rôles autorisés : admin, user_client (peut supprimer ses propres commandes).
+
+Réponse :
+
+{
+  "message": "Commande supprimée avec succès."
+}
+
+
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR cart_orders                        ######
+#########################################################################################################
+
+
+npx jest --detectOpenHandles -- __tests__/cartOrders.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MjM4NDYxNCwiZXhwIjoxNzQyMzkxODE0fQ.DhpRlbUtqTHuoYhiJ-30LZrC2vE_bNaObbmT3Y6KDWs
+
+      at Object.log (__tests__/cartOrders.test.js:18:9)
+
+  console.log                                                                                                                                                                             
+    🔑 Token UserPro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2VycHJvQGV4YW1wbGUuY29tIiwicm9sZV9pZCI6MiwiaWF0IjoxNzQyMzg0NjE0LCJleHAiOjE3NDIzOTE4MTR9.WHBdP0ddodNDDHvBOeYznQiFGuvhfbyuM6GsmknA0OM
+
+      at Object.log (__tests__/cartOrders.test.js:19:9)
+
+  console.log                                                                                                                                                                             
+    🔑 Token UserClient : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ1c2VyY2xpZW50QGV4YW1wbGUuY29tIiwicm9sZV9pZCI6MywiaWF0IjoxNzQyMzg0NjE0LCJleHAiOjE3NDIzOTE4MTR9.gM0zYNbDkYYfFDQ5S21hAoAB5AAiSS1OUbUTr1n3Jxg
+
+      at Object.log (__tests__/cartOrders.test.js:20:9)
+
+  console.log                                                                                                                                                                             
+    🛒 Vérification avant suppression : cartOrderId = undefined
+
+      at log (__tests__/cartOrders.test.js:134:13)
+
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    📩 Réponse création commande : { message: 'Commande créée avec succès', orderId: 19 }
+
+      at Object.log (__tests__/cartOrders.test.js:50:19)
+
+  console.error
+    🛑 Permission refusée : update_cart_order
+
+      39 |                 const hasPermission = req.user.permissions.includes(requiredPermission);
+      40 |                 if (!hasPermission) {
+    > 41 |                     console.error(`🛑 Permission refusée : ${requiredPermission}`);
+         |                             ^
+      42 |                     return res.status(403).json({ error: 'Accès refusé' });
+      43 |                 }
+      44 |             }
+
+      at error (app/middleware/auth.js:41:29)
+
+  console.error
+    🛑 Permission refusée : delete_cart_order
+
+      39 |                 const hasPermission = req.user.permissions.includes(requiredPermission);
+      40 |                 if (!hasPermission) {
+    > 41 |                     console.error(`🛑 Permission refusée : ${requiredPermission}`);
+         |                             ^
+      42 |                     return res.status(403).json({ error: 'Accès refusé' });
+      43 |                 }
+      44 |             }
+
+      at error (app/middleware/auth.js:41:29)
+
+  console.error
+    Erreur lors de la vérification du token : JsonWebTokenError {
+      name: 'JsonWebTokenError',
+      message: 'invalid token'
+    }
+
+      23 |         return jwt.verify(token, SECRET);
+      24 |     } catch (error) {
+    > 25 |         console.error('Erreur lors de la vérification du token :', error);
+         |                 ^
+      26 |         return null;
+      27 |     }
+      28 | }
+
+   
+  console.log
+    🗑 Commande supprimée (id: 19)
+
+      at Object.log (__tests__/cartOrders.test.js:25:17)
+
+  console.log                                                                                                                                                                             
+    🔒 Serveur fermé                                                                                                                                                                      
+
+      at Object.log (__tests__/cartOrders.test.js:29:17)
+
+  console.log                                                                                                                                                                             
+    🔒 Connexion à la BDD fermée                                                                                                                                                          
+
+      at Object.log (__tests__/cartOrders.test.js:33:17)
+
+ PASS  __tests__/cartOrders.test.js
+  🛒 CartOrders API Endpoints
+    √ POST /api/cartorders 🔹 Devrait permettre à un user_client de créer une commande (220 ms)                                                                                           
+    √ POST /api/cartorders 🔹 Ne doit pas permettre la création sans authentification (401) (17 ms)
+    √ GET /api/cartorders 🔹 Un admin peut voir toutes les commandes (200) (23 ms)
+    √ GET /api/cartorders 🔹 Un user_client ne peut pas voir toutes les commandes (403) (14 ms)
+    √ GET /api/cartorders/:id 🔹 Un admin peut voir une commande spécifique (200) (20 ms)
+    √ GET /api/cartorders/:id 🔹 Un user_client ne peut pas voir la commande d’un autre utilisateur (403) (15 ms)
+    √ PUT /api/cartorders/:id 🔹 Un admin peut modifier une commande (200) (21 ms)
+    √ PUT /api/cartorders/:id 🔹 Un user_client ne peut pas modifier une commande (403) (22 ms)
+    √ DELETE /api/cartorders/:id 🔹 Un admin peut supprimer une commande (200) (21 ms)
+    √ DELETE /api/cartorders/:id 🔹 Un user_client ne peut pas supprimer une commande d’un autre utilisateur (403) (21 ms)
+    √ DELETE /api/cartorders/:id 🔹 Ne doit pas permettre la suppression sans authentification (401) (12 ms)
+    √ DELETE /api/cartorders/:id 🔹 Ne doit pas permettre la suppression avec un token invalide (401) (28 ms)
+    √ DELETE /api/cartorders/:id 🔹 Ne doit pas permettre la suppression d’une commande inexistante (404) (22 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       13 passed, 13 total
+Snapshots:   0 total
+Time:        2.806 s, estimated 3 s
+Ran all test suites matching /__tests__\\cartOrders.test.js/i.

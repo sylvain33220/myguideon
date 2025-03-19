@@ -42,7 +42,7 @@ router.use('/role-permissions',rolePermissionsRouter);
 
 router.use('/userclients',userClientRouter);
 
-router.use('/cartorder',cartOrderRouter);
+router.use('/cartorders',cartOrderRouter);
 
 
 // Export the router****************************************************

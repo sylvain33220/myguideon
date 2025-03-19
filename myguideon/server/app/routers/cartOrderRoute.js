@@ -35,7 +35,7 @@ router.get('/user/:id',authMiddleware('view_cart_order'),roleMiddleware([1,3]), 
 router.get('/userpro/:id',authMiddleware('view_cart_order'),roleMiddleware([1,2]), getAllCartOrdersByUserproId);
 
 // 🔒 Route sécurisé: Mettre à jour le statut d'une commande
-router.put('/:id',authMiddleware('update_cart_order'),roleMiddleware([1,2]), updateCartOrderStatus);
+router.put('/:id',authMiddleware('update_cart_order'),roleMiddleware([1,3]), updateCartOrderStatus);
 
 // 🔒 Route sécurisé: Supprimer une commande
 router.delete('/:id',authMiddleware('delete_cart_order'),roleMiddleware([1,3]), deleteCartOrder);
