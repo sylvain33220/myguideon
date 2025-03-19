@@ -19,18 +19,21 @@ function authMiddleware(requiredPermission) {
             if (!authHeader) {
                 return res.status(401).json({ error: 'Access denied' });
             }
-            const token = authHeader.replace('Bearer ', '').trim();
 
+            const token = authHeader.replace('Bearer ', '').trim();
             const decoded = verifyToken(token);
             if (!decoded) {
-
                 return res.status(401).json({ error: 'Invalid token' });
             }
             req.user = decoded;
-           
+
+            if (!req.user) {
+                console.error("❌ Erreur : utilisateur non authentifié !");
+                return res.status(403).json({ error: "Utilisateur non authentifié" });
+            }   
+            
             // 🔒 Vérifier les permissions si nécessaire
             if (requiredPermission) {
-
                 const permissions = await tables.role_permissions.getPermissionsByRoleId(decoded.role_id);
                 req.user.permissions = permissions.map(p => p.name);          
                 const hasPermission = req.user.permissions.includes(requiredPermission);

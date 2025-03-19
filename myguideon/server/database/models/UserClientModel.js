@@ -56,7 +56,6 @@ class UserClientModel extends AbstractModel {
             const [rows] = await this.pool.query(
                 `SELECT * FROM ${this.table} WHERE email = ? LIMIT 1`, [email]
             );
-            console.log("🔍 Résultat SQL pour getUserByEmail :", rows[0]);
             return rows[0] || null;
         } catch (error) {
             console.error("❌ ERREUR SQL findUserClientByEmail:", error);
@@ -120,15 +119,16 @@ class UserClientModel extends AbstractModel {
      */
     async AddUserClient(data) {
         try {
-            const hashedPassword = await hashPassword(data.password);
+            // const hashedPassword = await hashPassword(data.password);
             const defaultRoleId = data.role_id || 2;
             const [result] = await this.pool.query(
                 `INSERT INTO ${this.table} (firstname,lastname, email, password, phone,address,city,country,postal_code, profile_image,role_id, created_at, updated_at) 
         VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
-                [data.firstname, data.lastname, data.email, hashedPassword, data.phone, data.address, data.city, data.country, data.postal_code, data.profile_image, defaultRoleId]
+                [data.firstname, data.lastname, data.email, data.password, data.phone, data.address, data.city, data.country, data.postal_code, data.profile_image, defaultRoleId]
             );
             const token = generateToken({ id: result.insertId, email: data.email, role_id: defaultRoleId });
-            return { id: result.insertId, token };
+            // return { id: result.insertId, token };
+            return {id: result.insertId}
         } catch (error) {
             console.error("❌ ERREUR SQL AddUserClient:", error);
             throw new Error("Erreur lors de l'ajout du userclient");
@@ -206,10 +206,10 @@ class UserClientModel extends AbstractModel {
      */
     async updatePassword (id, newpassword) {
         try {
-            const hashedPassword = await hashPassword(newpassword);
+            // const hashedPassword = await hashPassword(newpassword);
             const [result] = await this.pool.query(
                 `UPDATE ${this.table} SET password = ? WHERE id = ?`,
-                [hashedPassword, id]
+                [newpassword, id]
             );
             return result.affectedRows === 1;
         } catch (error) {
@@ -266,19 +266,13 @@ class UserClientModel extends AbstractModel {
     // }
     async deleteUserClient(id) {
         try {
-            console.log(`🗑 Tentative de suppression de userClient ID: ${id}`); // 🔍 Debug
-    
-            const [result] = await this.pool.query(
+               const [result] = await this.pool.query(
                 `DELETE FROM ${this.table} WHERE id = ?`,
                 [id]
             );
-    
-            console.log("🔍 Résultat suppression:", result); // ✅ Vérification
-    
             if (result.affectedRows === 0) {
                 throw new Error("L'utilisateur n'existe pas");
             }
-    
             return true; // ✅ Retourne `true` si supprimé
         } catch (error) {
             console.error("❌ ERREUR SQL deleteUserClient:", error);

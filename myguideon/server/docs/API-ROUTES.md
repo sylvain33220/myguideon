@@ -1409,3 +1409,353 @@ Tests:       5 passed, 5 total
 Snapshots:   0 total
 Time:        2.584 s, estimated 3 s
 Ran all test suites matching /__tests__\\rolePermissions.test.js/i.
+
+
+
+#########################################################################################################
+
+🚤 Endpoints pour UserClients
+
+#########################################################################################################
+
+🚤 Base URL/api/userclients
+
+🟢 Routes Publiques
+
+🔒 POST /api/userclients/register
+
+Description : Crée un nouveau compte utilisateur client.
+
+Authentification : Non requise.
+
+Body :
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "phone": "0123456789",
+  "address": "10 rue Exemple",
+  "city": "Paris",
+  "country": "France",
+  "postal_code": "75001",
+  "profile_image": "profile.jpg"
+}
+
+Réponse :
+
+{
+  "user": {
+    "id": 1,
+    "email": "john.doe@example.com"
+  },
+  "token": "JWT_TOKEN"
+}
+
+🔒 POST /api/userclients/login
+
+Description : Connecte un utilisateur client et retourne un token.
+
+Authentification : Non requise.
+
+Body :
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+
+Réponse :
+
+{
+  "token": "JWT_TOKEN"
+}
+
+🛑 Routes Sécurisées
+
+🔒 GET /api/userclients/me
+
+Description : Récupère les informations de l’utilisateur authentifié.
+
+Authentification : Requise (view_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer JWT_TOKEN"
+}
+
+Réponse :
+
+{
+  "id": 1,
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "0123456789",
+  "address": "10 rue Exemple",
+  "city": "Paris",
+  "country": "France",
+  "postal_code": "75001",
+  "profile_image": "profile.jpg"
+}
+
+🔒 PUT /api/userclients/me
+
+Description : Met à jour les informations de l’utilisateur authentifié.
+
+Authentification : Requise (update_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer JWT_TOKEN"
+}
+
+Body :
+
+{
+  "firstname": "John Updated",
+  "phone": "0987654321"
+}
+
+Réponse :
+
+{
+  "message": "Utilisateur mis à jour"
+}
+
+🔒 PUT /api/userclients/me/password
+
+Description : Modifie le mot de passe de l’utilisateur authentifié.
+
+Authentification : Requise (update_password_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer JWT_TOKEN"
+}
+
+Body :
+
+{
+  "oldPassword": "password123",
+  "newPassword": "newpassword456"
+}
+
+Réponse :
+
+{
+  "message": "Mot de passe mis à jour"
+}
+
+🔒 DELETE /api/userclients/me
+
+Description : Supprime le compte de l’utilisateur authentifié.
+
+Authentification : Requise (delete_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer JWT_TOKEN"
+}
+
+Réponse :
+
+{
+  "message": "Compte supprimé avec succès."
+}
+
+🔒 Routes Admin
+
+🔒 GET /api/userclients/:id
+
+Description : Récupère un utilisateur client spécifique (Admin uniquement).
+
+Authentification : Requise (view_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer ADMIN_JWT_TOKEN"
+}
+
+Réponse :
+
+{
+  "id": 1,
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "0123456789",
+  "address": "10 rue Exemple",
+  "city": "Paris",
+  "country": "France",
+  "postal_code": "75001",
+  "profile_image": "profile.jpg"
+}
+
+🔒 DELETE /api/userclients/:id
+
+Description : Supprime un utilisateur client spécifique (Admin uniquement).
+
+Authentification : Requise (delete_userclient).
+
+Headers :
+
+{
+  "Authorization": "Bearer ADMIN_JWT_TOKEN"
+}
+
+Réponse :
+
+{
+  "message": "Utilisateur supprimé avec succès."
+}
+
+🔒 Routes Sécurisées pour userclients
+🚫 GET /api/userclients/:id
+Description : Empêche un utilisateur (user_client) de voir les informations d'un autre utilisateur.
+Authentification : Requise.
+Permissions : view_userclient
+Exemple de requête :
+http
+Copier
+Modifier
+GET /api/userclients/5
+Authorization: Bearer <userClientToken>
+Réponse attendue (403 - Accès refusé) :
+json
+Copier
+Modifier
+{
+  "error": "Accès refusé"
+}
+🚫 PUT /api/userclients/:id
+Description : Empêche un utilisateur (user_client) de modifier un autre utilisateur.
+Authentification : Requise.
+Permissions : update_userclient
+Exemple de requête :
+http
+Copier
+Modifier
+PUT /api/userclients/5
+Authorization: Bearer <userClientToken>
+Content-Type: application/json
+
+{
+  "firstname": "HACKER",
+  "city": "VilleHackée"
+}
+Réponse attendue (403 - Accès refusé) :
+json
+Copier
+Modifier
+{
+  "error": "Accès refusé"
+}
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR user_clients                        ######
+#########################################################################################################
+npx jest --detectOpenHandles -- __tests__/userClient.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MjM3NzI0OSwiZXhwIjoxNzQyMzg0NDQ5fQ.PQj6J1qFNGSIUUdDxG5ncw-AuwbHFuweUv0Y7z0DTr8
+
+      at Object.log (__tests__/userClient.test.js:17:9)
+
+  console.log                                                                                                                                                                             
+    🔑 Token UserPro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0dXNlcnByb0BleGFtcGxlLmNvbSIsInJvbGVfaWQiOjIsImlhdCI6MTc0MjM3NzI0OSwiZXhwIjoxNzQyMzg0NDQ5fQ.b9hFl85RSsdHTsFHl2wy8ubocXfA19mDWHeR9wsJe64
+
+      at Object.log (__tests__/userClient.test.js:18:9)
+
+  console.log                                                                                                                                                                             
+    🔑 Token UserClient : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJndWlkZUBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjMsImlhdCI6MTc0MjM3NzI0OSwiZXhwIjoxNzQyMzg0NDQ5fQ.9PXyK5l6Z63ZPGAekUhQnR9flcrYw8W1YwbmKIf0jSU
+
+      at Object.log (__tests__/userClient.test.js:19:9)
+
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.error
+    🛑 Accès refusé : tentative de modification d'un autre compte !
+
+      87 |         // 🔥 Vérification : un user_client ne peut modifier QUE son propre compte (sauf admin)
+      88 |         if (!isAdmin && req.user.id !== Number(userId)) {
+    > 89 |             console.error("🛑 Accès refusé : tentative de modification d'un autre compte !");
+         |                     ^
+      90 |             return res.status(403).json({ error: "Accès refusé" })
+      91 |         }
+      92 |         const profileImage = req.file?.filename ? `/assets/img/${req.file.filename}` : null;
+
+      at error (app/controllers/userClientController.js:89:21)
+      at Layer.handle [as handle_request] (node_modules/express/lib/router/layer.js:95:5)
+      at next (node_modules/express/lib/router/route.js:149:13)
+      at multerMiddleware (node_modules/multer/lib/make-middleware.js:13:41)
+      at Layer.handle [as handle_request] (node_modules/express/lib/router/layer.js:95:5)
+      at next (node_modules/express/lib/router/route.js:149:13)
+      at next (app/middleware/auth.js:45:13)
+
+  console.error
+    🛑 Accès refusé : tentative de modification d'un autre compte !
+
+      87 |         // 🔥 Vérification : un user_client ne peut modifier QUE son propre compte (sauf admin)
+      88 |         if (!isAdmin && req.user.id !== Number(userId)) {
+    > 89 |             console.error("🛑 Accès refusé : tentative de modification d'un autre compte !");
+         |                     ^
+      90 |             return res.status(403).json({ error: "Accès refusé" })
+      91 |         }
+      92 |         const profileImage = req.file?.filename ? `/assets/img/${req.file.filename}` : null;
+
+      at error (app/controllers/userClientController.js:89:21)
+      at Layer.handle [as handle_request] (node_modules/express/lib/router/layer.js:95:5)
+      at next (node_modules/express/lib/router/route.js:149:13)
+      at multerMiddleware (node_modules/multer/lib/make-middleware.js:13:41)
+      at Layer.handle [as handle_request] (node_modules/express/lib/router/layer.js:95:5)
+      at next (node_modules/express/lib/router/route.js:149:13)
+      at next (app/middleware/auth.js:45:13)
+
+  console.log
+    🗑 UserClient supprimé (id: 54)
+
+      at Object.log (__tests__/userClient.test.js:24:17)
+
+  console.log                                                                                                                                                                             
+    🔒 Serveur fermé                                                                                                                                                                      
+
+      at Object.log (__tests__/userClient.test.js:28:17)
+
+  console.log
+    🔒 Connexion à la BDD fermée
+
+      at Object.log (__tests__/userClient.test.js:32:17)
+
+ PASS  __tests__/userClient.test.js
+  UserClient API Endpoints                                                                                                                                                                
+    √ POST /api/userclients/register🔹 Devrait créer un user_client avec image (346 ms)                                                                                                   
+    √ POST /api/userclients/login🔹 Devrait connecter un user_client et retourner un token (153 ms)                                                                                       
+    √ GET 🔹 Devrait récupérer les infos de l’utilisateur authentifié (27 ms)                                                                                                             
+    √ PUT🔹 Devrait modifier les infos du user_client (17 ms)                                                                                                                             
+    √ PUT🔹 Devrait changer le mot de passe du user_client (255 ms)                                                                                                                       
+    √ PUT api/userclients/:id🔹 Ne doit pas permettre à un user_client de modifier un autre utilisateur (403) (24 ms)                                                                     
+    √ DELETE /api/userclients/delete🔹 Devrait supprimer le compte du user_client (19 ms)                                                                                                 
+    √ GET /api/userclients🔹 Ne doit pas permettre à un user_client de voir tous les users (403) (15 ms)                                                                                  
+    √ GET /api/userclients/:id🔹 Ne doit pas permettre à un user_client de voir un autre user (403) (16 ms)                                                                               
+    √ PUT /api/userclients/:id🔹 Ne doit pas permettre à un user_client de modifier un autre user (403) (23 ms)                                                                           
+    √ DELETE /api/userclients/:id🔹 Ne doit pas permettre à un user_client de supprimer un autre user (403) (13 ms)
+                                                                                                                                                                                          
+Test Suites: 1 passed, 1 total                                                                                                                                                            
+Tests:       11 passed, 11 total                                                                                                                                                          
+Snapshots:   0 total
+Time:        2.825 s, estimated 3 s
+Ran all test suites matching /__tests__\\userClient.test.js/i.

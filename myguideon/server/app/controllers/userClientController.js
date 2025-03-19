@@ -28,8 +28,11 @@ async function getUserClientById(req, res) {
     try {
         const userId = req.params.id || (req.user ? req.user.id : null);
         const isAdmin = req.user ? req.user.role_id === 1 : false;
+
         if (!userId) return res.status(400).json({ error: "ID utilisateur manquant" });
-        if (Number.parseInt(req.params.id) !== userId && !isAdmin) {
+
+        if ((req.params.id && Number.parseInt(req.params.id) !== userId) && !isAdmin) 
+        {
             return res.status(403).json({ error: "Accès refusé" });
         }
 
@@ -52,7 +55,6 @@ async function addUserClient(req, res) {
 
         // Hash du mot de passe
         const hashedPassword = await hashPassword(value.password);
-        console.log("🔑 Mot de passe haché avant insertion :", hashedPassword);
 
         const profileImage = req.file ? req.file.filename : null;
         const newUserClient = await tables.user_client.AddUserClient({
@@ -60,8 +62,6 @@ async function addUserClient(req, res) {
             password: hashedPassword,
             profile_image: profileImage
         });
-
-        console.log("✅ Utilisateur créé :", newUserClient);
 
         const token = generateToken({ id: newUserClient.id, email: newUserClient.email, role_id: newUserClient.role_id });
         res.status(201).json({ user: newUserClient, token });
@@ -83,7 +83,12 @@ async function updateUserClient(req, res) {
         const userId = req.params.id || (req.user ? req.user.id : null);
         const isAdmin = req.user ? req.user.role_id === 1 : false;
         if (!userId) return res.status(400).json({ error: "ID utilisateur manquant" });
-        
+
+        // 🔥 Vérification : un user_client ne peut modifier QUE son propre compte (sauf admin)
+        if (!isAdmin && req.user.id !== Number(userId)) {
+            console.error("🛑 Accès refusé : tentative de modification d'un autre compte !");
+            return res.status(403).json({ error: "Accès refusé" })
+        }
         const profileImage = req.file?.filename ? `/assets/img/${req.file.filename}` : null;
         const updatedUserClient = await tables.user_client.updateUserClient(userId, {
             ...req.body,
@@ -115,7 +120,7 @@ async function updatePassword(req, res) {
         const user = await tables.user_client.getUserClientById(req.user.id);
         if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 
-        const isPasswordValid = await verifyPassword(oldPassword, user.password);
+        const isPasswordValid = await verifyPassword(user.password , oldPassword);
         if (!isPasswordValid) return res.status(400).json({ error: "Ancien mot de passe incorrect" });
 
         const hashedPassword = await hashPassword(newPassword);
@@ -177,16 +182,11 @@ async function loginUserClient(req, res) {
 
         if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 
-
-        console.log("🔍 Récupération utilisateur :", user);
-        console.log("🛠 Mot de passe en base :", user.password);
-
         const passwordMatch = await verifyPassword(user.password, password);
 
         if (!passwordMatch) {
             return res.status(400).json({ error: "Mot de passe incorrect" });
         }
-
         const token = generateToken({ id: user.id, email: user.email, role_id: user.role_id });
         res.status(200).json({ token });
     } catch (error) {
