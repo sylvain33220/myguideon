@@ -35,10 +35,6 @@ tmp/
 *.tmp
 *.swp
 
-# Tests
-coverage/
-*.test.js
-jest-test-results.json
 
 # Mac/Linux files
 Thumbs.db
