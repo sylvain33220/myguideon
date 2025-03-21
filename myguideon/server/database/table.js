@@ -18,6 +18,7 @@ const reservationsModel = require('./models/reservationsModel');
 const OrderModel = require('./models/OrderModel');
 const UserClientModel = require('./models/UserClientModel');
 const feedbacksModel = require('./models/feedbacksModel');
+const ThingsToDoModel = require('./models/ThingsToDoModel');
 
 
 const tables = {}
@@ -42,6 +43,8 @@ tables.cart_orders = new OrderModel();
 tables.user_client = new UserClientModel();
 
 tables.feedbacks = new feedbacksModel();
+
+tables.things_to_do = new ThingsToDoModel();
 
 
 /*************************EXPORT****************************************************** */

@@ -2181,3 +2181,96 @@ Tests:       10 passed, 10 total
 Snapshots:   0 total
 Time:        2.998 s, estimated 3 s
 Ran all test suites matching /__tests__\\feedbacks.test.js/i.
+
+
+#########################################################################################################
+######                             🛤️ Endpoints things_to_do                                      ######
+#########################################################################################################
+📄 API ROUTES - things_to_do
+🔹 POST /api/thingsToDo
+Description : Crée un nouveau things_to_do avec image(s) (upload via multipart/form-data)
+
+Accès : userpro vérifié (role_id = 2, is_verified = 1)
+Body (form-data) :
+name : string (required)
+adress : string (required)
+destination_id : number (required)
+description : string (required)
+longitude : string (required)
+latitude : string (required)
+icon : string (nullable)
+destination_name : string (required)
+category : string (required)
+status : string (active, inactive, archived)
+gallery : image file(s) (optional)
+Réponse : 201 Created { message: "things_to_do créé", id: <number> }
+🔹 GET /api/thingsToDo/:id
+Description : Récupère un things_to_do par ID avec les images associées
+
+Accès : Public
+Paramètres :
+:id → ID du things_to_do
+Réponse : 200 OK → objet things_to_do avec gallery_url
+🔹 PUT /api/thingsToDo/:id
+Description : Met à jour un things_to_do (sans suppression des anciennes images, mais peut en ajouter)
+
+Accès : userpro vérifié
+Body (form-data) : mêmes champs que le POST
+Réponse : 200 OK { message: "things_to_do modifié" }
+🔹 DELETE /api/thingsToDo/:id
+Description : Supprime un things_to_do et ses images associées
+
+Accès : userpro vérifié
+Body (JSON) :
+json
+Copier
+Modifier
+{
+  "id": <number>
+}
+Réponse : 200 OK { message: "things_to_do supprimé" }
+✅ Middleware utilisés :
+auth.js → Vérifie le token
+userproMiddleware.js → Vérifie rôle userpro
+checkUserProVerified() → Vérifie is_verified
+uploadFile() → Multer (multi-images dans /public/assets/images/)
+🧪 Tests associés : __tests__/thingsToDo.test.js
+Test complet : POST, GET by ID, PUT, DELETE
+Avec gallery et cleanup automatique en afterAll
+
+
+
+
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR things_to_do                        ######
+#########################################################################################################
+
+npx jest __tests__/thingsToDo.test.js
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    🔎 RES POST: { message: 'things_to_do créé', id: 31 }
+
+      at Object.log (__tests__/thingsToDo.test.js:77:17)
+
+ PASS  __tests__/thingsToDo.test.js
+  🧪 Test API things_to_do
+    √ POST /api/thingsToDo - devrait créer un things_to_do avec images (60 ms)
+    √ GET /api/thingsToDo/:id - devrait retourner le things_to_do créé (13 ms)
+    √ PUT /api/thingsToDo/:id - devrait modifier un things_to_do (15 ms)
+    √ DELETE /api/thingsToDo/:id - devrait supprimer le things_to_do (30 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        2.36 s, estimated 3 s
+Ran all test suites matching /__tests__\\thingsToDo.test.js/i.
