@@ -10,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const uploadFile = require('../middleware/uploadFile');
+const {checkUserProVerified} = require('../middleware/userproMiddleware');
 
 /********************************************IMPORT************************************ */
 const {
@@ -39,6 +40,7 @@ router.post('/',
         { name: 'imageCover', maxCount: 1 },
         { name: 'gallery', maxCount: 10 }
     ]),
+    checkUserProVerified(),
     addActivity
 );
 

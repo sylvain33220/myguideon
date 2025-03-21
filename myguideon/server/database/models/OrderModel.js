@@ -57,6 +57,11 @@ class OrderModel extends AbstractModel {
         }
     }
 
+    /**
+     * 
+     * @param {number} orderId 
+     * @returns 
+     */
     async getOrderById(orderId) {
         const [rows] = await this.pool.query(
             `SELECT id, total_amount, status, created_at, updated_at FROM ${this.table} WHERE id = ?`,
@@ -77,6 +82,11 @@ class OrderModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} orderId 
+     * @returns 
+     */
     async deleteOrder(orderId) {
         try {
             const [result] = await this.pool.query(
@@ -89,6 +99,10 @@ class OrderModel extends AbstractModel {
             throw error;
         }
     }
+    /**
+     * 
+     * @returns 
+     */
     async getAllOrders() {
         const [rows] = await this.pool.query(
             `SELECT * FROM ${this.table}`
@@ -96,6 +110,11 @@ class OrderModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} userproId 
+     * @returns 
+     */
     async getAllOrdersByUserproId(userproId) {
         const [rows] = await this.pool.query(
             `SELECT * FROM ${this.table} WHERE userpro_id = ?`,
@@ -104,6 +123,12 @@ class OrderModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} userId 
+     * 
+     * @returns 
+     */
     async getAllOrdersByUserClientId(userId) {
         const [rows] = await this.pool.query(
             `SELECT * FROM ${this.table} WHERE user_id = ?`,

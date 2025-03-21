@@ -22,7 +22,9 @@ const {
     updatePassword,
     deleteUserPro,
     loginUserPro,
-    addUserPro 
+    addUserPro,
+    validateUserPro,
+    getUnverifiedUserPros
 } = require('../controllers/UserproController');
 
 
@@ -31,7 +33,7 @@ const {
 router.post('/login', loginUserPro);
 
 // 🔓 Route publique : Inscription avec upload d'image
-router.post('/register', uploadFile().single('profile_image'), addUserPro);
+router.post('/register', uploadFile().single('profile_image'),addUserPro);
 
 /***********************ROUTES PROTEGEES POUR USER CONNECTÉ*********************************** */
 // 🔒 Récupérer ses propres infos
@@ -78,6 +80,12 @@ router.put('/password/:id', authMiddleware('update_password_userpro'), roleMiddl
 router.delete('/:id', (req, res, next) => {
     next();
 }, authMiddleware('delete_userpro'), roleMiddleware([1]), deleteUserPro);
+
+// 🔒 Valider un userpro par son id (admin seulement)
+router.put('/validate-userpro/:id', authMiddleware(), roleMiddleware([1, 4]), validateUserPro);
+
+// 🔒 Récupérer tous les userpro non vérifiés (admin seulement)
+router.get('/unverified', authMiddleware(), roleMiddleware([1,4]), getUnverifiedUserPros);
 
 /***********************EXPORT*********************************** */
 module.exports = router;

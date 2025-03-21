@@ -1,3 +1,12 @@
+/**
+ * @file feedbacksRoute.js
+ * @description Gestion des routes pour les feedbacks
+ * @module FeedbackRoute
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const express = require('express');
 const router = express.Router();
 
@@ -39,13 +48,13 @@ router.get('/things-to-do/:id', getFeedbackByThingsToDoId);
 
 /************** 🔒 Routes protégées pour `feedback` **************/
 // 🔒 Ajouter un feedback (user connecté obligatoire)
-router.post('/', authMiddleware(),roleMiddleware([1,3]), addFeedback);
+router.post('/', authMiddleware("post_feedbacks"),roleMiddleware([1,3]), addFeedback);
 
 // 🔒 Mettre à jour un feedback par son ID (user connecté obligatoire et admin)
-router.put('/:id', authMiddleware(), roleMiddleware([1,3]), updateFeedback);
+router.put('/:id', authMiddleware("update_feedbacks"), roleMiddleware([1,3]), updateFeedback);
 
 // 🔒 Supprimer un feedback par son ID (user connecté obligatoire et admin)
-router.delete('/:id', authMiddleware(), roleMiddleware([1,3]), deleteFeedback);
+router.delete('/:id', authMiddleware("delete_feedbacks"), roleMiddleware([1,3]), deleteFeedback);
 
 /***********************EXPORT*********************************** */
 

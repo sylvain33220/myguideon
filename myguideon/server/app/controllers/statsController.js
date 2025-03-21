@@ -60,5 +60,10 @@ const getFeedbackStatsByThingsToDo = async (req, res) => {
 //**********************************EXPORT****************************************************** */
 
 
-module.exports = {  getActivitiesStats, getRevenueStats, getRatingStats, 
-                    getFeedbackStatsByActivity, getFeedbackStatsByThingsToDo };
+module.exports = {  
+    getActivitiesStats,
+    getRevenueStats,
+    getRatingStats, 
+    getFeedbackStatsByActivity,
+    getFeedbackStatsByThingsToDo
+};

@@ -40,16 +40,16 @@ let server;
 beforeAll(async() => {
     console.log('🟢 Début des tests pour Stats');
     // 🔄 Vérifier les IDs existants dans la BDD
-    // const [rows] = await pool.query("SELECT id FROM activities");
-    // console.log('🔍 IDs existants dans la table activities:', rows);
-    // const [rows2] = await pool.query("SELECT id FROM reservations");
-    // console.log('🔍 IDs existants dans la table reservations:', rows2);
-    // const [rows3] = await pool.query("SELECT id FROM feedbacks");
-    // console.log('🔍 IDs existants dans la table feedbacks:', rows3);
-    // const [autoInc] = await pool.query(`SHOW TABLE STATUS LIKE 'activities'`);
-    // console.log('🔍 Auto-incrémentation actuelle:', autoInc[0].Auto_increment);
+    const [rows] = await pool.query("SELECT id FROM activities");
+    console.log('🔍 IDs existants dans la table activities:', rows);
+    const [rows2] = await pool.query("SELECT id FROM reservations");
+    console.log('🔍 IDs existants dans la table reservations:', rows2);
+    const [rows3] = await pool.query("SELECT id FROM feedbacks");
+    console.log('🔍 IDs existants dans la table feedbacks:', rows3);
+    const [autoInc] = await pool.query(`SHOW TABLE STATUS LIKE 'activities'`);
+    console.log('🔍 Auto-incrémentation actuelle:', autoInc[0].Auto_increment);
     server = app.listen(0, () => console.log(`🚀 Server is running on port ${server.address().port}`));
-
+    // 🔧 Insertion des utilisateurs nécessaires pour les FK sur feedbacks.user_id
 
     // 🔄 Désactiver les contraintes de clé étrangère pour le TRUNCATE
     await pool.query("SET FOREIGN_KEY_CHECKS = 0");
@@ -89,6 +89,7 @@ afterAll(async() => {
       DELETE FROM feedbacks WHERE id IN (301, 302, 303);
       DELETE FROM reservations WHERE id IN (201, 202);
       DELETE FROM activities WHERE id IN (101, 102);
+      DELETE FROM user_client WHERE id IN (1, 2, 3);
   `);
 
     if (server) {

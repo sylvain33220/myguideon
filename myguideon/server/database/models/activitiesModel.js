@@ -105,27 +105,30 @@ async addActivity(activity) {
  
        // ➡️ Insérer l'activité avec l'ID de l'image
        const [result] = await connection.query(
-           `INSERT INTO ${this.table} (name, description, price, currency, imageCover, location, latitude, longitude, language, duration, max_participants, availability, age_limit, category, status, created_by, created_at, image_cover_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)`,
-           [
-               activity.name,
-               activity.description,
-               activity.price,
-               activity.currency,
-               activity.imageCover,
-               activity.location,
-               activity.latitude,
-               activity.longitude,
-               activity.language,
-               activity.duration,
-               activity.max_participants,
-               JSON.stringify(activity.availability),
-               activity.age_limit,
-               activity.category,
-               activity.status,
-               activity.created_by,
-               imageResult.insertId
-           ]
-       );
+        `INSERT INTO ${this.table} (
+          name, description, price, currency, imageCover, location,
+          latitude, longitude, language, duration, max_participants,
+          availability, age_limit, category, status, created_by, created_at, image_cover_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Draft', ?, NOW(), ?)`,
+        [
+          activity.name,
+          activity.description,
+          activity.price,
+          activity.currency,
+          activity.imageCover,
+          activity.location,
+          activity.latitude,
+          activity.longitude,
+          activity.language,
+          activity.duration,
+          activity.max_participants,
+          JSON.stringify(activity.availability),
+          activity.age_limit,
+          activity.category,
+          activity.created_by,
+          imageResult.insertId,
+        ]
+      );
  
        // ➡️ Insérer chaque image de la galerie dans `images` puis dans `activity_images`
        if (Array.isArray(activity.gallery) && activity.gallery.length > 0) {

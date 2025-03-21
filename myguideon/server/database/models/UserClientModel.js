@@ -248,22 +248,6 @@ class UserClientModel extends AbstractModel {
      * @param {number} id
      * @returns {Promise<boolean>} True if the user was deleted, false otherwise
      */
-    // async deleteUserClient(id) {
-    //     try {
-    //         const user = await this.findUserClientById(id);
-    //         if (!user) {
-    //             throw new Error("L'utilisateur n'existe pas");
-    //         }
-    //         const [result] = await this.pool.query(
-    //             `DELETE FROM ${this.table} WHERE id = ?`,
-    //             [id]
-    //         );
-    //         return result.affectedRows === 1;
-    //     } catch (error) {
-    //         console.error("❌ ERREUR SQL deleteUserClient:", error);
-    //         throw new Error("Erreur lors de la suppression du userclient");
-    //     }
-    // }
     async deleteUserClient(id) {
         try {
                const [result] = await this.pool.query(

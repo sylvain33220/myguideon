@@ -91,7 +91,11 @@ class ReservationsModel extends AbstractModel {
         return rows;
     }
 
-
+    /**
+     * 
+     * @param {number} user_id 
+     * @returns 
+     */
     async getReservationsByUserId(user_id){
         const [rows] = await this.pool.query(
             `SELECT id,activity_id,date,total_amount,status,created_at,updated_at

@@ -48,24 +48,45 @@ async AddUserPro(data) {
     try {
       const hashedPassword = await hashPassword(data.password);
       const defaultRoleId = data.role_id || 2;
+  
       const [result] = await this.pool.query(
-        `INSERT INTO ${this.table} (name,company_name, email, phone, password, profile_image,role_id, created_at, updated_at) 
-        VALUES (?,?, ?, ?, ?, ?, ?, NOW(), NOW())`,
-        [data.name,data.company_name, data.email, data.phone, hashedPassword, data.profile_image, defaultRoleId]
+        `INSERT INTO ${this.table} (
+          name, company_name, email, phone, password, profile_image,
+          role_id, is_verified, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 0, NOW(), NOW())`,
+        [
+          data.name,
+          data.company_name,
+          data.email,
+          data.phone,
+          hashedPassword,
+          data.profile_image,
+          defaultRoleId,
+        ]
       );
-      const token = generateToken({ id: result.insertId, email: data.email , role_id: defaultRoleId });
+  
+      const token = generateToken({
+        id: result.insertId,
+        email: data.email,
+        role_id: defaultRoleId,
+      });
+  
       return { id: result.insertId, token };
+  
     } catch (error) {
       console.error("❌ ERREUR SQL AddUserPro:", error);
       throw new Error("Erreur lors de l'ajout du userpro");
     }
   }
+  
 
 /**
  * update a user
  * @param {number} id 
  * @param {Object} data 
  * @returns {Promise<boolean>} True if the user was updated, false otherwise
+ * @throws {Error} If the user was not found
+ * 
  */
 async updateUserPro(id,data) {
     const fields = [];
@@ -141,7 +162,36 @@ async authenticateUserPro(email, password) {
     return { id: user.id,role_id:user.role_id, token };
   }
 
+  /**
+   * 
+   * @param {number} id 
+   * @returns 
+   */
+  async validateUserProById(id) {
+    const [result] = await this.pool.query(
+      `UPDATE ${this.table} SET is_verified = 1 WHERE id = ?`,
+      [id]
+    );
+    return result.affectedRows;
+  }
 
+/**
+ * 
+ * @returns {Promise<Object[]>}
+ * @property {number} id
+ * @property {string} name
+ * @property {string} email
+ * @property {string} company_name
+ * @property {string} phone
+ * @property {string} created_at
+ * 
+ */
+  async getUnverifiedUserPros() {
+    const [rows] = await this.pool.query(
+      `SELECT id, name, email, company_name, phone, created_at FROM ${this.table} WHERE is_verified = 0`
+    );
+    return rows;
+  }
 /*******************EXPORT****************************************************** */
 }
 module.exports = UserProModel;

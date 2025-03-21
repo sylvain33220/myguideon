@@ -1,3 +1,12 @@
+/**
+ * @file feedbacksModel.js
+ * @description  FeedbacksModel est un modèle de données pour la table feedbacks
+ * @module  FeedbacksModel 
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const AbstractModel = require('./AbstractModel');
 
 
@@ -6,7 +15,16 @@ class FeedbacksModel extends AbstractModel {
         super({table:'feedbacks'});
     }
 
-
+    /**
+     * 
+     * @param {*} param0 
+     * @param {number} param0.activity_id
+     * @param {number} param0.user_id
+     * @param {number} param0.things_to_do_id
+     * @param {number} param0.rating
+     * @param {string} param0.comment
+     * @returns 
+     */
     async createFeedbacks({ activity_id, user_id,things_to_do_id ,rating, comment }) {
         const [result] = await this.pool.query(
             `INSERT INTO ${this.table} (activity_id, user_id,things_to_do_id, rating, comment,created_at ) VALUES (?, ?, ?, ?, ?, NOW())`,
@@ -15,6 +33,18 @@ class FeedbacksModel extends AbstractModel {
         return result.insertId;
     }
 
+    /**
+     * 
+     * @param {number} id 
+     * @param {Object} param1
+     * @param {number} param1.activity_id
+     * @param {number} param1.user_id
+     * @param {number} param1.things_to_do_id
+     * @param {number} param1.rating
+     * @param {string} param1.comment
+     * 
+     * @returns 
+     */
     async updateFeedbacks(id, { activity_id, user_id,things_to_do_id, rating, comment }) {
         if (!id || Number.isNaN(id)) throw new Error("ID feedback invalide");
         const [result] =  await this.pool.query(
@@ -24,6 +54,12 @@ class FeedbacksModel extends AbstractModel {
         return result.affectedRows;
     }
 
+    /**
+     * 
+     * @returns {Promise<Object[]>} All feedbacks
+     * 
+     * 
+     */
     async findAllFeedbacks() {
         const [rows] = await this.pool.query(
             `
@@ -41,6 +77,11 @@ class FeedbacksModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} id 
+     * @returns 
+     */
     async findFeedbackById(id) {
         if (!id) {
           console.warn("⚠️ ID vide dans findFeedbackById");
@@ -63,6 +104,11 @@ class FeedbacksModel extends AbstractModel {
         return rows[0];
       }
 
+      /**
+       * 
+       * @param {number} id 
+       * @returns 
+       */
     async deleteFeedbacks(id) {
         const [result] = await this.pool.query(
             `DELETE FROM ${this.table} WHERE id = ?`,
@@ -71,6 +117,11 @@ class FeedbacksModel extends AbstractModel {
         return result.affectedRows;
     }
 
+    /**
+     * 
+     * @param {number} activity_id 
+     * @returns 
+     */
     async findFeedbackByActivityId(activity_id) {
         const [rows] = await this.pool.query(
             `
@@ -90,6 +141,11 @@ class FeedbacksModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} user_id 
+     * @returns 
+     */
     async findFeedbackByUserId(user_id) {
         const [rows] = await this.pool.query(
             `
@@ -109,6 +165,11 @@ class FeedbacksModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} things_to_do_id 
+     * @returns 
+     */
     async findFeedbackByThingsToDoId(things_to_do_id) {
         const [rows] = await this.pool.query(
             `
@@ -128,6 +189,11 @@ class FeedbacksModel extends AbstractModel {
         return rows;
     }
 
+    /**
+     * 
+     * @param {number} rating 
+     * @returns 
+     */
     async findFeedbackByRating(rating) {
         const [rows] = await this.pool.query(
             `

@@ -12,7 +12,6 @@
 const Joi = require('joi');
 
 /****************Validation pour l'ajout d'un feedback *****************/
-
 const addFeedbackSchema = Joi.object({
     activity_id: Joi.number().integer().allow(null),
     user_id: Joi.number().integer().required(),

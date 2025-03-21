@@ -155,6 +155,30 @@ async function loginUserPro(req, res) {
 }
 }
 
+async function validateUserPro (req,res) {
+    const userProId = req.params.id;
+    try {
+        const updated = await tables.userpro.validateUserProId(userProId);
+        if(!updated) {
+            return res.status(404).json({error: "Utilisateur professionnel non trouvé"});
+        }
+        res.status(200).json({message: "Utilisateur professionnel vérifié avec succès"});
+    } catch (error) {
+        console.error("❌ ERREUR validateUserPro:", error);
+        res.status(500).json({error: "Erreur serveur"});
+}
+}
+
+async function getUnverifiedUserPros(req,res) {
+    try {
+        const results = await tables.userpro.getUnverifiedUserPros();
+        res.status(200).json(results);
+      } catch (error) {
+        console.error("❌ ERREUR getUnverifiedUserPros:", error);
+        res.status(500).json({ error: "Erreur serveur" });
+      }
+}
+
 /*********************** EXPORTS ***********************/
 module.exports = {
     getAllUserPro,
@@ -164,4 +188,6 @@ module.exports = {
     updatePassword,
     deleteUserPro,
     loginUserPro,
+    validateUserPro,
+    getUnverifiedUserPros
 };

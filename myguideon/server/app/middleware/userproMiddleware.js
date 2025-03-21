@@ -6,7 +6,6 @@
  * @website https://www.studio-purple.com
  * @created 2025-03-10
  */
-const {verifyToken} = require("../helpers/jwtHelper");
 
 function userproMiddleware(req,res,next) {
     if (req.user.role_id !== 2) {
@@ -14,5 +13,16 @@ function userproMiddleware(req,res,next) {
     }
     next();
 }
+function checkUserProVerified() {
+    return (req, res, next) => {
+      if (req.user?.role_id === 2 && req.user?.is_verified !== 1) {
+        return res.status(403).json({
+          error: "Votre compte n'a pas encore été vérifié par un administrateur.",
+        });
+      }
+      next();
+    };
+  }
+  
 
-module.exports = userproMiddleware;
+module.exports = {userproMiddleware,checkUserProVerified};

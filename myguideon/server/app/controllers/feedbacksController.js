@@ -1,3 +1,12 @@
+/**
+ * @file    feedbacksController.js
+ * @description Gestion des feedbacks  
+ * Ce fichier définit les fonctions de gestion des feedbacks
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const tables = require('../../database/table');
 const path = require('node:path');
 const { addFeedbackValidation, updateFeedbackValidation,deleteFeedbackValidation } = require('../validator/feedbacksValidator');
@@ -37,10 +46,8 @@ async function addFeedback(req, res) {
             user_id: req.user.id
         });
         if (error) {
-            console.log("🧪 ERREUR VALIDATION JOI :", error.details);
             return res.status(400).json({ error: error.details[0].message });
           }
-
         const newFeedback = await tables.feedbacks.createFeedbacks(value);
         res.status(201).json({ id: newFeedback });
     } catch (error) {
@@ -55,7 +62,6 @@ async function updateFeedback(req, res) {
         if (!feedbackId || Number.isNaN(feedbackId)) {
           return res.status(400).json({ error: "ID feedback invalide" });
         }
-        console.log("🚀 ~ file: feedbacksController.js ~ line 116 ~ updateFeedback ~ feedbackId", feedbackId)
         const { error, value } = updateFeedbackValidation({
             ...req.body,
             user_id: req.user.id

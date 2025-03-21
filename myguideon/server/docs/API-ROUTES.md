@@ -388,6 +388,24 @@ Headers : Authorization: Bearer <token>
 
 Réponse : 200 OK
 
+📘 GET /api/userpro/unverified
+Description : Récupère tous les comptes professionnels en attente de validation (is_verified = 0)
+Accès : 🔒 Admin (role_id: 1) ou Admin tiers (role_id: 4)
+Réponse :
+json
+Copier
+Modifier
+[
+  {
+    "id": 3,
+    "name": "Nom utilisateur",
+    "email": "pro@mail.com",
+    "company_name": "Nom de l’entreprise",
+    "created_at": "2025-03-21T14:12:00.000Z"
+  },
+  ...
+]
+
 
 #########################################################################################################
 ######                         🧪 RESULTAT TEST LOCAL POUR userpro                                 ######
@@ -1989,3 +2007,177 @@ Time:        2.806 s, estimated 3 s
 Ran all test suites matching /__tests__\\cartOrders.test.js/i.
 
 
+#########################################################################################################
+
+🚤 Endpoints pour feedbacks
+
+#########################################################################################################
+
+
+## 🔁 API - Feedbacks
+
+### 🔓 GET /api/feedbacks
+> Récupérer tous les feedbacks
+- ✅ Accès : Public
+- 🔄 Retour : Liste de tous les feedbacks avec détails (activity_name, user_name, etc.)
+
+---
+
+### 🔓 GET /api/feedbacks/:id
+> Récupérer un feedback par son ID
+- ✅ Accès : Public
+- 🔢 Paramètre : `id` (number)
+- 📦 Retour : Un objet `feedback`
+
+---
+
+### 🔓 GET /api/feedbacks/activity/:id
+> Récupérer tous les feedbacks liés à une activité
+- ✅ Accès : Public
+- 🔢 Paramètre : `activity_id`
+- 📦 Retour : Liste des feedbacks liés
+
+---
+
+### 🔓 GET /api/feedbacks/user/:id
+> Récupérer tous les feedbacks d’un utilisateur
+- ✅ Accès : Public
+- 🔢 Paramètre : `user_id`
+- 📦 Retour : Liste des feedbacks
+
+---
+
+### 🔓 GET /api/feedbacks/things-to-do/:id
+> Récupérer les feedbacks d’un `things_to_do`
+- ✅ Accès : Public
+- 🔢 Paramètre : `things_to_do_id`
+- 📦 Retour : Liste des feedbacks
+
+---
+
+### 🔓 GET /api/feedbacks/rating/:rating
+> Récupérer les feedbacks selon une note donnée
+- ✅ Accès : Public
+- 🔢 Paramètre : `rating`
+- 📦 Retour : Liste filtrée
+
+---
+
+### 🔒 POST /api/feedbacks
+> Ajouter un feedback
+- 🔐 Accès : Authentifié (`user_client` ou `admin`)
+- 📥 Body :
+```json
+{
+  "activity_id": 1,
+  "things_to_do_id": null,
+  "rating": 8,
+  "comment": "Activité très sympa"
+}
+📤 Retour : { "id": 321 }
+🔒 PUT /api/feedbacks/:id
+Modifier un feedback existant
+
+🔐 Accès : Authentifié (user_client ou admin)
+🔢 Paramètre : id
+📥 Body :
+json
+Copier
+Modifier
+{
+  "activity_id": 1,
+  "things_to_do_id": null,
+  "rating": 9,
+  "comment": "Mise à jour du commentaire"
+}
+📤 Retour : { "message": "Feedback modifié" }
+🔒 DELETE /api/feedbacks/:id
+Supprimer un feedback
+
+🔐 Accès : Authentifié (user_client ou admin)
+🔢 Paramètre : id
+📤 Retour : { "message": "Feedback supprimé" }
+
+### 🔒 GET /api/stats/feedbacks/activities
+> Retourne la note moyenne par activité
+- 🔐 Accès : Admin uniquement
+- 📦 Retour :
+```json
+[
+  {
+    "activity_id": 108,
+    "activity_name": "Plongée",
+    "average_rating": 4.5
+  },
+  ...
+]
+🔒 GET /api/stats/feedbacks/things-to-do
+Retourne la note moyenne par things_to_do
+
+🔐 Accès : Admin uniquement
+📦 Retour :
+json
+Copier
+Modifier
+[
+  {
+    "things_to_do_id": 5,
+    "things_to_do_name": "Balade",
+    "average_rating": 3.7
+  },
+  ...
+]
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR feedbacks                           ######
+#########################################################################################################
+
+npx jest __tests__/feedbacks.test.js
+  console.log
+    🔑 Token Admin : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInJvbGVfaWQiOjEsImlhdCI6MTc0MjU2NDQzOSwiZXhwIjoxNzQyNTcxNjM5fQ.y6wzPYhNPdtRc4zKkogTJAeBwcKn6A4dw7idOFxXLYU
+
+      at Object.log (__tests__/feedbacks.test.js:19:9)
+
+  console.log                                                                                                                                                                             
+    🔑 Token UserClient : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJjbGllbnRAZXhhbXBsZS5jb20iLCJyb2xlX2lkIjozLCJpYXQiOjE3NDI1NjQ0MzksImV4cCI6MTc0MjU3MTYzOX0.PNjo75PAC_X6KNVRTPiag768aKip-OXbcf8Q1O-r9HU
+
+      at Object.log (__tests__/feedbacks.test.js:20:9)
+
+  console.log                                                                                                                                                                             
+    🚀 Server is running on port 3030                                                                                                                                                     
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    🔒 Serveur fermé
+
+      at Object.log (__tests__/feedbacks.test.js:77:17)
+
+  console.log                                                                                                                                                                             
+    🔒 Connexion à la BDD fermée                                                                                                                                                          
+
+      at Object.log (__tests__/feedbacks.test.js:81:17)
+
+ PASS  __tests__/feedbacks.test.js
+  √ POST /api/feedbacks - devrait retourner une erreur 401 si le token est manquant (8 ms)                                                                                                
+  √ POST /api/feedbacks - devrait refuser une note > 10 (11 ms)
+  📌 Test API UserClient                                                                                                                                                                  
+    √ POST /api/feedbacks - devrait ajouter un feedback (53 ms)                                                                                                                           
+    √ GET /api/feedbacks - devrait retourner tous les feedbacks (11 ms)                                                                                                                   
+    √ GET /api/feedbacks/:id - devrait retourner un feedback par ID (9 ms)                                                                                                                
+    √ PUT /api/feedbacks/:id - devrait modifier un feedback (15 ms)                                                                                                                       
+    √ DELETE /api/feedbacks/:id - devrait supprimer un feedback (10 ms)
+    √ POST /api/feedbacks - admin peut créer un feedback (10 ms)
+    √ PUT /api/feedbacks/:id - admin peut modifier un feedback (12 ms)
+    √ DELETE /api/feedbacks/:id - admin peut supprimer un feedback (11 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+Snapshots:   0 total
+Time:        2.998 s, estimated 3 s
+Ran all test suites matching /__tests__\\feedbacks.test.js/i.

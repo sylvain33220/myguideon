@@ -64,6 +64,14 @@ const fetchRatingsStats = async () => {
 };
 
 // Note moyenne et total de feedbacks par activité
+/**
+ * 
+ * @returns {Promise<Array>}
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} activity_name - Nom de l'activité
+ * @property {number} total_feedbacks - Nombre total de feedbacks
+ * @property {number} average_rating - Note moyenne
+ */
 const fetchFeedbackStatsByActivity = async () => {
     const [rows] = await pool.query(
         `SELECT 
@@ -81,6 +89,15 @@ const fetchFeedbackStatsByActivity = async () => {
 }
 
 // Note moyenne et total de feedbacks par things_to_do
+/**
+ * 
+ * @returns {Promise<Array>}
+ * @property {number} things_to_do_id - ID de l'activité
+ * @property {string} things_to_do_name - Nom de l'activité
+ * @property {number} total_feedbacks - Nombre total de feedbacks
+ * @property {number} average_rating - Note moyenne
+ * 
+ */
 const fetchFeedbackStatsByThingsToDo = async () => {
     const [rows] = await pool.query(
         `SELECT 
