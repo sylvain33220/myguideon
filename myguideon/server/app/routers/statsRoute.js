@@ -13,7 +13,9 @@ const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const roleMiddleware = require('../middleware/roleMiddleware');
 
-const {getActivitiesStats,getRevenueStats,getRatingStats} = require('../controllers/statsController');
+const {getActivitiesStats,getRevenueStats,getRatingStats,
+    getFeedbackStatsByActivity,getFeedbackStatsByThingsToDo
+} = require('../controllers/statsController');
 
 
 //Routes sécurisées****************************************************
@@ -23,6 +25,10 @@ router.get('/activities',authMiddleware(),roleMiddleware([1,2,3,4]),getActivitie
 router.get('/revenue',authMiddleware(),roleMiddleware([1,2,3,4]),getRevenueStats);
 
 router.get('/ratings',authMiddleware(),roleMiddleware([1,2,3,4]),getRatingStats);
+
+router.get('/feedbacks/activity',authMiddleware(),roleMiddleware([1,2,3,4]),getFeedbackStatsByActivity);
+
+router.get('/feedbacks/things-to-do',authMiddleware(),roleMiddleware([1,2,3,4]),getFeedbackStatsByThingsToDo);
 
 // Export du router****************************************************
 

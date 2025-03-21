@@ -1,3 +1,13 @@
+/**
+ * @file userClientValidator.js
+ * @description Validation des données des utilisateurs professionnels
+ * @module Validator des utilisateurs professionnels
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
+
 const Joi = require('joi');
 
 /****************Validation pour l'ajout d'un userclient *****************/

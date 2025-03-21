@@ -63,8 +63,44 @@ const fetchRatingsStats = async () => {
     return rows;
 };
 
+// Note moyenne et total de feedbacks par activité
+const fetchFeedbackStatsByActivity = async () => {
+    const [rows] = await pool.query(
+        `SELECT 
+        fb.activity_id,
+        a.name AS activity_name,
+        COUNT(fb.id) AS total_feedbacks,
+        ROUND(AVG(fb.rating), 1) AS average_rating
+      FROM feedbacks fb
+      JOIN activities a ON fb.activity_id = a.id
+      WHERE fb.activity_id IS NOT NULL
+      GROUP BY fb.activity_id
+      ORDER BY average_rating DESC`
+    );
+    return rows;
+}
+
+// Note moyenne et total de feedbacks par things_to_do
+const fetchFeedbackStatsByThingsToDo = async () => {
+    const [rows] = await pool.query(
+        `SELECT 
+        fb.things_to_do_id,
+        td.name AS things_to_do_name,
+        COUNT(fb.id) AS total_feedbacks,
+        ROUND(AVG(fb.rating), 1) AS average_rating
+      FROM feedbacks fb
+      JOIN things_to_do td ON fb.things_to_do_id = td.id
+      WHERE fb.things_to_do_id IS NOT NULL
+      GROUP BY fb.things_to_do_id
+      ORDER BY average_rating DESC`
+    );
+    return rows;
+}
+
 module.exports = {
     fetchActivitiesStats,
     fetchRevenueStats,
-    fetchRatingsStats
+    fetchRatingsStats,
+    fetchFeedbackStatsByActivity,
+    fetchFeedbackStatsByThingsToDo
 };

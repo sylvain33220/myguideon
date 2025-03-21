@@ -21,6 +21,7 @@ const reservationsRouter = require('./reservationsRoute.js');
 const rolePermissionsRouter = require('./RolePermissionsRouter.js');
 const userClientRouter = require('./userClientRoute.js');
 const cartOrderRouter = require('./cartOrderRoute.js');
+const feedbacksRouter = require('./feedbacksRoute.js');
 
 
 // Use the routers****************************************************
@@ -43,6 +44,8 @@ router.use('/role-permissions',rolePermissionsRouter);
 router.use('/userclients',userClientRouter);
 
 router.use('/cartorders',cartOrderRouter);
+
+router.use('/feedbacks',feedbacksRouter);
 
 
 // Export the router****************************************************

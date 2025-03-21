@@ -12,7 +12,6 @@ class ActivitiesModel extends AbstractModel {
   constructor() {
     super({ table: 'activities' });
   }
-
   /**
    * 
    * @param {number} id 

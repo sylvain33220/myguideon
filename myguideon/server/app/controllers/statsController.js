@@ -37,7 +37,28 @@ const getRatingStats = async (req, res) => {
     }
 }
 
+const getFeedbackStatsByActivity = async (req, res) => {
+    try {
+        const stats = await statsModel.fetchFeedbackStatsByActivity();
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error("❌ ERREUR getFeedbackStatsByActivity:",error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+const getFeedbackStatsByThingsToDo = async (req, res) => {
+    try {
+        const stats = await statsModel.fetchFeedbackStatsByThingsToDo();
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error("❌ ERREUR getFeedbackStatsByThingsToDo:",error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
 //**********************************EXPORT****************************************************** */
 
 
-module.exports = {  getActivitiesStats, getRevenueStats, getRatingStats };
+module.exports = {  getActivitiesStats, getRevenueStats, getRatingStats, 
+                    getFeedbackStatsByActivity, getFeedbackStatsByThingsToDo };
