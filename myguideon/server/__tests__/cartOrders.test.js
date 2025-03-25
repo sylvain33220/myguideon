@@ -9,7 +9,7 @@ const exp = require('node:constants');
 // 🔄 Génération des tokens pour les tests
 const tokenAdmin = generateToken({ id: 1, email: 'admin@example.com', role_id: 1 });
 const tokenUserPro = generateToken({ id: 2, email: 'userpro@example.com', role_id: 2 });
-const userClientToken = generateToken({ id: 3, email: 'userclient@example.com', role_id: 3 });
+const userClientToken = generateToken({ id: 4, email: 'userclient@example.com', role_id: 3 });
 const invalidToken = "Bearer invalid.token.value";
 let cartOrderId;
 
@@ -20,10 +20,10 @@ console.log("🔑 Token UserPro :", tokenUserPro);
 console.log("🔑 Token UserClient :", userClientToken);
 
 afterAll(async () => {
-    if (cartOrderId) {
-        await pool.query("DELETE FROM cart_orders WHERE id = ?", [cartOrderId]);
-        console.log(`🗑 Commande supprimée (id: ${cartOrderId})`);
-    }
+    // if (cartOrderId) {
+    //     await pool.query("DELETE FROM cart_orders WHERE id = ?", [cartOrderId]);
+    //     console.log(`🗑 Commande supprimée (id: ${cartOrderId})`);
+    // }
     if (server) {
         await new Promise((resolve) => server.close(resolve));
         console.log('🔒 Serveur fermé');
@@ -42,7 +42,7 @@ describe('🛒 CartOrders API Endpoints', () => {
           .post('/api/cartorders')
           .set('Authorization', `Bearer ${userClientToken}`)
           .send({
-            userID: 3,
+            userID: 4,
             totalAmount: 50.00,
             status: "pending",
             quantity: 2
