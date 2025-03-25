@@ -5,7 +5,7 @@
  * @author Sylvain
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
- * @created 2021-05-10
+ * @created 2025-03-25
  */
 
 const AbstractModel = require('./AbstractModel');
@@ -16,8 +16,18 @@ class ThingsToDoModel extends AbstractModel {
     }
 /**
  * 
- * @param {*} data 
- * @returns 
+ * @param {Object} data
+ * @param {string} data.name
+ * @param {string} data.adress
+ * @param {number} data.destination_id
+ * @param {string} data.description
+ * @param {number} data.longitude
+ * @param {number} data.latitude
+ * @param {string} data.icon
+ * @param {string} data.destination_name
+ * @param {string} data.category
+ * @param {string} data.status
+ * @returns
  */
     async addThingsToDo(data) {
         const [result] = await this.pool.query(
@@ -33,8 +43,18 @@ class ThingsToDoModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} id 
-     * @param {*} data 
+     * @param {number} id
+     * @param {Object} data
+     * @param {string} data.name
+     * @param {string} data.adress
+     * @param {number} data.destination_id
+     * @param {string} data.description
+     * @param {number} data.longitude
+     * @param {number} data.latitude
+     * @param {string} data.icon
+     * @param {string} data.destination_name
+     * @param {string} data.category
+     * @param {string} data.status
      * @returns 
      */
     async updateThingsToDo(id,data) {
@@ -51,7 +71,8 @@ class ThingsToDoModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} id 
+     * @param {number} id
+     * @property {number} id - ID de la ligne
      * @returns 
      */
     async deleteThingsToDo(id) {
@@ -64,7 +85,21 @@ class ThingsToDoModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} id 
+     * @param {number} id
+     * @property {number} id - ID de la ligne
+     * @property {string} name - Nom de l'activité
+     * @property {string} adress - Adresse de l'activité
+     * @property {number} destination_id - ID de la destination
+     * @property {string} description - Description de l'activité
+     * @property {number} longitude - Longitude de l'activité
+     * @property {number} latitude - Latitude de l'activité
+     * @property {string} icon - Icone de l'activité
+     * @property {string} destination_name - Nom de la destination
+     * @property {string} category - Catégorie de l'activité
+     * @property {string} status - Statut de l'activité
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {string} gallery_url - URL de la galerie
      * @returns 
      */
     async getThingsToDoById(id) {

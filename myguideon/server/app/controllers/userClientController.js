@@ -1,3 +1,14 @@
+/**
+ * @file  userClientController.js
+ * @description   Fonctionnalité pour gérer les utilisateurs client
+ * @module   Controller UserClient - Gestion des utilisateurs client
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @version 0.0.1
+ * @created 2025-03-10
+ * 
+ */
 const tables = require('../../database/table');
 const { hashPassword, verifyPassword } = require('../helpers/argonHelper');
 const { generateToken } = require('../helpers/jwtHelper');
@@ -136,26 +147,6 @@ async function updatePassword(req, res) {
 }
 
 /*********************** Supprimer un UserClient ***********************/
-// async function deleteUserClient(req, res) {
-//     const userId = req.params.id || (req.user ? req.user.id : null);
-//     const isAdmin = req.user ? req.user.role_id === 1 : false;
-//     if (!userId) return res.status(400).json({ error: "ID utilisateur manquant" });
-//     if (Number.parseInt(req.params.id) !== userId && !isAdmin) {
-//         return res.status(403).json({ error: "Accès refusé" });
-//     }
-
-//     try {
-//         const isDeleted = await tables.user_client.deleteUserClient(userId);
-//         if (isDeleted) {
-//             res.status(200).json({ message: "Utilisateur supprimé avec succès." });
-//         } else {
-//             res.status(404).json({ error: "Utilisateur non trouvé" });
-//         }
-//     } catch (error) {
-//         console.error("❌ ERREUR deleteUserClient:", error);
-//         res.status(500).json({ error: 'Erreur serveur' });
-//     }
-// }
 async function deleteUserClient(req, res) {
     try {
         const userId = req.user.id;

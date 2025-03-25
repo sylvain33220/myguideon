@@ -6,7 +6,7 @@
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
  * @version 0.0.1
- * @created 2021-05-10
+ * @created 2025-03-10
  * 
  */
 
@@ -31,7 +31,21 @@ class UserClientModel extends AbstractModel {
 
     /**
      * get a user by id
-     * @param {number} id 
+     * @param {number} id
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object|null>} User or null if not found
      */
     async getUserClientById(id) {
@@ -45,6 +59,20 @@ class UserClientModel extends AbstractModel {
     /**
      * find a user by email
      * @param {string} email
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object|null>} User or null if not found
      * @throws {Error} If the email is invalid
      * @throws {Error} If the password is invalid
@@ -66,6 +94,20 @@ class UserClientModel extends AbstractModel {
     /**
      * find a user by id
      * @param {number} id
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object|null>} User or null if not found
      * @throws {Error} If the id is invalid
      * @throws {Error} If the user is not found
@@ -86,6 +128,20 @@ class UserClientModel extends AbstractModel {
      * login a user
      * @param {string} email
      * @param {string} password
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object>} User
      * @throws {Error} If the email is invalid
      * @throws {Error} If the password is invalid
@@ -113,6 +169,19 @@ class UserClientModel extends AbstractModel {
     /**
      * add a new user
      * @param {Object} data
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object>} User
      * @throws {Error} If the email is already in use
      * @throws {Error} If the password is invalid
@@ -139,6 +208,20 @@ class UserClientModel extends AbstractModel {
      * update a user
      * @param {number} id
      * @param {Object} data
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<boolean>} True if the user was updated, false otherwise
      */
     async updateUserClient(id, data) {
@@ -200,6 +283,21 @@ class UserClientModel extends AbstractModel {
      * update a user password
      * @param {number} id
      * @param {string} newpassword
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {string} newpassword - Nouveau mot de passe
      * @returns {Promise<boolean>} True if the password was updated, false otherwise
      * @throws {Error} If the password is invalid
      * @throws {Error} If the user is not found
@@ -222,6 +320,20 @@ class UserClientModel extends AbstractModel {
      * authenticate a user
      * @param {string} email
      * @param {string} password
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<Object>} User
      * @throws {Error} If the email is invalid
      * @throws {Error} If the password is invalid
@@ -246,7 +358,23 @@ class UserClientModel extends AbstractModel {
     /**
      * delete a user
      * @param {number} id
+     * @property {number} id - ID de l'utilisateur
+     * @property {string} firstname - Prénom de l'utilisateur
+     * @property {string} lastname - Nom de l'utilisateur
+     * @property {string} email - Email de l'utilisateur
+     * @property {string} password - Mot de passe de l'utilisateur
+     * @property {string} phone - Téléphone de l'utilisateur
+     * @property {string} address - Adresse de l'utilisateur
+     * @property {string} city - Ville de l'utilisateur
+     * @property {string} country - Pays de l'utilisateur
+     * @property {string} postal_code - Code postal de l'utilisateur
+     * @property {string} profile_image - Image de profil de l'utilisateur
+     * @property {number} role_id - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<boolean>} True if the user was deleted, false otherwise
+     * @throws {Error} If the user is not found
+     * @throws {Error} If the user could not be deleted
      */
     async deleteUserClient(id) {
         try {

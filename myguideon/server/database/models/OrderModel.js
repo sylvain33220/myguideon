@@ -16,8 +16,19 @@ class OrderModel extends AbstractModel {
 
   /**
    * 
-   * @param {number} userId 
-   * @param {number} totalAmount 
+   * @param {Object} data
+   * @param {number} data.user_id
+   * @param {number} data.userpro_id
+   * @param {number} data.total_amount
+   * @param {number} data.quantity
+   * @property {number} userId
+   * @property {number} userproId
+   * @property {number} total_amount
+   * @property {string} status
+   * @property {string} created_at
+   * @property {string} updated_at
+   * @property {number} quantity
+   * @property {number} orderId
    * @returns 
    */
   async createOrder(data) {
@@ -37,7 +48,15 @@ class OrderModel extends AbstractModel {
    /**
     * 
     * @param {number} orderId 
-    * @param {string} status 
+    * @param {string} status
+    * @property {number} userId
+    * @property {number} userproId
+    * @property {number} total_amount
+    * @property {string} status
+    * @property {string} created_at
+    * @property {string} updated_at
+    * @property {number} quantity
+    * @property {number} orderId
     * @returns 
     */
     async updateOrderStatus(orderId, status) {
@@ -59,7 +78,15 @@ class OrderModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} orderId 
+     * @param {number} orderId
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId
      * @returns 
      */
     async getOrderById(orderId) {
@@ -72,7 +99,16 @@ class OrderModel extends AbstractModel {
 
     /**
      * @param {number} orderId
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId
      * @returns {Promise<Object|null>} Order or null if not found
+     * @throws {Error} If an SQL error occurs
      */
     async getOrdersByUserId(userId) {
         const [rows] = await this.pool.query(
@@ -84,7 +120,15 @@ class OrderModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} orderId 
+     * @param {number} orderId
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId 
      * @returns 
      */
     async deleteOrder(orderId) {
@@ -100,7 +144,14 @@ class OrderModel extends AbstractModel {
         }
     }
     /**
-     * 
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId
      * @returns 
      */
     async getAllOrders() {
@@ -112,7 +163,15 @@ class OrderModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} userproId 
+     * @param {number} userproId
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId
      * @returns 
      */
     async getAllOrdersByUserproId(userproId) {
@@ -125,8 +184,15 @@ class OrderModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} userId 
-     * 
+     * @param {number} userId
+     * @property {number} userId
+     * @property {number} userproId
+     * @property {number} total_amount
+     * @property {string} status
+     * @property {string} created_at
+     * @property {string} updated_at
+     * @property {number} quantity
+     * @property {number} orderId
      * @returns 
      */
     async getAllOrdersByUserClientId(userId) {

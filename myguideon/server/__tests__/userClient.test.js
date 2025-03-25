@@ -1,3 +1,19 @@
+/**
+ * @file userClient.test.js
+ * @description  Test API pour les utilisateurs clients
+ * @module Test  API pour les utilisateurs clients - Tests unitaires
+ * @requires supertest
+ * @requires path
+ * @requires server
+ * @requires pool
+ * @requires generateToken
+ * @requires jwtHelper
+ * @requires dotenv
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const request = require('supertest');
 const path = require('node:path');
 const { server } = require('../server');

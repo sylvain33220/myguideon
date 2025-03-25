@@ -1,3 +1,19 @@
+/**
+ * @file  feedbacks.test.js
+ * @description  Test API pour les feedbacks
+ * @module Test API pour les feedbacks - Tests unitaires
+ * @requires Supertest
+ * @requires server
+ * @requires pool
+ * @requires generateToken
+ * @requires jwtHelper
+ * @requires dotenv
+ * @requires path
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const request = require('supertest');
 const { server } = require('../server');
 const { pool } = require('../database/client');

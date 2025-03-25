@@ -1,9 +1,52 @@
-# dependencies
-/node_modules
-/.pnp
-/public/assets/img/*
-!/public/assets/img/.gitkeep  
-/public/assets/video/*
-!/public/assets/video/.gitkeep 
-server/.env
+# --- ENV & SENSITIVE FILES ---
 .env
+*.env
+
+# --- NODE & DEPENDENCIES ---
+node_modules/
+package-lock.json
+yarn.lock
+
+# --- BUILD / DIST ---
+build/
+dist/
+
+# --- LOGS ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- UPLOADS / IMAGES ---
+uploads/*
+!uploads/.gitkeep
+
+public/assets/images/*
+!public/assets/images/.gitkeep
+
+# --- SQL DUMP : garder seulement schema.sql de référence ---
+*.sql
+!schema.sql
+
+# --- EDITOR / OS FILES ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+._*
+
+# --- TEMP FILES ---
+tmp/
+*.tmp
+*.swp
+*.swo
+
+# --- TEST / COVERAGE ---
+coverage/
+*.lcov
+
+# --- ELECTRON (si jamais tu l'utilises) ---
+*.asar
+*.bin
+*.db

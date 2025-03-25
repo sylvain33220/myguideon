@@ -23,6 +23,11 @@ class FeedbacksModel extends AbstractModel {
      * @param {number} param0.things_to_do_id
      * @param {number} param0.rating
      * @param {string} param0.comment
+     * @property {number} activity_id - ID de l'activité
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
      * @returns 
      */
     async createFeedbacks({ activity_id, user_id,things_to_do_id ,rating, comment }) {
@@ -42,7 +47,14 @@ class FeedbacksModel extends AbstractModel {
      * @param {number} param1.things_to_do_id
      * @param {number} param1.rating
      * @param {string} param1.comment
-     * 
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
      * @returns 
      */
     async updateFeedbacks(id, { activity_id, user_id,things_to_do_id, rating, comment }) {
@@ -55,7 +67,18 @@ class FeedbacksModel extends AbstractModel {
     }
 
     /**
-     * 
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {number} total_feedbacks - Nombre total de feedbacks
+     * @property {number} average_rating - Note moyenne
      * @returns {Promise<Object[]>} All feedbacks
      * 
      * 
@@ -80,6 +103,18 @@ class FeedbacksModel extends AbstractModel {
     /**
      * 
      * @param {number} id 
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {number} total_feedbacks - Nombre total de feedbacks
+     * @property {number} average_rating - Note moyenne
      * @returns 
      */
     async findFeedbackById(id) {
@@ -107,6 +142,16 @@ class FeedbacksModel extends AbstractModel {
       /**
        * 
        * @param {number} id 
+       * @property {number} activity_id - ID de l'activité
+       * @property {string} activity_name - Nom de l'activité
+       * @property {number} things_to_do_id - ID de la chose à faire
+       * @property {string} things_to_do_name - Nom de la chose à faire
+       * @property {number} user_id - ID de l'utilisateur
+       * @property {string} user_name - Nom de l'utilisateur
+       * @property {number} rating - Note
+       * @property {string} comment - Commentaire
+       * @property {string} created_at - Date de création
+       * @property {string} updated_at - Date de mise à jour
        * @returns 
        */
     async deleteFeedbacks(id) {
@@ -119,7 +164,11 @@ class FeedbacksModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} activity_id 
+     * @param {number} activity_id
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} total_feedbacks - Nombre total de feedbacks
+     * @property {number} average_rating - Note moyenne
      * @returns 
      */
     async findFeedbackByActivityId(activity_id) {
@@ -144,6 +193,16 @@ class FeedbacksModel extends AbstractModel {
     /**
      * 
      * @param {number} user_id 
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns 
      */
     async findFeedbackByUserId(user_id) {
@@ -167,7 +226,17 @@ class FeedbacksModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} things_to_do_id 
+     * @param {number} things_to_do_id
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour 
      * @returns 
      */
     async findFeedbackByThingsToDoId(things_to_do_id) {
@@ -191,7 +260,17 @@ class FeedbacksModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} rating 
+     * @param {number} rating
+     * @property {number} activity_id - ID de l'activité
+     * @property {string} activity_name - Nom de l'activité
+     * @property {number} things_to_do_id - ID de la chose à faire
+     * @property {string} things_to_do_name - Nom de la chose à faire
+     * @property {number} user_id - ID de l'utilisateur
+     * @property {string} user_name - Nom de l'utilisateur
+     * @property {number} rating - Note
+     * @property {string} comment - Commentaire
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns 
      */
     async findFeedbackByRating(rating) {

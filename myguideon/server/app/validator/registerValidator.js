@@ -1,3 +1,5 @@
+///Ne SERT PLUS A RIEN
+
 const Joi = require('joi');
 
 const registerSchema = Joi.object({

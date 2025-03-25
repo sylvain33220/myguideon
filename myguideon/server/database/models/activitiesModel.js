@@ -14,7 +14,29 @@ class ActivitiesModel extends AbstractModel {
   }
   /**
    * 
-   * @param {number} id 
+   * @param {number} id
+   * @property {number} id - ID de l'activité
+   * @property {string} name - Nom de l'activité
+   * @property {string} description - Description de l'activité
+   * @property {number} price - Prix de l'activité
+   * @property {string} currency - Devise de l'activité
+   * @property {string} imageCover - URL de l'image de couverture
+   * @property {string} location - Lieu de l'activité
+   * @property {number} latitude - Latitude du lieu de l'activité
+   * @property {number} longitude - Longitude du lieu de l'activité
+   * @property {string} language - Langue de l'activité
+   * @property {number} duration - Durée de l'activité
+   * @property {number} max_participants - Nombre maximum de participants
+   * @property {string[]} availability - Disponibilité de l'activité
+   * @property {number} age_limit - Age minimum requis pour participer à l'activité
+   * @property {string} category - Catégorie de l'activité
+   * @property {string} status - Statut de l'activité
+   * @property {number} created_by - ID du créateur de l'activité
+   * @property {number} image_cover_id - ID de l'image de couverture
+   * @property {string} imageAlt - Texte alternatif de l'image de couverture
+   * @property {string} imageDescription - Description de l'image de couverture
+   * @returns {Promise<Object>}
+   * @throws {Error}
    * @returns 
    */
 async getActivityById(id) {
@@ -273,7 +295,27 @@ async addActivity(activity) {
 
 /**
  * 
- * @param {number} id 
+ * @param {number} id
+ * @property {number} id - ID de l'activité
+ * @property {string} name - Nom de l'activité
+ * @property {string} description - Description de l'activité
+ * @property {number} price - Prix de l'activité
+ * @property {string} currency - Devise de l'activité
+ * @property {string} imageCover - URL de l'image de couverture
+ * @property {string} location - Lieu de l'activité
+ * @property {number} latitude - Latitude du lieu de l'activité
+ * @property {number} longitude - Longitude du lieu de l'activité
+ * @property {string} language - Langue de l'activité
+ * @property {number} duration - Durée de l'activité
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string[]} availability - Disponibilité de l'activité
+ * @property {number} age_limit - Age minimum requis pour participer à l'activité
+ * @property {string} category - Catégorie de l'activité
+ * @property {string} status - Statut de l'activité
+ * @property {number} created_by - ID du créateur de l'activité
+ * @property {number} image_cover_id - ID de l'image de couverture
+ * @property {string} imageAlt - Texte alternatif de l'image de couverture
+ * @property {string} imageDescription - Description de l'image de couverture
  * @returns {Promise<boolean>}
  * @throws {Error}
  */

@@ -27,7 +27,21 @@ async getAllUsersPro() {
 }
 /**
  * get a user by id
- * @param {number} id 
+ * @param {number} id
+ * @property {number} id
+ * @property {string} name
+ * @property {string} company_name
+ * @property {string} email
+ * @property {string} phone 
+ * @property {string} profile_image
+ * @property {string} password
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {number} role_id
+ * @property {number} is_verified
+ * @property {string} description
+ * @property {string} address
+ * 
  * @returns {Promise<Object|null>} User or null if not found
  */
 async getUserProById(id) {
@@ -39,7 +53,19 @@ async getUserProById(id) {
 }
 /**
  * add a new user
- * @param {Object} data 
+ * @param {Object} data
+ * @property {string} name
+ * @property {string} company_name
+ * @property {string} email
+ * @property {string} phone
+ * @property {string} password
+ * @property {string} profile_image
+ * @property {number} role_id
+ * @property {number} is_verified
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {string} description
+ * @property {string} address
  * @returns {Promise<Object>} User
  * @throws {Error} If the email is already in use
  * @throws {Error} If the password is invalid
@@ -83,7 +109,19 @@ async AddUserPro(data) {
 /**
  * update a user
  * @param {number} id 
- * @param {Object} data 
+ * @param {Object} data
+ * @property {string} name
+ * @property {string} company_name
+ * @property {string} email
+ * @property {string} phone
+ * @property {string} password
+ * @property {string} profile_image
+ * @property {number} role_id
+ * @property {number} is_verified
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {string} description
+ * @property {string} address
  * @returns {Promise<boolean>} True if the user was updated, false otherwise
  * @throws {Error} If the user was not found
  * 
@@ -128,7 +166,20 @@ async updatePassword(id, newPassword) {
 
 /**
  * delete a user
- * @param {number} id 
+ * @param {number} id
+ * @property {number} id
+ * @property {string} name
+ * @property {string} company_name
+ * @property {string} email
+ * @property {string} phone
+ * @property {string} profile_image
+ * @property {string} password
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {number} role_id
+ * @property {number} is_verified
+ * @property {string} description
+ * @property {string} address
  * @returns {Promise<boolean>} True if the user was deleted, false otherwise
  * @throws {Error} If the user was not found
  * @throws {Error} If the user could not be deleted
@@ -143,7 +194,22 @@ async deleteUserPro(id) {
 /**
  * 
  * @param {string} email 
- * @param {string} password 
+ * @param {string} password
+ * @property {number} id
+ * @property {string} email
+ * @property {string} password
+ * @property {number} role_id
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {number} is_verified
+ * @property {string} name
+ * @property {string} company_name
+ * @property {string} phone
+  * @property {string} description
+  * @property {string} address
+  * @property {string} profile_image
+  * @property {string} role_name
+  * @property {string} role_description
  * @returns {Promise<Object|null>} User or null if not found
  * @throws {Error} If the password is invalid
  * @throws {Error} If the user is not found
@@ -164,9 +230,25 @@ async authenticateUserPro(email, password) {
 
   /**
    * 
-   * @param {number} id 
-   * @returns 
+   * @param {number} id
+   * @property {number} id
+   * @property {string} name
+   * @property {string} company_name
+   * @property {string} email
+   * @property {string} phone
+   * @property {string} profile_image
+   * @property {string} password
+   * @property {string} created_at
+   * @property {string} updated_at
+   * @property {number} role_id
+   * @property {number} is_verified
+   * @property {string} description
+   * @property {string} address
+   * @returns {Promise<boolean>} True if the user was validated, false otherwise
+   * @throws {Error} If the user was not found
+   * @throws {Error} If the user could not be validated
    */
+  
   async validateUserProById(id) {
     const [result] = await this.pool.query(
       `UPDATE ${this.table} SET is_verified = 1 WHERE id = ?`,
