@@ -1,4 +1,3 @@
-
 /**
  * @file reservationsController.js
  * @description Contrôleur pour les réservations des activités 
@@ -7,7 +6,8 @@
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
  * @created 2025-03-10
- */const tables = require('../../database/table');
+ */
+const tables = require('../../database/table');
 const { addReservationValidation, updateReservationValidation,deleteReservationValidation } = require('../validator/reservationsValidator');
 
 const getReservationById = async (req, res) => {

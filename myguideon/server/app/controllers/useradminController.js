@@ -1,373 +1,263 @@
-const UserAdmin                              = require('../../database/models/useradminModal');
-const sendMail                               = require('../utils/transporter');
-const {hashPassword, verifyPassword}         = require('../helpers/argonHelper');
-const loginValidator                         = require('../validator/loginValidator');
-const registerValidator                      = require('../validator/registerValidator');
-const {generateToken}                        = require('../helpers/jwtHelper');
+/**
+ * @file  useradminController.js
+ * @description  User admin controller
+ * @module  User admin controller
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @version 0.0.1
+ * @created  2025-03-10
+ * 
+ */
 
+const tables = require('../../database/table');
+const { hashPassword, verifyPassword } = require('../helpers/argonHelper');
+const { generateToken } = require('../helpers/jwtHelper');
+const sendMail = require('../utils/transporter');
+const {
+    addAdminValidator,
+    updateAdminValidator,
+    authAdminValidator
+} = require('../validator/userAdminValidator');
 
-const userAdminController = {
+//Ajouter un administrateur(avec images , hash, email unique)
+async function addAdmin(req, res, next) {
+    const { error } = addAdminValidator(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
 
-    async addUserAdmin(req, res){
+    const { name, email, password, role_id, is_first_time } = req.body;
+    const profile_image = req.file ? `/assets/img/${req.file.filename}` : null;
 
-    
-    const { error } = registerValidator.validate(req.body);
-    if (error) {
-        return res.status(400).json({ error: true, message: error.details[0].message });
+    try {
+      const existing = await tables.user_admin.findByEmail(email);
+      if (existing) return res.status(409).json({ error: "Email déjà utilisé" });
+
+      const hashedPassword = await hashPassword(password);
+      const insertId = await tables.user_admin.addAdminUser({
+        name,
+        email,
+        password: hashedPassword,
+        profile_image,
+        role_id: role_id || 4,
+        is_first_time: is_first_time ?? true,
+      });
+
+      const html = `  <h1>Un compte admin a été créé</h1>
+      <p>Email : ${email}</p>
+      <p><strong>Mot de passe :</strong> seul vous le connaissez. Si vous ne l’avez pas reçu, contactez l’administrateur principal.</p>`;
+      await sendMail(email, "Nouveau compte admin", html);
+
+      res.status(201).json({ message: "Admin créé", id: insertId });
+    } catch (err) {
+      next(err);
     }
+}
 
-    const  {name, email, password, avatar, profileId}  = req.body;
-
-    const [emailExist] = await UserAdmin.findByEmail(email);
-
-   if(emailExist.length > 0)
-   {
-        return res.status(200).json({ error:true, message: "C'est mail est déja utilisé" });
-   }
-
-    var hashedPassword = await hashPassword(password);
-
-    var html = `<h1>  Un compte avec votre mail vient d'être créé </h1>
-                <p>vous pouvez dès maintenant vous connecter sur espace utilisateur , voici votre mail:
-                ${email} et voici votre mot de pass  ${password}
-    `
-    try{
-        await UserAdmin.addAdminUser(name, email, hashedPassword, avatar, profileId, 'yes');
-        
-        sendMail(
-            email,
-            'Sujet de test',
-            html);
-        return res.status(200).json({ error:false, message: " User added successly" });
-
-    }catch(error)
-    {
-        console.log(error);
+// Afficher tous les administrateurs
+async function getAllAdmins(req, res, next) {
+    try {
+      const admins = await tables.user_admin.findAll();
+      res.status(200).json(admins);
+    } catch (err) {
+      next(err);
     }
-           
-    },
-
-    async deleteUserAdmin(req, res) {
-        try {
-            const success = await UserAdmin.deleteById(req.params.id);
-            if (success) {
-                res.json({ message: 'Administrateur supprimé avec succès.' });
-            } else {
-                res.status(404).json({ message: 'Administrateur non trouvé.' });
-            }
-        } catch (error) {
-            console.error('Erreur lors de la suppression:', error);
-            res.status(500).json({ message: 'Erreur serveur.' });
-        }
-    },
-
-    
-    async getAllPermissions(req, res) {
-        try {
-            const [users] = await UserAdmin.findAll();
-            res.status(200).json({message:users});
-        } catch (error) {
-            res.status(500).json({ message: 'Erreur serveur.' });
-        }
-    }, 
-
-    async getUserAdminById(req, res) {
-        try {
-            const user = await UserAdmin.findById(req.params.id);
-            if (user) {
-                res.status(200).json(user);
-            } else {
-                res.status(404).json({ message: 'Administrateur non trouvé.' });
-            }
-        } catch (error) {
-            
-            res.status(500).json({ message: `Erreur serveur. ${error}` });
-        }
-    },
-
-
-    async updateUserAdmin(req, res) {
-        try {
-            const { id } = req.params;
-            const { name, email, role, permissions } = req.body;
-
-            if (!name || !email || !role || !permissions) {
-                return res.status(400).json({ message: 'Tous les champs sont requis' });
-            }
-
-            await UserAdmin.update(id, { name, email, role, permissions });
-            res.status(200).json({ message: "Administrateur mis à jour avec succès." });
-
-        } catch (error) {
-            console.error('Erreur lors de la mise à jour:', error);
-            res.status(500).json({ message: "Erreur serveur lors de la mise à jour de l'administrateur." });
-        }
-    },
-   
-    async addRoles(req, res){
-        const { name, permissions}  = req.body; 
-       
-        if (!name || !permissions) {
-          return res.status(400).json({ error: 'Name and permission are required' });
-        }
-       
-      
-        try {
-      
-          const result = await UserAdmin.addPermissions(name, permissions);
-      
-          if (result.affectedRows > 0) {
-            console.log('set done');
-
-            return res.status(200).json({ message: 'Data added successfully' });
-          } else {
-            return res.status(500).json({ error: 'Failed to add data' });
-          }
-        } catch (error) {
-          console.error('Erreur lors de l’ajout des données :', error);
-          return res.status(500).json({ error: 'Internal Server Error' });
-        }
-
-    },
-
-
-    async updateRolesPermission(req, res){
-
-        const ID              =  req.params.id;
-        const {permissions}   =  req.body;
-
-        try{
-
-            await UserAdmin.updatePermissios(JSON.stringify(permissions), ID);
-            res.status(200).json("200");
-
-        }catch(error){
-            console.log(error);
-        }
-    },
-
-    async deleteRoles(req, res){
-
-        try{
-            await  UserAdmin.deleteRoles(req.params.id);
-        }
-        catch(error){
-            console.log(error);
-        }
-    },
-    
-    async login(req, res) {
-        const { email, password } = req.body;
-      
-
-        try {
-            //validator joi
-
-            const { error } = loginValidator.validate(req.body);
-            if (error) {
-                return res.status(400).json({ error: error.details[0].message });
-            }
-
-            const [rows] =  await UserAdmin.findByEmail(email);
-
-
-        
-          if (rows.length === 0) {
-
-            return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-
-          }
-
-          const user = rows[0];
-     
-
-          const passwordMatch =  await verifyPassword(user.password, password);
-     
-        
-          if (!passwordMatch) {
-            
-            return res.status(401).json({ error: 'Mot de passe incorrect.' });
-          }
-          // generate the token 
-          const token = generateToken({ id: user.id, email: user.email});
-          res.status(200).json({ message: user.id, isfirstTime: user.isfirsttime, token:token });
-
-
-        } catch (error) {
-
-      
-          console.error('Erreur lors de la connexion :', error);
-          res.status(500).json({ error: 'Erreur interne du serveur.' });
-        }
-      },
-
-      async resetPassword(req, res){
-
-        const { email } = req.body;
-
-        const resetCode = Math.floor(100000 + Math.random() * 900000);
-       
-         try{
-
-          var user = await UserAdmin.findByEmail(email);
-
-          if(user.length == 0){
-
-                return res.status(404).json({ error: 'Utilisateur non trouvé.' });
-          }
-
-          user =  user[0];
-
-         
-
-          const resetCode = Math.floor(100000 + Math.random() * 900000);
-
-          // set a new code reset 
-          await  UserAdmin.resetCode(resetCode, email);
-
-          const mailOptions = {
-    
-            to: email,
-            subject: 'Code de réinitialisation de mot de passe',
-            html: `
-              <h1>Code de réinitialisation</h1>
-              <p>Bonjour ${user.name},</p>
-              <p>Votre code de réinitialisation est : <b>${resetCode}</b></p>
-              <p>Ce code expirera dans 10 minutes.</p>
-            `,
-          };
-      
-          sendMail(mailOptions.to, mailOptions.subject,  mailOptions.html);
-      
-          res.status(200).json({ message: 'Un code de réinitialisation a été envoyé à votre adresse e-mail.' });
-
-
-        } catch (error) {
-          console.error('Erreur lors de l\'envoi du code de réinitialisation :', error);
-          res.status(500).json({ error: 'Erreur interne du serveur.' });
-        }
-      },
-
-
-      async verifyCode(req, res){
-            const {email, code} =  req.body;
-           
-            try{
-                const  response     =  await UserAdmin.verifyCode(email, code);
-
-                if(response.length == 0 ){
-                    return res.status(400).json({ error: 'Code invalide ou expiré.' });
-                }
-
-                res.status(200).json({ message: 'Code vérifié avec succès.' });
-
-            }catch(error){
-
-                console.error('Erreur lors de la vérification du code :', error);
-                res.status(500).json({ error: 'Erreur interne du serveur.' });
-            }
-      },
-
-
-      async setNewPassord(req, res){
-
-        const {email, newPassword} = req.body;
-
-        try{
-
-            const hashedPassword = await hashPassword(newPassword);
-            await UserAdmin.updateNewPassword(hashedPassword, email);
-
-            
-            res.status(200).json({ message: 'Mot de passe réinitialisé avec succès.' });
-
-
-            var html = `
-                <h1>Mot de passe changé</h1>
-                <p>Bonjour; </p>
-                <p>Votre mot de passe a été changé : </p>
-            
-            `;
-                sendMail(
-                email,
-                'Changement de mot de pase',
-                html,
-                
-            );
-
-        }catch(error){
-            console.log(error);
-        }
-      },
-
-    async getPermissions(req, res){
-
-        try{
-            const [permissions] = await UserAdmin.findAllPermissions();
-            if(permissions){
-                return res.status(200).json({ message: permissions});
-            }
-        }catch(error){
-            console.log(error);
-        }
-
-    },
-
-    async getAllUserAdmins(req, res){
-
-        try{
-            const [allUser] =  await UserAdmin.findAll();
-            res.status(200).json(allUser);
-
-        }catch(error){
-             console.log(error);
-        }
-    },
-
-
-    async updateUserInformation(req, res){
-         try{
-
-            let { name, email, password, avatar, profil_id } = req.body;
-            const id = req.params.id
-          
-            try {
-          
-                if (password) {
-                    const isHashed = password.startsWith("$argon2");
-                    if (!isHashed) {
-                      password = await hashPassword(password);
-                    }
-                  }
-
-                await UserAdmin.updateUser(name, email, password, avatar, profil_id, id);
-                res.status(200).json({ message: "Utilisateur mis à jour avec succès " });
-          
-            } catch (error) {
-                console.error(error);
-                res.status(500).json({ message: "Erreur lors de la mise à jour de l'utilisateur" });
-            }
-
-                
-         }catch(error){
-            console.log(error);
-         }
-    },
-
-    async deleteUserInformation(req, res){
-
-        const userId = req.params.id; // ID de l'utilisateur à supprimer
-
-        const result =  UserAdmin.deleteUserAdmin(userId);
-       
-            if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé' });
-            }
-
-            res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
-        
+}
+
+// Afficher un administrateur par ID
+async function getAdminById(req, res, next) {
+    try {
+        const admin = await tables.user_admin.findById(req.params.id);
+        if (!admin) return res.status(404).json({ error: "Admin non trouvé" });
+        res.status(200).json(admin);
+    } catch (err) {
+        next(err);
     }
+}
 
-};
+// Mettre à jour un administrateur
+async function updateAdmin(req, res, next) {
+    const { error } = updateAdminValidator(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
 
-module.exports = userAdminController;
+    const {id} = req.params;
+    const { name, email, password, role_id, is_first_time } = req.body;
+    const profile_image = req.file ? `/assets/img/${req.file.filename}` : null;
+
+    try {
+        let finalPassword = password;
+        if (password && !password.startsWith("$argon2")) {
+          finalPassword = await hashPassword(password);
+        }
+  
+        await tables.user_admin.updateUser({
+            id,
+            name: name ?? null,
+            email: email ?? null,
+            password: finalPassword ?? null,
+            profile_image: profile_image ?? null,
+            role_id: role_id ?? null,
+            is_first_time: is_first_time ?? null,
+        });
+  
+        res.status(200).json({ message: "Admin mis à jour" });
+      } catch (err) {
+        console.error("❌ Erreur updateAdmin :", err);
+        next(err);
+      }
+}
+
+// Supprimer un administrateur
+async function deleteAdmin(req, res,next) {
+    const { id } = req.params;
+    try {
+        const result = await tables.user_admin.deleteAdmin(id);
+        if (result.affectedRows === 0)
+        return res.status(404).json({ message: "Admin non trouvé" });
+
+      res.status(200).json({ message: "Admin supprimé" });
+    } catch (err) {
+        console.error("❌ Erreur deleteAdmin :", err);
+        next(err);
+    }
+}
+
+// Authentification d'un administrateur
+async function login(req, res, next) {
+    const { error } = authAdminValidator(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    const { email, password } = req.body;
+
+    try {
+        const admin = await tables.user_admin.findByEmail(email);
+        if (!admin) return res.status(404).json({ error: "Admin non trouvé" });
+
+        const isPasswordValid = await verifyPassword(admin.password, password);
+        if (!isPasswordValid) return res.status(401).json({ error: "Mot de passe incorrect" });
+
+        const token = generateToken({ id: admin.id, email: admin.email, role_id:admin.role_id });
+        res.status(200).json({token});
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Envoi du code de réinitialisation de mot de passe
+async function sendResetCode(req, res, next) {
+    const { email } = req.body;
+    const resetCode = Math.floor(100000 + Math.random() * 900000);
+
+    try {
+      const admin = await tables.user_admin.findByEmail(email);
+      if (!admin) return res.status(404).json({ error: "Admin non trouvé" });
+
+      await tables.user_admin.setResetCode(email, resetCode);
+
+      const html = `<h1>Code de réinitialisation</h1><p>Votre code est : <b>${resetCode}</b></p>`;
+      await sendMail(email, "Code de réinitialisation", html);
+
+      res.status(200).json({ message: "Code envoyé par email" });
+    } catch (err) {
+      next(err);
+    }
+}
+
+// Vérification du code de réinitialisation
+async function verifyResetCode(req, res, next) {
+    const { email, code } = req.body;
+
+    try {
+        const result = await tables.user_admin.verifyResetCode(email, code);
+        if (!result) return res.status(400).json({ error: "Code invalide ou expiré" });
+
+        res.status(200).json({ message: "Code vérifié avec succès" });
+    } catch (err) {
+        next(err);
+    }    
+}
+
+// Réinitialisation du mot de passe
+async function setNewPassword(req, res, next) {
+    const { email, newPassword } = req.body;
+
+    try {
+        const hashedPassword = await hashPassword(newPassword);
+        await tables.user_admin.updatePassword(email, hashedPassword);
+
+        const html = "<h1>Mot de passe modifié</h1><p>Bonjour, votre mot de passe a été mis à jour.</p>";
+        await sendMail(email, "Mot de passe modifié", html);
+
+        res.status(200).json({ message: "Mot de passe réinitialisé" });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Récupérer les permissions
+async function getPermissions(req, res, next) {
+    const {id} = req.params;
+    try {
+        const permissions = await tables.user_admin.findPermissions(id);
+        res.status(200).json(permissions);
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Ajouter des permissions
+async function addPermissions(req, res, next) {
+    const { name, permissions } = req.body;
+
+    try {
+        const result = await tables.user_admin.addPermissions(name, permissions);
+        if (result.affectedRows > 0) return res.status(200).json({ message: "Permissions ajoutées" });
+
+        res.status(500).json({ error: "Erreur lors de l'ajout des permissions" });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Mettre à jour les permissions
+async function updatePermissions(req, res,  next) {
+    const { id } = req.params;
+    const { permissions } = req.body;
+
+    try {
+        await tables.user_admin.updatePermissions(id, permissions);
+        res.status(200).json({ message: "Permissions mises à jour" });
+    } catch (err) {
+        next(err);
+    }
+}
+
+//Attribuer des permissions à un rôle
+async function assignPermissions(req, res, next) {
+    const { role_id, permissions } = req.body;
+
+    try {
+        await tables.user_admin.assignPermissions(role_id, permissions);
+        res.status(200).json({ message: "Permissions attribuées" });
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+
+module.exports = {
+    addAdmin,
+    getAllAdmins,
+    getAdminById,
+    updateAdmin,
+    deleteAdmin,
+    login,
+    sendResetCode,
+    verifyResetCode,
+    setNewPassword,
+    getPermissions,
+    addPermissions,
+    updatePermissions,
+    assignPermissions,
+}
+

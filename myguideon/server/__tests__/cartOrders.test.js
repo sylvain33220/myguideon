@@ -1,9 +1,24 @@
+/**
+ * @file cartOrders.test.js
+ * @description  Test API pour les commandes
+ * @module Test  API pour les commandes - Tests unitaires
+ * @requires supertest
+ * @requires path
+ * @requires server
+ * @requires pool
+ * @requires generateToken
+ * @requires jwtHelper
+ * @requires dotenv
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @created 2025-03-10
+ */
 const request = require('supertest');
 const path = require('node:path');
 const { server } = require('../server');
 const { pool } = require('../database/client');
 const { generateToken } = require('../app/helpers/jwtHelper');
-const exp = require('node:constants');
 
 
 // 🔄 Génération des tokens pour les tests

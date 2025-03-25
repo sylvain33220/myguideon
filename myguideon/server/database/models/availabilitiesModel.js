@@ -14,8 +14,24 @@ class AvailabilitiesModel extends AbstractModel {
     }
 /****************************Fonction de récupération de toutes les disponibilités********************************** */
 /**
- * 
+ * @description Récupérer toutes les disponibilités
+ * @async
  * @returns {Promise<Object[]>} All availabilities
+ * @property {number} id - ID de la disponibilité
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} date - Date de la disponibilité
+ * @property {string} start_time - Heure de début
+ * @property {string} end_time - Heure de fin
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string} status - Statut de la disponibilité
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
+ * @throws {Error} Une erreur si la requête SQL échoue
+ * @returns {Promise<Object[]>} - Liste des disponibilités
+ * @throws {Error} - L'erreur retournée par MySQL
+ * @memberof AvailabilitiesModel
+ * @instance
+ * @method getAllAvailabilities
  */
 async getAllAvailabilities() {
     const [rows] = await this.pool.query(
@@ -27,7 +43,15 @@ async getAllAvailabilities() {
 /****************************Fonction de récupération des disponibilités par ID d'activité********************************** */
 /**
  * 
- * @param {number} activity_id 
+ * @param {number} activity_id
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} date - Date de la disponibilité
+ * @property {string} start_time - Heure de début
+ * @property {string} end_time - Heure de fin
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string} status - Statut de la disponibilité
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
  * @returns 
  */
 async getAvailabilitiesByActivityId(activity_id) {
@@ -40,10 +64,19 @@ async getAvailabilitiesByActivityId(activity_id) {
 }
 /****************************Fonction d'ajout des disponibilités********************************** */
 /**
- * 
- * @param {*} availabilities 
- * @returns 
+ * Ajoute une nouvelle disponibilité pour une activité.
+ *
+ * @param {Object} availabilities - Données de disponibilité à insérer
+ * @param {number} availabilities.activity_id - ID de l'activité concernée
+ * @param {string} availabilities.date - Date de la disponibilité (format YYYY-MM-DD)
+ * @param {string} availabilities.start_time - Heure de début (format HH:MM:SS)
+ * @param {string} availabilities.end_time - Heure de fin (format HH:MM:SS)
+ * @param {number} [availabilities.max_participants=0] - Nombre max. de participants (optionnel)
+ * @param {string} [availabilities.status='active'] - Statut de la disponibilité (ex: active, annulée)
+ *
+ * @returns {Promise<{ id: number }>} ID de la disponibilité créée
  */
+ 
 async addAvailabilities(availabilities) {
     try {
         const [result] = await this.pool.query(
@@ -68,7 +101,14 @@ async addAvailabilities(availabilities) {
 /**
  * 
  * @param {number} id 
- * @param {*} updates 
+ * @param {Object} updates 
+ * @param {number} updates.activity_id - ID de l'activité concernée
+ * @param {string} updates.date - Date de la disponibilité (format YYYY-MM-DD)
+ * @param {string} updates.start_time - Heure de début (format HH:MM:SS)
+ * @param {string} updates.end_time - Heure de fin (format HH:MM:SS)
+ * @param {number} updates.max_participants - Nombre max. de participants
+ * @param {string} updates.status - Statut de la disponibilité (ex: active, annulée)
+ * @param {number} updates.is_available - Disponibilité active ou non
  * @returns 
  */
 async updateAvailability(id, updates) {
@@ -93,7 +133,17 @@ async updateAvailability(id, updates) {
 /****************************Fonction de suppression des disponibilités********************************** */
 /**
  * 
- * @param {number} id 
+ * @param {number} id
+ * @property {number} id - ID de la disponibilité
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} date - Date de la disponibilité
+ * @property {string} start_time - Heure de début
+ * @property {string} end_time - Heure de fin
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string} status - Statut de la disponibilité
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
+ * @property {number} is_available - Disponibilité active ou non
  * @returns 
  */
 async deleteAvailability(id) {
@@ -110,7 +160,17 @@ async deleteAvailability(id) {
 /****************************Fonction de récupération des disponibilités par ID********************************** */
 /**
  * 
- * @param {number} id 
+ * @param {number} id
+ * @property {number} id - ID de la disponibilité
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} date - Date de la disponibilité
+ * @property {string} start_time - Heure de début
+ * @property {string} end_time - Heure de fin
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string} status - Statut de la disponibilité
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
+ * @property {number} is_available - Disponibilité active ou non
  * @returns 
  */
 async getAvailabilityById(id) {
@@ -129,7 +189,22 @@ async getAvailabilityById(id) {
 /****************************Fonction de vérification des disponibilités********************************** */
 /**
  * 
- * @param {*} param0 
+ * @param {Object} param0 
+ * @param {number} param0.activity_id - ID de l'activité
+ * @param {string} param0.date - Date de la disponibilité
+ * @param {string} param0.start_time - Heure de début
+ * @param {string} param0.end_time - Heure de fin
+ * @param {number} param0.exclude_id - ID de la disponibilité à exclure
+ * @property {number} id - ID de la disponibilité
+ * @property {number} activity_id - ID de l'activité
+ * @property {string} date - Date de la disponibilité
+ * @property {string} start_time - Heure de début
+ * @property {string} end_time - Heure de fin
+ * @property {number} max_participants - Nombre maximum de participants
+ * @property {string} status - Statut de la disponibilité
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
+ * @property {number} is_available - Disponibilité active ou non
  * @returns 
  */
 async checkOverlap({ activity_id, date, start_time, end_time, exclude_id = null }) {

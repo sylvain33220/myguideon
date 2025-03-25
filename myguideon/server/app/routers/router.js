@@ -29,7 +29,7 @@ const thingsToDoRouter = require('./thingsToDoRoute.js');
 // Use the routers****************************************************
 router.use('/destination',destinationRouter);
 
-router.use('/profil',usersAdminRouter);
+router.use('/useradmin',usersAdminRouter);
 
 router.use('/activities',activitiesRouter);
 

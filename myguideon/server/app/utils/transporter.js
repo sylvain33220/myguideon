@@ -10,6 +10,9 @@ const transporter = nodemailer.createTransport({
     user: 'contact@xs.codaby.fr',
     pass: 'Emanuel10abi',  
   },
+  tls: {
+    rejectUnauthorized: false, //!!! Ne pas vérifier les certificats SSL a sortir pour la production !!! 
+  },
 });
 
 

@@ -1,15 +1,19 @@
+/**
+ * @file uploadFile.js
+ * @description   Middleware pour l'upload de fichiers (images et vidéos)
+ * @module  Middleware uploadFile 
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @version 0.0.1
+ * @created 2025-03-10
+ * 
+ */
 const multer = require('multer');
 const path = require('node:path');
 const fs = require('node:fs');
 
-/**
- * Upload middleware for handling both images and videos.
- * - Saves images in `/public/assets/img/`
- * - Saves videos in `/public/assets/video/`
- * - Generates a unique filename using the current timestamp
- * - Ensures file type and size validation
- */
-
+// Middleware for uploading files (images and videos)
 const uploadFile = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {

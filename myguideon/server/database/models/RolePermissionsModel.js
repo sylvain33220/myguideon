@@ -16,6 +16,15 @@ class RolePermissionsModel extends AbstractModel {
     /**
      * 🔍 Récupère les permissions pour un rôle donné
      * @param {number} roleId - L'ID du rôle
+     * @property {string} name - Nom de la permission
+     * @property {string} description - Description de la permission
+     * @property {number} id - ID de la permission
+     * @property {number} role_id - ID du rôle
+     * @property {number} permission_id - ID de la permission
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {string} role_name - Nom du rôle
+     * @property {string} role_description - Description du rôle
      * @returns {Promise<Object[]>} - Liste des permissions
      */
     async getPermissionsByRoleId(roleId) {
@@ -32,6 +41,10 @@ class RolePermissionsModel extends AbstractModel {
      * ➕ Ajouter une permission à un rôle
      * @param {number} roleId - ID du rôle
      * @param {number} permissionId - ID de la permission
+     * @property {number} roleId - ID du rôle
+     * @property {number} permissionId - ID de la permission
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<number>} - ID de la permission créée
      * @async
      * @throws {Error} - L'erreur retournée par MySQL
@@ -52,6 +65,11 @@ class RolePermissionsModel extends AbstractModel {
      * ➕ Ajouter une nouvelle permission
     *  @param {string} name - Nom de la permission
     * @param {string} description - Description de la permission
+    * @property {string} name - Nom de la permission
+    * @property {string} description - Description de la permission
+    * @property {number} id - ID de la permission
+    * @property {string} created_at - Date de création
+    * @property {string} updated_at - Date de mise à jour
     * @returns {Promise<number>} - ID de la permission créée
     * @async
     * @throws {Error} - L'erreur retournée par MySQL
@@ -73,6 +91,10 @@ class RolePermissionsModel extends AbstractModel {
      * ❌ Supprimer une permission d'un rôle
      * @param {number} roleId - ID du rôle
      * @param {number} permissionId - ID de la permission
+     * @property {number} roleId - ID du rôle
+     * @property {number} permissionId - ID de la permission
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
      * @returns {Promise<number>} - Nombre de lignes affectées
      * @throws {Error} - L'erreur retournée par MySQL
      * @async
@@ -94,6 +116,12 @@ class RolePermissionsModel extends AbstractModel {
      * 🏷️ Assigner un rôle à un utilisateur Pro
      * @param {number} userProId - L'ID de l'utilisateur Pro
      * @param {number} roleId - L'ID du rôle
+     * @property {number} userProId - ID de l'utilisateur Pro
+     * @property {number} roleId - ID du rôle
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {string} role_name - Nom du rôle
+     * @property {string} role_description - Description du rôle
      * @returns {Promise<number>} - Nombre de lignes affectées
      * @async
      * @throws {Error} - L'erreur retournée par MySQL
@@ -115,6 +143,12 @@ class RolePermissionsModel extends AbstractModel {
  * 🏷️ Assigner un rôle à un utilisateur admin
  * @param {number} userAdminId - L'ID de l'admin
  * @param {number} roleId - L'ID du rôle
+ * @property {number} userAdminId - ID de l'admin
+ * @property {number} roleId - ID du rôle
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de mise à jour
+ * @property {string} role_name - Nom du rôle
+ * @property {string} role_description - Description du rôle
  * @returns {Promise<number>} - Nombre de lignes affectées
  * @async
  * @throws {Error} - L'erreur retournée par MySQL
@@ -135,6 +169,11 @@ async assignRoleToUserAdmin(userAdminId, roleId) {
     /**
      * ❌ Supprimer un rôle d’un utilisateur Pro
      * @param {number} userProId - L'ID de l'utilisateur Pro
+     * @property {number} userProId - ID de l'utilisateur Pro
+     * @property {string} created_at - Date de création
+     * @property {string} updated_at - Date de mise à jour
+     * @property {string} role_name - Nom du rôle
+     * @property {string} role_description - Description du rôle
      * @returns {Promise<number>} - Nombre de lignes affectées
      * @async
      * @throws {Error} - L'erreur retournée par MySQL

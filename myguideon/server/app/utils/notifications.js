@@ -1,6 +1,6 @@
 const sendMail   = require('./transporter');
 const hostLink   = require('./host');
-const UserAdmin  =  require('../../database/models/useradminModal');
+const UserAdmin  =  require('../../database/models/useradminModel');
 
 
 // notify the author of destination 

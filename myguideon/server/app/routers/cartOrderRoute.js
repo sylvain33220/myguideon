@@ -1,3 +1,14 @@
+/**
+ * @file  cartOrderRoute.js
+ * @description   router pour les commandes
+ * @module  Router Commandes
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @version 0.0.1
+ * @created  2025-03-25
+ * 
+ */
 const express = require('express');
 const router = express.Router();
 

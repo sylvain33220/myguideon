@@ -2105,9 +2105,7 @@ Supprimer un feedback
 ```json
 [
   {
-    "activity_id": 108,
-    "activity_name": "Plongée",
-    "average_rating": 4.5
+    "actrage_rating": 4.5
   },
   ...
 ]
@@ -2126,7 +2124,9 @@ Modifier
     "average_rating": 3.7
   },
   ...
-]
+]ivity_id": 108,
+    "activity_name": "Plongée",
+    "ave
 
 #########################################################################################################
 ######                            🧪 RESULTAT TEST LOCAL POUR feedbacks                           ######
@@ -2274,3 +2274,259 @@ Tests:       4 passed, 4 total
 Snapshots:   0 total
 Time:        2.36 s, estimated 3 s
 Ran all test suites matching /__tests__\\thingsToDo.test.js/i.
+
+#########################################################################################################
+
+🧑‍💼 Endpoints pour Administrateurs (user_admin)
+
+#########################################################################################################
+
+🔁 API - User Admin
+🔒 POST /api/useradmin/add
+Ajouter un nouvel administrateur (avec image de profil)
+
+🔐 Accès : Authentifié (role_id = 1)
+
+🧩 Middleware : authMiddleware("add_admin") + roleMiddleware([1])
+
+📤 FormData :
+
+json
+Copier
+Modifier
+{
+  "name": "Nom Admin",
+  "email": "admin@example.com",
+  "password": "password123",
+  "role_id": 4
+}
++ image: "profile_image"
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Admin créé", "id": 123 }
+🔒 GET /api/useradmin
+Récupérer tous les administrateurs
+
+🔐 Accès : Admin seulement (role_id = 1)
+
+📦 Retour : Liste des user_admin
+
+🔒 GET /api/useradmin/:id
+Récupérer un administrateur par ID
+
+🔐 Accès : role_id = 1 ou 4
+
+🔢 Paramètre : id
+
+📦 Retour : Objet admin
+
+🔒 PUT /api/useradmin/:id
+Modifier un administrateur
+
+🔐 Accès : role_id = 1
+
+📤 FormData :
+
+json
+Copier
+Modifier
+{
+  "name": "Nom modifié",
+  "email": "admin@example.com",
+  "password": "nouveaumdp",
+  "role_id": 4
+}
++ image: "profile_image"
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Admin mis à jour" }
+🔒 DELETE /api/useradmin/:id
+Supprimer un administrateur
+
+🔐 Accès : role_id = 1
+
+🔢 Paramètre : id
+
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Admin supprimé" }
+🔓 POST /api/useradmin/login
+Connexion d’un administrateur
+
+✅ Accès : Public
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "email": "admin@example.com", "password": "motdepasse" }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "token": "jwt_token" }
+🔓 POST /api/useradmin/reset
+Envoi d’un code de réinitialisation par e-mail
+
+🔐 Accès : Authentifié (role_id = 1 ou 4)
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "email": "admin@example.com" }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Code envoyé par email" }
+🔓 POST /api/useradmin/verify
+Vérifier le code de réinitialisation
+
+🔐 Accès : Authentifié (role_id = 1 ou 4)
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "email": "admin@example.com", "code": "123456" }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Code vérifié avec succès" }
+🔓 POST /api/useradmin/new-password
+Réinitialiser le mot de passe après vérification du code
+
+🔐 Accès : Authentifié (role_id = 1 ou 4)
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "email": "admin@example.com", "newPassword": "motdepasse123" }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Mot de passe réinitialisé" }
+🔒 GET /api/useradmin/permissions/:id
+Voir les permissions d’un administrateur
+
+🔐 Accès : role_id = 1
+
+📦 Retour : Liste des permissions
+
+🔒 POST /api/useradmin/permissions
+Ajouter de nouvelles permissions
+
+🔐 Accès : role_id = 1
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "name": "admin", "permissions": ["add_admin", "view_admin", ...] }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Permissions ajoutées" }
+🔒 PUT /api/useradmin/permissions/:id
+Modifier les permissions d’un rôle
+
+🔐 Accès : role_id = 1
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "permissions": ["view_admin", "update_admin"] }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Permissions mises à jour" }
+🔒 POST /api/useradmin/assign-permissions
+Associer un rôle à un ensemble de permissions
+
+🔐 Accès : role_id = 1
+
+📤 Body :
+
+json
+Copier
+Modifier
+{ "role_id": 4, "permissions": ["view_admin"] }
+📦 Retour :
+
+json
+Copier
+Modifier
+{ "message": "Permissions attribuées" }
+
+
+
+
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR user_admin                          ######
+#########################################################################################################
+
+npx jest  __tests__/userAdmin.test.js
+  console.log
+    🚀 Server is running on port 3030
+
+      at Server.log (server.js:45:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+  console.log
+    E-mail envoyé avec succès : <e0329c88-9b0b-abd9-2ec5-84d091d77d16@xs.codaby.fr>
+
+      at log (app/utils/transporter.js:29:13)
+
+  console.log
+    E-mail envoyé avec succès : <542602e7-e722-9c47-c96f-d8965d26a633@xs.codaby.fr>
+
+      at log (app/utils/transporter.js:29:13)
+
+ PASS  __tests__/userAdmin.test.js
+  📌 Test API UserAdmin
+    √ POST /api/useradmin/add - devrait créer un nouvel administrateur (903 ms)                                                                                                                                              
+    √ GET /api/useradmin - devrait retourner tous les administrateurs (18 ms)                                                                                                                                                
+    √ GET /api/useradmin/:id - devrait retourner un admin par ID (12 ms)
+    √ DELETE /api/useradmin/:id - devrait supprimer l admin créé (11 ms)
+    √ POST /api/useradmin/login - devrait authentifier un admin (160 ms)
+    √ POST /api/useradmin/reset - devrait envoyer un code de reset (590 ms)
+    √ PUT /api/useradmin/:id - devrait mettre à jour un admin (136 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        3.947 s, estimated 5 s
+Ran all test suites matching /__tests__\\userAdmin.test.js/i.

@@ -6,7 +6,8 @@
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
  * @created 2025-03-10
- */const argon2 = require('argon2');
+ */
+const argon2 = require('argon2');
 
 /**
  * Argon2 hashing options

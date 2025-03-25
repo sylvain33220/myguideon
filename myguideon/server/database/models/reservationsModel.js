@@ -42,8 +42,15 @@ class ReservationsModel extends AbstractModel {
     }
     /**
      * @async
-     * @param {number} id 
+     * @param {number} id
      * @returns {Promise<Object|null>} La réservation correspondant à l'ID fourni.
+     * @property {number} id - ID de la réservation.
+     * @property {number} activity_id - ID de l'activité.
+     * @property {string} date - Date de la réservation.
+     * @property {number} total_amount - Montant total de la réservation.
+     * @property {string} status - Statut de la réservation.
+     * @property {string} created_at - Date de création de la réservation.
+     * @property {string} updated_at - Date de mise à jour de la
      * @throws {Error} Si une erreur SQL se produit.
      */
      async getReservationById(id){
@@ -61,6 +68,14 @@ class ReservationsModel extends AbstractModel {
     }
     /**
      * @async
+     * @property {number} id - ID de la réservation.
+     * @property {number} activity_id - ID de l'activité.
+     * @property {string} date - Date de la réservation.
+     * @property {number} total_amount - Montant total de la réservation.
+     * @property {string} status - Statut de la réservation.
+     * @property {string} created_at - Date de création de la réservation.
+     * @property {string} updated_at - Date de mise à jour de la
+     * @returns {Promise<Object|null>} La réservation correspondant à l'ID fourni.
      * @returns {Promise<Array>} Toutes les réservations.
      * @throws {Error} Si une erreur SQL se produit.
      */
@@ -79,6 +94,13 @@ class ReservationsModel extends AbstractModel {
     /**
      * @async
      * @param {number} activity_id 
+     * @property {number} id - ID de la réservation.
+     * @property {number} activity_id - ID de l'activité.
+     * @property {string} date - Date de la réservation.
+     * @property {number} total_amount - Montant total de la réservation.
+     * @property {string} status - Statut de la réservation.
+     * @property {string} created_at - Date de création de la réservation.
+     * @property {string} updated_at - Date de mise à jour de la réservation.
      * @returns {Promise<Object[]>} Toutes les réservations pour une activité donnée.
      * @throws {Error} Si une erreur SQL se produit.
      */
@@ -93,9 +115,18 @@ class ReservationsModel extends AbstractModel {
 
     /**
      * 
-     * @param {number} user_id 
-     * @returns 
+     * @param {number} user_id
+     * @property {number} id - ID de la réservation.
+     * @property {number} activity_id - ID de l'activité.
+     * @property {string} date - Date de la réservation.
+     * @property {number} total_amount - Montant total de la réservation.
+     * @property {string} status - Statut de la réservation.
+     * @property {string} created_at - Date de création de la réservation.
+     * @property {string} updated_at - Date de mise à jour de la réservation.
+     * @returns {Promise<Object[]>} Toutes les réservations pour un utilisateur donné.
+     * @throws {Error} Si une erreur SQL se produit
      */
+     
     async getReservationsByUserId(user_id){
         const [rows] = await this.pool.query(
             `SELECT id,activity_id,date,total_amount,status,created_at,updated_at
@@ -134,7 +165,14 @@ class ReservationsModel extends AbstractModel {
     }
     /**
      * @async
-     * @param {number} id 
+     * @param {number} id
+     * @property {number} id - ID de la réservation.
+     * @property {number} activity_id - ID de l'activité.
+     * @property {string} date - Date de la réservation.
+     * @property {number} total_amount - Montant total de la réservation.
+     * @property {string} status - Statut de la réservation.
+     * @property {string} created_at - Date de création de la réservation.
+     * @property {string} updated_at - Date de mise à jour de la réservation.
      * @returns {Promise<boolean>} true si la réservation a été supprimée, sinon false.
      * @throws {Error} Si une erreur SQL se produit.
      * */

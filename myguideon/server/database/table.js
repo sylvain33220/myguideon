@@ -9,7 +9,7 @@
  * @created 2025-03-10
  */
 const DestinationModel  = require('./models/destinationModal');
-const UserAdminModel    = require('./models/useradminModal'); 
+const UserAdminModel    = require('./models/useradminModel'); 
 const UserproModel = require('./models/userproModel');
 const ActivitiesModel = require('./models/activitiesModel');
 const RolePermissionsModel = require('./models/RolePermissionsModel');
@@ -24,13 +24,13 @@ const ThingsToDoModel = require('./models/ThingsToDoModel');
 const tables = {}
 
 /******************************TABLES*********************************************** */
-tables.destination =  new  DestinationModel();
+tables.destination = new DestinationModel();
 
-tables.userAdmin   =  new  UserAdminModel();
+tables.user_admin   = new UserAdminModel();
 
 tables.userpro = new UserproModel();
 
-tables.activities = new  ActivitiesModel();
+tables.activities = new ActivitiesModel();
 
 tables.role_permissions = new RolePermissionsModel();
 

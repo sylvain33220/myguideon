@@ -5,7 +5,7 @@
  * @author Sylvain
  * @email poteaux.sylvain@gmail.com
  * @website https://www.studio-purple.com
- * @created 2025-03-10
+ * @created 2025-03
  */
 const express = require('express');
 const router = express.Router();

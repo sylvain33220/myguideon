@@ -1,3 +1,14 @@
+/**
+ * @file  thingsToDoValidator.js
+ * @description   Validation des données pour les utilisateurs admin
+ * @module  Validator de thingsToDo
+ * @author Sylvain
+ * @email poteaux.sylvain@gmail.com
+ * @website https://www.studio-purple.com
+ * @version 0.0.1
+ * @created 2025-03-25
+ * 
+ */
 const Joi = require('joi');
 
 /**********************validation pour la création********************** */
