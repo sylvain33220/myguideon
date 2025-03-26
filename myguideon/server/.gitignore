@@ -46,7 +46,13 @@ tmp/
 coverage/
 *.lcov
 
-# --- ELECTRON (si jamais tu l'utilises) ---
+# --- ELECTRON  ---
 *.asar
 *.bin
 *.db
+
+# --- DOCUMENTS (Word, PDF, etc.) ---
+*.docx
+*.pdf
+*.xlsx
+!docs/**
