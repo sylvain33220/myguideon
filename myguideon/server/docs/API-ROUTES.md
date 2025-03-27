@@ -1519,6 +1519,39 @@ Réponse :
   "profile_image": "profile.jpg"
 }
 
+🔒 PATCH /api/userclient/:id/experience-rating
+Met à jour la note d’expérience d’un user_client après validation d'une activité.
+
+🔐 Authentification : Requise (update_userclient)
+
+🔢 Paramètre d'URL : id de l'utilisateur client
+
+📩 Headers :
+
+json
+Copier
+Modifier
+{
+  "Authorization": "Bearer JWT_TOKEN"
+}
+📥 Body :
+
+json
+Copier
+Modifier
+{
+  "experience_rating": 8
+}
+📤 Réponse :
+
+json
+Copier
+Modifier
+{
+  "message": "Note d’expérience mise à jour"
+}
+
+
 🔒 PUT /api/userclients/me
 
 Description : Met à jour les informations de l’utilisateur authentifié.

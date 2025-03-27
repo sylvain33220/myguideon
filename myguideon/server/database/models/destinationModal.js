@@ -87,6 +87,17 @@ class DestinationModel extends AbstractModel {
     }
     
   }
+
+  async updatePraticalInfo(id, updatedPraticalInfo) {
+    const connection = await this.pool.getConnection();
+    try {
+      const query = "UPDATE destination SET pratical_info = ? WHERE id = ?";
+      await connection.execute(query, [JSON.stringify(updatedPraticalInfo), id]);
+    } finally {
+      connection.release();
+    }
+  }
+
 } 
 
 module.exports = DestinationModel;

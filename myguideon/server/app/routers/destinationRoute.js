@@ -10,6 +10,7 @@ router.get('/details/:id',destinationController.getDestinationById);
 router.post('/add/basic/info',destinationController.addDestination);
 router.delete('/delete/:id',destinationController.deleteDestination);
 router.get('/:id',destinationController.destinationDetailsAdmin); 
+router.patch("/:id/practical-info", destinationController.updatePraticalInfo );
 
 //router.post('/update/gallery/:id', upload.array('files', 1000), destinationController.updateGallery);
 router.post('/update/basic/info/:id',   destinationController.updateDestination);

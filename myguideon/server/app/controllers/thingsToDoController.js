@@ -129,7 +129,6 @@ async function updateThingsToDo(req, res) {
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
-  
   /******************* Récupérer tous les ThingsToDo *******************/
   async function getAllThingsToDo(req, res) {
     try {

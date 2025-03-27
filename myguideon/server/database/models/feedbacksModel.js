@@ -25,15 +25,16 @@ class FeedbacksModel extends AbstractModel {
      * @param {string} param0.comment
      * @property {number} activity_id - ID de l'activité
      * @property {number} user_id - ID de l'utilisateur
+     * @property {number} destination_id - ID de la chose à faire
      * @property {number} things_to_do_id - ID de la chose à faire
      * @property {number} rating - Note
      * @property {string} comment - Commentaire
      * @returns 
      */
-    async createFeedbacks({ activity_id, user_id,things_to_do_id ,rating, comment }) {
+    async createFeedbacks({ activity_id, user_id,things_to_do_id , destination_id, rating, comment }) {
         const [result] = await this.pool.query(
-            `INSERT INTO ${this.table} (activity_id, user_id,things_to_do_id, rating, comment,created_at ) VALUES (?, ?, ?, ?, ?, NOW())`,
-            [activity_id, user_id,things_to_do_id, rating, comment]
+            `INSERT INTO ${this.table} (activity_id, user_id,things_to_do_id,destination_id, rating, comment,created_at ) VALUES (?, ?, ?, ?, ?,?, NOW())`,
+            [activity_id, user_id,things_to_do_id,destination_id, rating, comment]
         );
         return result.insertId;
     }

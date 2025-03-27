@@ -24,7 +24,9 @@ const {
     updatePassword,
     deleteUserClient,
     loginUserClient,
-    addUserClient
+    addUserClient,
+    updateExperienceRating
+
 } = require('../controllers/userClientController');
 
 /***********************ROUTES PUBLIQUES*********************************** */
@@ -33,6 +35,9 @@ router.post('/login', loginUserClient);
 
 // 🔓 Route publique : Inscription avec upload d'image
 router.post('/register', uploadFile().single('profile_image'), addUserClient);
+
+// 🔓 Route publique : Mettre à jour la note d'expérience
+router.patch("/:id/experience-rating", updateExperienceRating);
 
 /***********************ROUTES PROTEGEES POUR `user_client`*********************************** */
 // 🔒 Récupérer ses propres infos
@@ -62,6 +67,7 @@ router.put('/:id/password', authMiddleware('update_password_userclient'), roleMi
 
 // 🔒 Supprimer un `user_client` par son ID (admin seulement)
 router.delete('/:id', authMiddleware('delete_userclient'), roleMiddleware([1]), deleteUserClient);
+
 
 
 /***********************EXPORT*********************************** */

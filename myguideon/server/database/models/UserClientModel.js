@@ -391,6 +391,19 @@ class UserClientModel extends AbstractModel {
             throw new Error("Erreur lors de la suppression du userclient");
         }
     }
+
+    async updateExperienceRating(id,experience_rating) {
+        try {
+            const [result] = await this.pool.query(
+                `UPDATE ${this.table} SET experience_rating = ? WHERE id = ?`,
+                [experience_rating, id]
+            );
+            return result.affectedRows === 1;
+        } catch (error) {
+            console.error("❌ ERREUR SQL updateExperienceRating:", error);
+            throw new Error("Erreur lors de la mise à jour de la note d'expérience du userclient");
+        }
+    }
     
 // ******************************************************************************************************/
 }

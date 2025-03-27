@@ -17,6 +17,7 @@ const { addUserClientValidation,
     updateUserClientValidation,
      updatePasswordValidation,
     authUserClientValidation } = require('../validator/userClientValidator');
+const { type } = require('node:os');
 
 /*********************** Récupérer tous les UserClient ***********************/
 
@@ -33,7 +34,6 @@ async function getAllUserClient(req, res) {
         res.status(500).json({ error: 'Erreur serveur' });
     }
 }
-
 /*********************** Récupérer un UserClient par ID ***********************/
 async function getUserClientById(req, res) {
     try {
@@ -83,8 +83,6 @@ async function addUserClient(req, res) {
     }
 }
 
-
-
 /*********************** Mettre à jour un UserClient ***********************/
 async function updateUserClient(req, res) {
     try {
@@ -116,7 +114,6 @@ async function updateUserClient(req, res) {
         res.status(500).json({ error: 'Erreur serveur' });
     }
 }
-
 /*********************** Mettre à jour le mot de passe d'un UserClient ***********************/
 async function updatePassword(req, res) {
     try {
@@ -186,6 +183,23 @@ async function loginUserClient(req, res) {
     }
 }
 
+async function updateExperienceRating(req,res,next) {
+    const {id} = req.params;
+    const {experience_rating} = req.body;
+    if (typeof experience_rating !== 'number' || experience_rating < 0 ) {
+        return res.status(400).json({ error: "Note d'expérience invalide" });
+    }
+
+    try {
+        const success = await tables.user_client.updateExperienceRating(id, experience_rating);
+        if (!success) return res.status(404).json({ error: "Utilisateur non trouvé" });
+        res.status(200).json({ message: "Note d'expérience mise à jour" });
+      } catch (err) {
+        console.error("❌ Erreur updateExperienceRating:", err);
+        next(err);
+      }
+}
+
 
 /*********************** Exportation des fonctions du controller ***********************/
 module.exports = {
@@ -195,5 +209,6 @@ module.exports = {
     updateUserClient,
     updatePassword,
     deleteUserClient,
-    loginUserClient
+    loginUserClient,
+    updateExperienceRating
 };

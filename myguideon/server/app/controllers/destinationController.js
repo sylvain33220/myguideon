@@ -2,11 +2,22 @@ const  Destination                        = require('../../database/models/desti
 const { notifyTheAuthor, notifyAllAdmin } = require('../utils/notifications');
 
 
-
-
-
 const destinationController = {
 
+    async  updatePraticalInfo (req, res, next) {
+        const {id} = req.params;
+        const {pratical_info} = req.body;
+        if (!pratical_info) {
+            return res.status(400).json({message: 'Informations pratiques manquantes.'});
+        }
+        try {
+            await Destination.updatePraticalInfo(id, pratical_info);
+            res.status(200).json({message: 'Informations pratiques mises à jour avec succès.'});
+        } catch (err) {
+            console.error('Erreur lors de la mise à jour des informations pratiques:', err);
+            next(err);
+        }
+    },
 
     async addDestination(req, res) {
         try {
@@ -16,7 +27,6 @@ const destinationController = {
             if (req.files && req.files['weather_image'] && req.files['weather_image'][0]) {
                 imgpath = `/public/assets/images/${req.files['weather_image'][0].filename}`;
             }
-
             const basicInfo = { destinationName, language, budget, currency, status, address, categories, lon, lat, imgpath };
             const insertedId = await Destination.add(basicInfo, author);
 
@@ -28,8 +38,7 @@ const destinationController = {
     },
 
     async updateDestination(req, res){
-        
-
+    
         const { id } = req.params; 
         var { destinationName, language, budget, currency, status, address, categories, lon, lat, author} = req.body;
         
@@ -49,9 +58,6 @@ const destinationController = {
             lon,
             lat
         };
-
-       
-
         const checkQuery = await Destination.findById(id);
 
         if (checkQuery.length === 0) {
@@ -74,12 +80,7 @@ const destinationController = {
             console.error('Erreur lors de la vérification de la destination:', error);
             res.status(500).json({ message: "Erreur lors de la vérification de la destination." });
         }
-
-         
-             
         },
-
-
 
     async deleteDestination(req, res) {
         try {
@@ -116,7 +117,6 @@ const destinationController = {
             res.status(500).json({ message: 'Erreur serveur.' });
         }
     },
-
 
     async destinationDetailsAdmin(req, res){
         const { id } = req.params; 
