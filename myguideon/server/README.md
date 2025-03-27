@@ -21,10 +21,18 @@ cd myguideon
 npm install
 ```
 
+## 📌 Historique des mises à jour
+
+Voir le fichier [`docs/lastModif.md`](./docs/lastModif.md) pour les derniers changements apportés au back-end.
+
 ## ✍️ Auteur 
 
 [website] (https://www.studio-purple.com)
 [GitHub] (https://github.com/sylvain33220)
 [linkedin] (https://www.linkedin.com/in/sylvain-poteaux-b87217301/)
+
+✍️ Auteur : Sylvain Poteaux
+📧 poteaux.sylvain@gmail.com
+🌐 https://www.studio-purple.com
 
 ---
