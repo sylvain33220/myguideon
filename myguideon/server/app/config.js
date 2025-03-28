@@ -17,7 +17,7 @@ const app = express();
 module.exports = {
   app,  
 
-  PORT: 3030,
+  PORT: process.env.PORT || 3030,
 
   jsonConfig: { limit: "50mb" },
   urlEncodedConfig: { limit: "50mb", extended: true },

@@ -1,13 +1,4 @@
-/*******************************************************************************************
- * Dump complet du schéma et données de production
- * Projet : MyGuideOn
- * Date   : 2025-03-25
- * Auteur : Sylvain (https://www.studio-purple.com)
-    * Version: 1.0
-IMPORTANT a modifier par l'administrateur du site lors de la mise en production: 
- /* !!!!!PASSWORD ADMIN: 1 =/ adminpassword / pour permettre la première connection de l'administrateur car hasher en bdd */
 
- *******************************************************************************************/
 
 
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
@@ -225,7 +216,7 @@ CREATE TABLE `feedbacks` (
   KEY `fk_feedbacks_user` (`user_id`),
   KEY `fk_thing_to_do_id` (`things_to_do_id`),
   KEY `feedbacks_ibfk_1` (`activity_id`),
-  KEY 'fk_feedbacks_destination'('destination_id'),
+  KEY `fk_feedbacks_destination` (`destination_id`),
   CONSTRAINT `feedbacks_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
   CONSTRAINT `fk_feedbacks_user` FOREIGN KEY (`user_id`) REFERENCES `user_client` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_thing_to_do_id` FOREIGN KEY (`things_to_do_id`) REFERENCES `things_to_do` (`id`) ON DELETE SET NULL,

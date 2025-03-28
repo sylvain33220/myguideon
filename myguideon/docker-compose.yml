@@ -1,41 +1,34 @@
 version: '3.8'
 
 services:
-  front-end:
-    build: ./front-end
-    image: front-end-image
+  backend:
+    build: ./server
+    container_name: myguideon-back
     ports:
       - "3000:3000"
-    container_name: front-end-container
-    volumes:
-      - ./front-end:/app
-
-  back-end:
-    build: ./back-end
-    image: back-end-image
-    ports:
-      - "3030:3030"
-    container_name: back-end-container
-    volumes:
-      - ./back-end:/app
-    depends_on:
-      - mysql-service
     env_file:
-      - .env  
-
-  mysql-service:
-    image: mysql:latest
-    container_name: mysql-container
-    volumes:
-      - mysql_data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-    ports:
-      - "${MYSQL_PORT}:${MYSQL_PORT}"  # Utilisation du port dans .env
+       - ./server/.env.docker
+    depends_on:
+      - db
     restart: always
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:8.0
+    container_name: myguideon-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: myguideon
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
 
 volumes:
-  mysql_data:
+  db_data:

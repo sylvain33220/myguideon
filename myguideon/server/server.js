@@ -40,6 +40,9 @@ app.get("/api/stripe-key", (req, res) => {
   res.json({publishableKey: config.STRIPE_PUBLISHABLE_KEY});
 });
 
+app.get("/", (req, res) => {
+  res.send("🚀 MyGuideOn API is running!");
+});
 
 const server = app.listen(config.PORT, () => {
   console.log(`🚀 Server is running on port ${config.PORT}`);
