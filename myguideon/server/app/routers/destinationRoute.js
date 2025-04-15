@@ -15,5 +15,4 @@ router.patch("/:id/practical-info", destinationController.updatePraticalInfo );
 //router.post('/update/gallery/:id', upload.array('files', 1000), destinationController.updateGallery);
 router.post('/update/basic/info/:id',   destinationController.updateDestination);
 
-
 module.exports = router;
