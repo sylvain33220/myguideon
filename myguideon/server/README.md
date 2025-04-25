@@ -113,6 +113,21 @@ http://localhost:3030/api
 La base de données est déjà prête et initialisée. Contactez-moi si besoin d’aide pour les premiè
 
 ---
+## 👨‍💻 Pour le développeur front-end
+Pour ceux qui ne s'avent pas se servir de docker voilà plus simple pour vous 
+# 📦 MyGuideOn - Back-end API base url Render + bdd connectée 
+Pas besoin de Docker ni de prise de tête ici. L'API back-end est déjà déployée sur Render avec la base de données connectée et prête à l'emploi. 🎉
+
+🚀 Base URL de l'API :
+https://myguideon-qaro.onrender.com/
+
+ℹ️ Tous les endpoints disponibles sont documentés dans :
+📄 docs/API-ROUTES.md
+
+Utilisez cette base URL directement dans vos appels API (exemple : /api/activities).
+
+Enjoy, la team front 😎🔥
+
 
 ## ✉️ Auteur
 ✍️ Auteur : Sylvain Poteaux
