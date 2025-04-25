@@ -28,6 +28,8 @@ public/assets/images/*
 # --- SQL DUMP : garder seulement schema.sql de référence ---
 *.sql
 !schema.sql
+Dump/*
+!Dump/dump.sql
 
 # --- EDITOR / OS FILES ---
 .vscode/
