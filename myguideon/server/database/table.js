@@ -19,6 +19,7 @@ const OrderModel = require('./models/OrderModel');
 const UserClientModel = require('./models/UserClientModel');
 const feedbacksModel = require('./models/feedbacksModel');
 const ThingsToDoModel = require('./models/ThingsToDoModel');
+const MessagesModel = require('./models/MessagesModel');
 
 
 const tables = {}
@@ -45,6 +46,8 @@ tables.user_client = new UserClientModel();
 tables.feedbacks = new feedbacksModel();
 
 tables.things_to_do = new ThingsToDoModel();
+
+tables.messages = new MessagesModel();
 
 
 /*************************EXPORT****************************************************** */

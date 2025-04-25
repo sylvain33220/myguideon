@@ -2563,3 +2563,165 @@ Tests:       7 passed, 7 total
 Snapshots:   0 total
 Time:        3.947 s, estimated 5 s
 Ran all test suites matching /__tests__\\userAdmin.test.js/i.
+
+
+
+############################################################################################################################################################################
+
+#########################################################################################################
+######                             🛤️ Endpoints pour messages                                      ######
+#########################################################################################################
+
+🛤️ Base URL
+/api/messages
+
+🟢 Routes Publiques
+🔓 GET /api/messages/conversation/:sender_id/:receiver_id
+Description : Récupère la conversation entre deux utilisateurs.
+
+Authentification : Non requise.
+
+Réponse :
+
+json
+
+[
+  {
+    "id": 1,
+    "sender_id": 5,
+    "sender_type": "user_client",
+    "receiver_id": 6,
+    "receiver_type": "userpro",
+    "content": "Hello le pro !",
+    "media_url": null,
+    "is_read": false,
+    "created_at": "2025-04-24T10:00:00Z"
+  }
+]
+🛑 Routes Sécurisées
+🔒 GET /api/messages
+Description : Récupère tous les messages.
+
+Authentification : Requise (tous rôles).
+
+Réponse :
+
+json
+
+[
+  {
+    "id": 1,
+    "sender_id": 5,
+    "receiver_id": 6,
+    "content": "Hello le pro !",
+    "media_url": null,
+    "is_read": false
+  }
+]
+🔒 POST /api/messages
+Description : Envoie un message (texte et/ou média).
+
+Authentification : Requise (client ou pro).
+
+Body : (form-data)
+
+
+Champ	Type	Requis	Description
+sender_id	Integer	Oui	ID de l'expéditeur
+sender_type	String	Oui	"user_client" ou "userpro"
+receiver_id	Integer	Oui	ID du destinataire
+receiver_type	String	Oui	"user_client" ou "userpro"
+content	String	Non	Message texte
+media_url	File	Non	Fichier média (image, vidéo, etc.)
+Réponse :
+
+json
+
+{
+  "id": 10,
+  "message": "Message envoyé avec succès."
+}
+🔒 PATCH /api/messages/markAsRead/:messageId
+Description : Marque un message comme lu.
+
+Authentification : Requise (client ou pro).
+
+Réponse :
+
+json
+
+{
+  "message": "Message marqué comme lu"
+}
+🔒 GET /api/messages/:messageId
+Description : Récupère un message par son ID.
+
+Authentification : Requise.
+
+Réponse :
+
+json
+
+{
+  "id": 10,
+  "sender_id": 5,
+  "receiver_id": 6,
+  "content": "Hello le pro !",
+  "media_url": null,
+  "is_read": true
+}
+🔒 DELETE /api/messages/:messageId
+Description : Supprime un message.
+
+Authentification : Requise.
+
+Réponse :
+
+json
+
+{
+  "message": "Message supprimé avec succès."
+}
+
+#########################################################################################################
+######                            🧪 RESULTAT TEST LOCAL POUR services                          ######
+#########################################################################################################
+
+npx jest -- __tests__/messages.test.js
+  console.log
+    🔑 Token Client : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJjbGllbnRAZXhhbXBsZS5jb20iLCJyb2xlX2lkIjoxLCJpYXQiOjE3NDU1ODc1NjgsImV4cCI6MTc0NTU5NDc2OH0.QfF6si_mgkKfaEDjpVx5SicRHtCtd9d0uQ5m8O_sfWI
+
+      at Object.log (__tests__/messages.test.js:17:9)
+
+  console.log
+    🔑 Token Pro : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwcm9AZXhhbXBsZS5jb20iLCJyb2xlX2lkIjoyLCJpYXQiOjE3NDU1ODc1NjgsImV4cCI6MTc0NTU5NDc2OH0.dWec491xLJ0tTTgGwv9mwAJW6Qk_p-REboI8F2ddsJs
+
+      at Object.log (__tests__/messages.test.js:18:9)
+
+  console.log
+    🚀 Server is running on port 3310
+
+      at Server.log (server.js:48:11)
+
+  console.log
+    Connexion réussie ! Résultat : [ { solution: 2 } ]
+
+      at log (database/client.js:40:13)
+
+ PASS  __tests__/messages.test.js
+  📩 Test API Messages
+    √ POST /api/messages - devrait envoyer un message texte avec token client (112 ms)
+    √ POST /api/messages - devrait envoyer un message avec image (23 ms)
+    √ POST /api/messages - devrait échouer sans token (7 ms)
+    √ POST /api/messages - devrait échouer avec token invalide (6 ms)
+    √ GET /api/messages/conversation/5/6 - devrait récupérer la conversation (8 ms)
+    √ POST /api/messages - capture l’ID du message pour tests suivants (11 ms)
+    √ PATCH /api/messages/markAsRead/:messageId - devrait marquer le message comme lu (11 ms)                                                                 
+    √ GET /api/messages/:id - devrait récupérer le message par ID (9 ms)                                                                                      
+    √ DELETE /api/messages/:id - devrait supprimer le message (12 ms)                                                                                         
+                                                                                                                                                              
+Test Suites: 1 passed, 1 total                                                                                                                                
+Tests:       9 passed, 9 total                                                                                                                                
+Snapshots:   0 total
+Time:        2.133 s, estimated 3 s
+Ran all test suites matching /__tests__\\messages.test.js/i.

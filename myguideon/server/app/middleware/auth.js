@@ -12,21 +12,21 @@ const tables = require('../../database/table');
 /**
  * Middleware to check authentication and permissions
  */
+
 function authMiddleware(requiredPermission) {
     return async (req, res, next) => { 
+        if (req.method === 'OPTIONS') return next(); 
         try {
             const authHeader = req.headers.authorization;
             if (!authHeader) {
                 return res.status(401).json({ error: 'Access denied' });
             }
-
             const token = authHeader.replace('Bearer ', '').trim();
             const decoded = verifyToken(token);
             if (!decoded) {
                 return res.status(401).json({ error: 'Invalid token' });
             }
             req.user = decoded;
-
             if (!req.user) {
                 console.error("❌ Erreur : utilisateur non authentifié !");
                 return res.status(403).json({ error: "Utilisateur non authentifié" });

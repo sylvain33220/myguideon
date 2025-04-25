@@ -22,7 +22,9 @@ function verifyToken(token) {
     try {
         return jwt.verify(token, SECRET);
     } catch (error) {
-        console.error('Erreur lors de la vérification du token :', error);
+        if (error.name !== 'JsonWebTokenError') {
+            console.error('Erreur lors de la vérification du token :', error);
+        }
         return null;
     }
 }

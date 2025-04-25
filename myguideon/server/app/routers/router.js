@@ -23,6 +23,7 @@ const userClientRouter = require('./userClientRoute.js');
 const cartOrderRouter = require('./cartOrderRoute.js');
 const feedbacksRouter = require('./feedbacksRoute.js');
 const thingsToDoRouter = require('./thingsToDoRoute.js');
+const messagesRouter = require('./messagesRoute.js');
 
 
 
@@ -50,6 +51,8 @@ router.use('/cartorders',cartOrderRouter);
 router.use('/feedbacks',feedbacksRouter);
 
 router.use('/thingsToDo',thingsToDoRouter);
+
+router.use('/messages',messagesRouter);
 
 
 // Export the router****************************************************
