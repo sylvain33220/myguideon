@@ -14,6 +14,12 @@ const cors    = require('cors');
 
 const app = express();
 
+   const allowedOrigins = [
+    'http://localhost:3000',
+    'https://myguideon.vercel.app'
+  ]; 
+
+
 module.exports = {
   app,  
 
@@ -34,9 +40,18 @@ module.exports = {
     },
   },
 
+
+
   corsMiddleware: cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: function (origin, callback) {
+      // Vérifie si l'origine est autorisée
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS policy violation: Origin not allowed'));
+      }
+    }, 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   }),

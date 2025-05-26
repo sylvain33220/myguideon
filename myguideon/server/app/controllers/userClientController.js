@@ -124,7 +124,6 @@ async function updatePassword(req, res) {
         if (!oldPassword || !newPassword) {
             return res.status(400).json({ error: "Ancien et nouveau mot de passe requis" });
         }
-
         const user = await tables.user_client.getUserClientById(req.user.id);
         if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 

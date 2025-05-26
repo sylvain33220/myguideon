@@ -12,9 +12,6 @@ const UserAdmin  =  require('../../database/models/useradminModel');
 
 //make a template for email then ...
 
-
-
-
 exports.notifyTheAuthor = async (status, destinationID, authorID) => {
     if (status.toLowerCase().includes("published")) {
        

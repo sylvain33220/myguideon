@@ -1,7 +1,5 @@
 const nodemailer = require('nodemailer');
 
-
-
 const transporter = nodemailer.createTransport({
   host: 'xs.codaby.fr', 
   port: 465,           
@@ -14,7 +12,6 @@ const transporter = nodemailer.createTransport({
     rejectUnauthorized: false, //!!! Ne pas vérifier les certificats SSL a sortir pour la production !!! 
   },
 });
-
 
 async function sendEmail(to, subject, html) {
   try {

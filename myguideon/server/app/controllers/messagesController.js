@@ -21,7 +21,6 @@ const sendMessage = async (req, res) => {
             : 'img';
           media_url = `/assets/${folder}/${req.file.filename}`;
         }
-  
         const insertId = await tables.messages.createMessage({
           sender_id,
           sender_type,
